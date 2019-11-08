@@ -1,0 +1,190 @@
+{template 'common/header'}
+{if $op == 'display'}
+<ul class="nav nav-tabs">
+	<li {if $op =='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('foot_manage')}">底部菜单管理</a></li>
+	<li {if $op == 'add'}class="active"{/if}><a href="{php echo $this->createWebUrl('foot_manage', array('rid' => $rid, 'op' => 'add' ))}">添加底部菜单</a></li>
+</ul>
+<div class="main">
+
+	<div class="panel panel-default">
+		<div class="panel-heading" style="color:red">
+				<p style="color:red">注意：</p><span>初次使用时请将信息重新保存下(或者重新添加)，否则将导致该底部菜单不可用</span>
+			</div>
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th>底部菜单名称</th>
+					<th>图标</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{if $list}
+				{loop $list $row}
+				<tr>
+					<td>{$row['title']}</td>
+					<td>
+						{if $row['icontype'] ==2}
+						<img src="{$row['inco']}" style="width:30px !important;" />
+						{else}
+						<i class="{$row['inco']} fa fa-2x"></i>
+						{/if}
+					</td>
+					<td>{php echo date("Y-m-d H:i:s",$row['time'])}</td>
+					<td>
+						<a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo $this->createWebUrl('foot_manage',array('id'=>$row['id'],'op'=>'edit'))}" title="编辑" data="{$row['id']}"><i class="fa fa-edit"></i></a>
+						<a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo $this->createWebUrl('foot_manage',array('id'=>$row['id'],'op'=>'del'))}" title="删除" data="{$row['id']}"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>
+				{/loop}
+				{/if}
+
+			</tbody>
+		</table>
+	</div>
+	</div>
+	{$pager}
+</div>
+{else}
+
+<ul class="nav nav-tabs">
+	<li {if $_GPC['op'] =='display'}class="active"{/if}><a href="{php echo $this->createWebUrl('foot_manage')}">底部菜单管理</a></li>
+	
+</ul>
+<div class="main">
+ <form action="" method="post" class="form-horizontal form" id="setting-form">
+		<div class="panel panel-default">
+		<div class="panel-heading">
+				{if empty($id)}添加{else}修改{/if}底部菜单
+			</div>
+			<div class="panel-body">
+			
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>菜单名称</label>
+					<div class="col-sm-8">
+						<input type="text" name="title" class="form-control" value="{$navba['title']}" />
+					</div>
+				</div>
+
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>跳转方式</label>
+					<div class="col-sm-8">
+						<select class="form-control" name="url_type" onchange="change(this)">
+							<option value="1" {if $navba['url_type']==1} selected="selected" {/if}>外部链接</option>
+							<option value="2" {if $navba['url_type']==2} selected="selected" {/if}>内部页面</option>
+
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group inner">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>内部页面地址</label>
+					<div class="col-sm-8">
+						<select class="form-control" name="id_page">
+							<option value="1" {if $navba['id_page']==1} selected="selected" {/if}>推荐</option>
+							<option value="2" {if $navba['id_page']==2} selected="selected" {/if}>直播间</option>
+							<option value="3" {if $navba['id_page']==3} selected="selected" {/if}>我的</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group url">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>外部链接地址</label>
+					<div class="col-sm-8">
+						<input type="text" name="link" class="form-control" value="{$navba['link']}" />
+						<div class="help-block">请带上http://或者https://</div>
+					</div>
+				</div>	
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>排序（从左至右）</label>
+					<div class="col-sm-8">
+						<input type="text" name="displayorder" class="form-control" value="{$navba['displayorder']}" />
+					</div>
+				</div>
+
+				<div class="form-group" style="display:none">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图标类型</label>
+					<div class="col-sm-9 col-xs-12">
+						<label for="system" class="radio-inline" >
+							<input type="radio" value="1" name="icontype" id="system" autocomplete="off" {if empty($navba['icontype'])|| $navba['icontype'] ==1 } checked="checked" {/if} /> 系统内置
+						</label>&nbsp;&nbsp;&nbsp;
+						<label for="define" class="radio-inline" >
+							<input type="radio" value="2" name="icontype" id="define" autocomplete="off" {if $navba['icontype']==2 } checked="checked" {/if} /> 自定义上传
+						</label>
+						<span class="help-block">请选择系统的默认图标或者自己上传图标</span>
+					</div>
+				</div>
+
+				<div class="form-group system-icon">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">系统图标</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_icon('icon',$navba['inco']);}
+						<span class="help-block">导航的背景图标，系统提供了丰富的图标ICON</span>
+					</div>
+				</div>
+				<div class="form-group ">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">图标选中颜色</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_color('color', $navba['color']);}
+						<span class="help-block">该颜色为访问菜单时的颜色</span>
+					</div>
+				</div>
+
+				<div class="form-group define-icon" style="display:none;">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label">上传图标</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('iconfile', $navba['inco']);}
+						<span class="help-block">自定义上传图标图片，“系统图标”优先于此项(图片必须为png格式)</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="edit_id" value="{$id}" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+</div>
+<script>
+$(function(){
+	var icontype = $('input[name="icontype"]:checked').val();
+	var url_type = $('select[name="url_type"]').val();
+	if (icontype == 1) {
+		$(".system-icon").show();
+		$(".define-icon").hide();
+	} else {
+		$(".system-icon").hide();
+		$(".define-icon").show();
+	}
+	console.log(url_type);
+	if(url_type == 1) {
+		$(".url").show();
+		$(".inner").hide();
+	}else{
+		$(".url").hide();
+		$(".inner").show();
+	}
+	/*选择图标类型按钮切换*/
+		$("#system").click(function() {
+			$(".system-icon").show();
+			$(".define-icon").hide();
+		});
+		$("#define").click(function() {
+			$(".system-icon").hide();
+			$(".define-icon").show();
+		});
+})
+function change(obj){
+	if($(obj).val() == 1){
+	 		$(".url").show();
+	 		$(".inner").hide();
+	 	}else{
+	 		$(".url").hide();
+	 		$(".inner").show();
+	 	}
+}
+</script>
+{/if}
+{template 'common/footer'}

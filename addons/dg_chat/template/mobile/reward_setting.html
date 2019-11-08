@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>赞赏设置</title>
+
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="address=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css?v={php echo time();}">
+<script type="text/javascript" src="{TEMPLATE_PATH}/js/zepto.min.js"></script>
+<script src="{TEMPLATE_PATH}/js/json2.min.js"></script>
+<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css?v={php echo time();}">
+<script type="text/javascript">
+  $(function(){
+	  $(".percent_li").click(function(){
+		  var text=$(this).children('var').text();
+		  $(".rewardpercent var").eq(0).text(text+"%");
+		  $(".rewardpercent_list").hide(100);
+		  
+		  $(".reward_open").addClass('on');
+		  $(".reward_close").removeClass('on');
+	  });
+	  
+	  /*分成比例设置*/	  
+	  $(".rewardpercent").click(function(){
+		  $(".rewardpercent_list").show(100);
+	  });
+	  
+	  /*打开赞赏功能*/
+	  $(".reward_open").click(function(){
+		  var percent=$(".rewardpercent").children('var').text().replace('%','');
+		  $.post(location.href,{submit:true,percent:percent},function(result){
+			  $(".popup_tips").text(result.data);
+				$(".popup_tips").show();
+				setTimeout(function(){$(".popup_tips").hide();}, 2000);
+				location.href ='{php echo $this->createMobileUrl("chat_setting")}'+'&room_id='+{$room_id};
+		  });
+	  });
+	  
+	  /*关闭赞赏功能*/
+	  $(".reward_close").click(function(){
+	  	$(".popup").show();
+		  $(".popup_title").text("确认关闭赞赏吗?");
+		  $("#submit").click(function(){
+		      $.post(location.href,{shut:true},function(result){
+		      	$(".popup").hide();
+		      	$(".popup_tips").text(result.data);
+				$(".popup_tips").show();
+				setTimeout(function(){$(".popup_tips").hide();}, 2000);	
+			  $(".reward_open").addClass('on');
+			  $(".reward_close").removeClass('on');
+		  });
+		  });
+		  $("#cancel").click(function(){
+			 $(".popup").hide();
+		   });
+		  
+	  }); 
+  });
+</script>
+</head>
+<body>
+	
+<div class="main_box_4">
+	<div>
+		<span class="rewardtitle">设置本直播间的分成比例</span>
+		<span class="rewardpercent"><var>{$reward_percent}%</var></span>
+	</div>
+	
+	<ul class="rewardtips">
+		<li>使用说明</li>
+		<li class="reward_question">平台方、直播间和被打赏人怎么分配赏金？</li>
+		<li class="reward_answer">微信官方会扣除2%手续费，剩下部分由直播间创建者和被打赏人按照上方设置的比例进行分成。(此比例为直播间的分成比例而非被打赏人的比例)</li>
+		<li class="reward_question">赏金如何提现？</li>
+		<li class="reward_answer">属于个人的赏金可以自助提现<br>属于直播间的赏金，直播间创建者可在直播间设置页面提现到自己钱包</li>
+	</ul>
+	
+	<a href="javascript:;" class="reward_open {if $chat_room['reward_status']==0 }on{/if}">确认</a>
+	
+	<a href="javascript:;" class="reward_close {if $chat_room['reward_status']==1 }on{/if}">关闭赞赏</a>
+	
+</div>
+<!-- 赞赏分成下拉列表 -->
+<div class="rewardpercent_list">
+	<div>
+		<ul>
+			<li class="percent_li"><var>0</var>%</li>
+			<li class="percent_li"><var>5</var>%</li>
+			<li class="percent_li"><var>10</var>%</li>
+			<li class="percent_li"><var>15</var>%</li>
+			<li class="percent_li"><var>20</var>%</li>
+			<li class="percent_li"><var>25</var>%</li>
+			<li class="percent_li"><var>30</var>%</li>
+			<li class="percent_li"><var>35</var>%</li>
+			<li class="percent_li"><var>40</var>%</li>
+			<li class="percent_li"><var>45</var>%</li>
+			<li class="percent_li"><var>50</var>%</li>
+			<li class="percent_li"><var>60</var>%</li>
+			<li class="percent_li"><var>70</var>%</li>
+			<li class="percent_li"><var>98</var>%</li>
+		</ul>
+	</div>
+</div>
+
+<!-- 弹框 -->
+<style>
+    .flex,.flexC{display: flex;}
+    .flexC{flex-direction: column;}
+    .flex>.sub,.flexC>.sub{flex:1;}
+    .tc{text-align: center;}
+    .mid{position: absolute;z-index: 1;border-radius: 6px;top: 50%;left: 50%;transform:translate(-50%,-50%);}
+    .popup{position: fixed;top: 0;left: 0;width: 100%;height: 100%;z-index: 10;}
+    .popupbg{width: 100%;height: 100%;position: absolute;top: 0;left: 0;background: rgba(0, 0, 0, 0.5);}
+    .popup_box{width: 70%;padding: 15px;background: #fff;}
+    .popup_title{padding-bottom:10px;}
+    .popup_content{padding: 15px 0;}
+    .popup_btn{line-height: 36px;}
+    .popup_btn div{padding: 0 10px;background: #f19937;color: #fff;border-radius: 6px; margin-top: 20px;}
+    .popup_btn div:nth-child(2){border:1px solid  #f19937;color: #f19937;background: #fff;margin-left: 30px;}
+    .popup_btn div:active{background: rgba(241, 153, 55, 0.8);}
+    .popup_btn div:nth-child(2):active{background: rgba(241, 153, 55, 0.1);}
+</style>
+<div class="popup " style="display:none">
+    <div class="popup_box flexC mid">
+        <div class="popup_title tc gridXb">确认删除吗？</div>
+<!--         <div class="popup_content sub"></div> -->
+        <div class="popup_btn flex tc"><div class="sub" id="submit">确认</div><div class="sub" id="cancel">取消</div></div>
+    </div>
+    <div class="popupbg"></div>
+</div>
+
+		<!-- 弹框 -->
+<style>
+    .mid{position: absolute;top: 50%;left: 50%;transform:translate(-50%,-50%);}
+    .popup_tips{background: #3E454C;display: inline-block;font-size: 14px;color: #fff;line-height: 1.5;text-align: center;border-radius: 20px;padding: 5px 20px;}
+</style>
+<div class="popup_tips mid" style="display:none"></div>
+
+<div class="loadingBox"><span></span></div>
+
+</body></html>

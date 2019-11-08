@@ -1,0 +1,85 @@
+{template 'common/header'}
+<style type="text/css">
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+        white-space:normal;
+    }
+</style>
+<ul class="nav nav-tabs">
+    <li><a href="{php echo $this->createWebUrl('topic_manage')}">话题管理</a></li>
+    <li {if $_GPC['op'] ==''|| $_GPC['op']== 'display'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_voices',array('op'=>'display','topic_id'=>$id))}">语音列表</a></li>
+    <li {if $_GPC['op']== 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_voices',array('op'=>'post','topic_id'=>$id))}">语音上传</a></li>
+</ul>
+{if $operation == 'post'}
+<div class="main">
+    <form action="" method="post" class="form-horizontal form"	enctype="multipart/form-data">
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">上传音频</label>
+                    <div class="col-sm-9 col-xs-12">
+                        {php echo tpl_form_field_audio('sub_content', '');}
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    <label class="col-xs-12 col-sm-3 col-md-2 control-label">音频时间</label>
+                    <div class="col-sm-9 col-xs-12">
+                        <div class="input-group">
+                                <input type="number" class="form-control" name="sub_content_ext" value="">
+                                <span class="input-group-addon">秒</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col-sm-12">
+            <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+            <input type="hidden" name="token" value="{$_W['token']}" />
+        </div>
+    </form>
+</div>
+{elseif $operation == 'display'}
+<div class="panel-heading">
+
+    <div class="row-fluid">
+        <div class="span8 control-group">
+            <a class="btn btn-primary index_all_imgs" href="{php echo $this->createWebUrl('topic_voices',array('op'=>'post','topic_id'=>$id))}">
+                <i class="fa fa-plus"></i>上传语音</a>
+        </div>
+    </div>
+</div>
+<div class="main">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row-fluid">
+                <div class="span8 control-group">
+                    共计 {$total} 条数据
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th>本地音频</th>
+                    <th>音频id</th>
+                    <th>音频时长</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $records $row}
+                <tr>
+                    <td>{$row['sub_content']}</td>
+                    <td>{$row['sub_content_down']}</td>
+                    <td>{$row['sub_content_ext']}</td>
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {$pager}
+</div>
+{/if}
+{template 'common/footer'}

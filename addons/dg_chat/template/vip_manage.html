@@ -1,0 +1,180 @@
+{template 'common/header'}
+<style type="text/css">
+.modal-body{padding:10px;}
+</style>
+{if $op =='display'}
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do'] =='' ||$_GPC['do'] == 'vip_manage' && $_GPC['op'] <> 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('vip_manage')}">会员列表</a></li>
+	<li {if $_GPC['do'] =='' ||$_GPC['do'] == 'vip_setting' && $_GPC['op'] <> 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('vip_setting')}">会员设置管理</a></li>
+	<li {if $_GPC['op'] == 'post'}class="active"{/if}><a href="{php echo $this->createWebUrl('vip_setting', array('rid' => $rid, 'op' => 'post' ))}">添加设置</a></li>
+</ul>
+<div class="main">
+
+<div class="panel panel-info">
+	<div class="panel-heading">筛选</div>
+	<div class="panel-body">
+		<form  method="get" class="form-horizontal" role="form">				
+			<input type="hidden" name="c" value="site">
+			<input type="hidden" name="a" value="entry">
+			<input type="hidden" name="do" value="vip_manage">
+			<input type="hidden" name="m" value="dg_chat">
+			<div class="form-group">
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">查询关键词</label>
+				<div class="col-sm-6 col-lg-8">
+					<input class="form-control" name="keyword" id="" type="text" value="{$_GPC['keyword']}" placeholder="请输入昵称">
+				</div>
+				<div class="pull-right col-xs-12 col-sm-3 col-lg-2">
+					<button class="btn btn-default"><i class="fa fa-search"></i> 搜索</button>
+				</div>
+			</div>
+			
+		</form>
+	</div>
+</div>
+<div class="panel-heading">	
+  <div class="row-fluid">
+	<div class="span8 control-group">
+		<a class="btn btn-primary add_manager" href="javascript:;">
+			添加会员</a>
+			<div class="help-block">
+				这里添加的需要进入过直播并且不是会员。默认添加三十天
+			</div>
+	</div>
+	</div>
+</div>
+	<div class="panel panel-default">
+	<div class="panel-heading">	
+			<div class="row-fluid">
+				<div class="span8 control-group">
+					共计 {$total} 条数据
+				</div>
+			</div>
+		</div>
+		<div class="panel-body table-responsive">
+		<table class="table table-hover">
+			<thead class="navbar-inner">
+				<tr>
+					<th>头像</th>
+					<th>昵称</th>
+					<th>到期时间</th>
+					<th>操作</th>
+				</tr>
+			</thead>
+			<tbody>
+				{loop $user_list $row}
+				<tr>
+					<td><img alt="" src="{$row['avatar']}" width='auto' style="max-width:50px; max-height:50px;" height='auto'></td>
+					<td>{$row['nickname']}</td>
+					<td>{php echo date('y-m-d H:i:s',$row['end_time'])}</td>
+					<td data="{$row['id']}">
+						
+						 <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="{php echo $this->createWebUrl('vip_manage',array('id'=>$row['id'],'op'=>'post'))}"  title="" data-original-title="编辑"><i class="fa fa-edit"></i></a>
+						 <a class="btn btn-default" data-toggle="tooltip" data-placement="top" href="javascript:" onclick="return del(this)" title="删除"><i class="fa fa-times"></i></a>
+					</td>
+				</tr>
+				{/loop}
+			</tbody>
+			{$pager}
+		</table>
+	</div>
+	</div>
+	{$pager}
+</div>
+{else}
+<div class="main">
+ <form action="" method="post" class="form-horizontal form" id="setting-form">
+	<div class="panel panel-default">
+		
+		<div class="panel-body">
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>到期时间</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_date('end_time', $user_info['end_time'])}			
+					</div>
+					
+			</div>  
+         				
+ 	    </div>
+	</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+	</form>
+</div>
+{/if}
+<div class="modal fade" id="module-info" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+		<div class="modal-dialog" style="width:800px;top:200px;">
+			<div class="modal-content">
+				<form action="./index.php?c=extension&a=module&do=info&" method="post" enctype="multipart/form-data" class="form-horizontal form" id="form-info">
+					<input type="hidden" name="m" value=""/>
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+						<h4>添加会员</h4>
+					</div>
+					<div class="modal-body">
+                                        <div class="row">
+                                            <div class="input-group">
+                                                <input type="text" class="form-control" name="keyword" value="" id="keyword" placeholder="请输入粉丝昵称/姓名">
+                                                <span class="input-group-btn"><button type="button" class="btn btn-default" onclick="search_members();">搜索</button></span>
+                                            </div>
+                                        </div>
+                                        <div id="module-menus" style="padding-top:5px;"><div style="max-height:500px;overflow:auto;min-width:750px;">
+			<table class="table table-hover" style="min-width:750px;">
+				<tbody id="search_list">  
+				</tbody>
+			</table>
+				    </div></div>
+				 </div>
+					
+				</form>
+			</div>
+		</div>
+</div>
+	
+<script type="text/javascript">
+function getRows(data){
+	var html='';
+	for(i=0;i<data.length;i++){
+		html+='<tr>';
+		html+='<td><img src="'+data[i].avatar+'" style="width:30px;height:30px;padding1px;border:1px solid #ccc"> '+data[i].nickname+'</td>';
+		html+='<td></td>';
+		html+='<td></td>';
+		html+='<td style="width:80px;"><a href="javascript:;" onclick="select_member('+data[i].id+')">选择</a></td>';
+	    html+='</tr>';
+	}
+	return html;
+}
+function search_members(){
+	var user_key=$("#keyword").val();
+	$("#search_list").empty();
+	
+	$.post(location.href,{user_key:user_key},function(result){
+		var html=getRows(result.data);
+		$("#search_list").append(html);
+	});
+}
+
+function select_member(uid){
+   $.post(location.href,{uid:uid},function(result){
+	  location.href=location.href; 
+   });	
+}
+
+function del(obj){
+	var conf=confirm("确认删除吗？");
+	if(conf){
+		var duid=$(obj).parents('td').attr('data');
+		$.post(location.href,{del:true,duid:duid},function(result){
+			  location.href=location.href; 
+		   });
+	}
+	
+}
+$(function(){
+	$(".add_manager").click(function(){
+		$('#module-info').modal('show');
+	});
+});
+</script>		
+{template 'common/footer'}

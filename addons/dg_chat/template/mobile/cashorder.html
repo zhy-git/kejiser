@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta charset="UTF-8">
+    <title>提现记录</title>
+    <style>
+        *{margin: 0px;padding: 0px;}
+        li{list-style: none;}
+        i{font-style: normal;}
+        .flex{display: -webkit-box; display: -moz-box; display: -webkit-flex; display: -moz-flex;display: -ms-flexbox; display: flex;}
+        .ds{display:-webkit-box;-webkit-box-align: center;}
+        .flex .sub{-webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1;}
+        body, input, select, button, textarea {font-family:Tahoma,Microsoft yahei,sans-serif; font-weight: 300; }
+        body { color:#333;background:#fff; font-size: 14px;}
+        .ellipsis{text-overflow: ellipsis;white-space: nowrap;overflow: hidden;}
+        .of{overflow: hidden;}
+        .ft15{font-size: 15px;}
+        .fr{ float: right;}
+        .ft20{font-size: 20px;}
+        .mr30{margin-right: 30px;}
+        .ml20{margin-left: 20px;}
+        .pb100{padding-bottom: 100%;}
+        .colrorf0{color:#f00;}
+        .colror09{color:#f19937;}
+        .fw{font-weight: bold;}
+        .bst{background-position: center center;background-repeat: no-repeat;background-size: cover;display: block;}
+        .jilu li{padding:15px;border-bottom: 1px solid #f5f5f5;}
+        .jilu li .img{width:14%;}
+        .jilu li .img span{border-radius: 100%;}
+        .jilu .jilu-info-wz{ width: 100%;}
+        .jilu .jilu-info-wz p{color:#ccc;padding-top: 5px;}
+
+    </style>
+</head>
+<body>
+<div class="jilu">
+    <ul>
+        {loop $allorder $item}
+        <li class="flex">
+            <div class="img">
+                <span class="pb100 bst" style="background-image: url({php echo tomedia($item['pay_avatar'])});"></span>
+            </div>
+            <div class="jilu-info sub of ds mr30 ml20">
+                <div class="jilu-info-wz ">
+                    <h2 class="ft15 ellipsis">{$item['pay_nickname']}</h2>
+                    <p>{php echo date("Y-m-d H:i:s",array($item['create_time']))}</p>
+                </div>
+            </div>
+            <span class="ds colrorf0 fw">+{$item['pay_money']}元</span>
+        </li>
+        {/loop}
+    </ul>
+</div>
+</body>
+</html>

@@ -1,0 +1,366 @@
+<!doctype html>
+<html>
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/css/style_new.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/css/zhibo-item.css" />
+		<script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+		<title>{$share['share_title']}</title>
+		<style type="text/css">
+		 .tMain{
+		    top: 0rem;
+            bottom: 1.2rem;
+		    position: absolute;
+		    overflow: scroll;
+		    overflow-x: hidden;
+		    width:100%;
+		    -webkit-overflow-scrolling: touch;
+		 }
+		 span.active{color:#f19937;}
+		 .fastNav {
+    position: fixed;
+    right: 10px;
+    bottom: 8rem;
+}.fastNav li.release {
+    display: block;
+    height: 50px;
+    padding-top: 8px;
+    background: rgba(241,153,55,1);
+    color: #fff;
+    line-height: 16px;
+}
+.fastNav li.release a{
+   color:#fff;
+}
+.fastNav li {
+    width: 50px;
+    height: 50px;
+    background: rgba(241,153,55,1);
+    color: #fff;
+    border-radius: 50%;
+    text-align: center;
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 1px rgba(0,0,0,0.2) inset;
+}
+.lineText{ overflow: hidden;text-overflow: ellipsis;}
+.lineText{ white-space: nowrap;}
+
+		</style>
+		{php echo register_jssdk();}
+		<script type="text/javascript">
+		var series_info = "{php echo $this->createMobileUrl('series_info')}";
+		var c_index="{php echo $this->createMobileUrl('c_index')}";
+		var toptag='fine';
+		var topic_tag="0";
+		var subscr="已关注";
+		var subnoscr="关注";
+		var chat_url="{php echo $this->createMobileUrl('topic_info')}";
+
+		wx.ready(function () {
+			    sharedata = {
+			        title: "{$sharedata['title']}",
+			        desc: "{$sharedata['desc']}",
+			        link: "{$sharedata['link']}",
+			        imgUrl: "{$sharedata['imgUrl']}",
+			        success:function(){}
+			    };
+			    wx.onMenuShareAppMessage(sharedata);
+			    wx.onMenuShareTimeline(sharedata);
+			});
+
+	   function pageLoadCommon(a, b) {
+		     a.scroll(function() {
+				distanceScrollCount = a[0].scrollHeight;
+				distanceScroll = a[0].scrollTop;
+				topicPageHight = a.height();
+				//console.dir(distanceScrollCount +"-"+ distanceScroll +"-"+ topicPageHight+"="+(distanceScrollCount - distanceScroll - topicPageHight));
+				2 >= distanceScrollCount - distanceScroll - topicPageHight && b()
+			})
+		}
+	   function getHtml(Qindex,List){
+		      var html="<li>";
+		      html+='<a href="javascript:;">';
+			  html+='<div class="avatar">';
+			  html+='<img src="'+List[Qindex].avatar+'" width="100%" height="100%">';
+			  html+='</div>';
+			  html+='<h2>'+List[Qindex].commission_ctype+'</h2>';
+			  html+='<p class="lineText">佣金(含税):'+List[Qindex].commission_pay+'&yen;</p>';
+			  html+='<p class="lineText">实际打款金额:'+List[Qindex].realmoney+'&yen;</p>';
+		      html+='</a>';
+
+		      if(List[Qindex].status==2){
+				  html+='<span class="atten">'+List[Qindex].status_ctype+'</span>';
+			  }else if(List[Qindex].status==3){
+				  html+='<span class="atten">'+List[Qindex].status_ctype+'</span>';
+			  }else if(List[Qindex].status==1){
+			  	  html+='<span class="atten">'+List[Qindex].status_ctype+'</span>';
+			  }else if(List[Qindex].status==-1){
+			  	  html+='<span class="atten">'+List[Qindex].status_ctype+'</span>';
+			  }else if(List[Qindex].status==0){
+			  	  html+='<span class="atten">'+List[Qindex].status_ctype+'</span>';
+			  }
+		      html+='</li>';
+		      return html;
+		}
+
+		var pindex=1;
+		function loadHtml(postData){
+			  postData.tags=topic_tag;
+			  $.post(location.href, postData, function(result){
+					$(".loading").hide();
+					if(result.pages<postData.pindex){
+						$(".noMore").show();
+						return false;
+					}
+					pindex=result.pindex;
+					if(result.condition == 'room') {
+						var last_html="";
+						for(var qindex in result.list){
+						  last_html+=getHtml(qindex,result.list);
+						}
+						$("#room_list").append(last_html);
+					}else if(result.condition == 'topic'){
+						var last_html="";
+						for(var qindex in result.list){
+						  last_html+=gettopicHtml(qindex,result.list);
+						}
+						$("#topic_list").append(last_html);
+					}else{
+						var last_html="";
+						for(var qindex in result.list){
+						  last_html+=getseriesHtml(qindex,result.list);
+						}
+						$("#topic_list").append(last_html);
+					}
+
+				});
+		}
+		function gettopicHtml(Qindex,List){
+			      var html='<li class="zhibo-item">';
+			      html+='<a  class="flex" href="'+chat_url+"&topic_id="+List[Qindex].id+'">';
+				  html+='<div class="zhibo-item-img mr10">';
+				  html+='<img src="'+List[Qindex].topic_icon+'" width="100%" height="100%">';
+				  html+='</div>';
+				  html+='<div class="sub"><p class="lineText">'+List[Qindex].topic_name+'</p>';
+				  html+='<div class="grey f12 mt5"><div>';
+				  if(List[Qindex].ing==2){
+				  	html+='<span class="mr10">'+List[Qindex].relative+'</span>';
+				  }else if(List[Qindex].ing==1){
+				  	html+='<span class="tip-tag">直播中</span>';
+				  }
+				  html+='<span>'+List[Qindex].begin_time+'</span>';
+				  if(List[Qindex].series_id!=null){
+				  	html+='<span class="fr">系列课</span></div>';
+				  }else{
+				  	html+='<span class="fr">话题</span></div>';
+				  }
+				  html+='<div><span>人气:'+List[Qindex].look_numbers+'</span>';
+				  if(List[Qindex].room_paymoney>0){
+				  	html+='<span class="fr red">￥'+List[Qindex].room_paymoney+'</span></div>';
+				  }else{
+				  	html+='<span class="fr red">免费</span></div>';
+				  }
+				  html+='</div>';
+				  html+='</div>';
+			      html+='</a>';
+			      html+='</li>';
+			      return html;
+			}
+
+		function getseriesHtml(Qindex, List) {
+			var html = '<li class="zhibo-item">';
+			html += '<a  class="flex" href="' + series_info + "&series_id=" + List[Qindex].id + '">';
+			html += '<div class="zhibo-item-img mr10">';
+			html += '<img src="' + List[Qindex].room_icon + '" width="100%" height="100%">';
+			html += '</div>';
+			html += '<div style="flex:1;"><p>' + List[Qindex].room_name + '</p>';
+			html += '<div class="grey f12 mt5">';
+
+			html += '<div><span>' + List[Qindex].count + '人次学习</span>';
+			if(List[Qindex].series_price > 0) {
+				html += '<span class="fr red">￥' + List[Qindex].common_price + '</span></div>';
+			}else {
+				html += '<span class="fr red">免费</span></div>';
+			}
+			html += '</div>';
+			html += '</div>';
+			html += '</a>';
+			html += '</li>';
+			return html;
+		}
+
+		$(function(){
+
+			pageLoadCommon($(".tMain"), function() {
+					if($(".tagtype.active").attr("data") == 0) {
+						pindex++;
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:0
+						};
+						loadHtml(postData);
+					} else if($(".tagtype.active").attr("data") == 1) {
+						pindex++;
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:1
+						};
+						loadHtml(postData);
+					} else if($(".tagtype.active").attr("data") == 2){
+						pindex++;
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:2
+						};
+						loadHtml(postData);
+					}else if($(".tagtype.active").attr("data") == 3) {
+						pindex++;
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:3
+						};
+						loadHtml(postData);
+					}
+				})
+
+
+			$(".tagtype").click(function() {
+					data = $(this).attr('data');
+					$("#topic_list").empty();
+					$("#room_list").empty();
+					pindex = 1;
+					if(data == 0) {
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:0
+						};
+						$("#room_list").empty();
+					} else if(data == 1) {
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:1
+						};
+						$("#topic_list").empty();
+					} else if(data == 2){
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:2
+						};
+						$("#room_list").empty();
+					}else if(data == 3) {
+						var postData = {
+							pindex: pindex,
+							condition: 'room',
+							type:3
+						};
+						$("#room_list").empty();
+					}
+					loadHtml(postData);
+					$(".tagtype").removeClass("active");
+					$(this).addClass('active');
+					var data = $(this).attr('data');
+
+				});
+		});
+		function onsubscr(room_id,obj){
+			var url=c_index+"&room_id="+room_id;
+			$.post(url,{'focus':true},function(result){
+				if(result.success==1){
+					$(obj).removeClass('active');
+					$(obj).html('<i class="iconfont icon-likefill"></i>已关注');
+				}else{
+					$(obj).addClass('active');
+					$(obj).html('<i class="iconfont icon-like"></i>关注')
+				}
+			});
+		}
+		</script>
+
+	</head>
+
+	<body>
+
+	<div class="tMain">
+	<div class="tCapList" style="padding:8px 15px;color:#999;">
+			<span style="float:right;">
+				<span class="tagtype active" data='0'>直推奖励</span>
+				{if $commission_auth > 0}
+				<span style="margin:0 6px;color:#ddd;">|</span>
+				<span class="tagtype" data='1'>分销奖励</span>
+				{/if}
+				{if $merchants_auth > 0}
+				<span style="margin:0 6px;color:#ddd;">|</span>
+				<span class="tagtype" data='2'>招商员奖励</span>
+				{/if}
+				{if $branchcourt_auth > 0}
+				<span style="margin:0 6px;color:#ddd;">|</span>
+				<span class="tagtype" data='3'>分院奖励</span>
+				{/if}
+			</span>
+
+	</div>
+
+
+		<div class="list searchZb" >
+			<ul  id="room_list">
+			{loop $apply_list $room}
+				<li>
+					<a href="<a href="javascript:;>
+						<div class="avatar"><img src="{$room['avatar']}" width="100%" height="100%"></div>
+						<h2 class="lineText">{$room['commission_ctype']}</h2>
+						<p  class="lineText">佣金含税:{$room['commission_pay']}</p>
+						<p  class="lineText">实际打款金额:{$room['realmoney']}</p>
+					</a>
+					<span class="atten active"> {$room['status_ctype']}
+					</span>
+				</li>
+		    {/loop}
+
+			</ul>
+		</div>
+
+	<!-- 话题 -->
+	<div class="huati">
+		<ul class="zhibo-item-box" id="topic_list">
+			{loop $topic_ing $topic}
+			<li class="zhibo-item">
+				<a class="flex" href="{{php echo $this->createMobileUrl('topic_info',array('topic_id'=>$topic['id']))}}">
+					<div class="zhibo-item-img mr10"><img src="{if $topic['topic_icon']}{$topic['topic_icon']}{else}{$chat_room['room_icon']}{/if}" alt="" width="100%;"></div>
+					<div style="flex:1;">
+						<p class="lineText">{$topic['topic_name']}</p>
+						<div class="grey f12 mt5">
+							<div>{if $topic['ing'] == 2}
+								<span class="mr10">{$topic['relative']}</span>{elseif $topic['ing']== 1}
+								<span class="tip-tag">直播中</span>{/if}<span>{$topic['begin_time']}</span><span class="fr">{if $topic['topic_type'] == 'series'}系列课{else}话题{/if}</span></div>
+							<div><span>人气:{$topic['look_numbers']}</span><span class="fb fr">{if $topic['room_paymoney']>0}￥{$topic['common_price']}{else}免费{/if}</span></div>
+						</div>
+					</div>
+				</a>
+			</li>
+			{/loop}
+		</ul>
+		</div>
+
+
+</div>
+
+{template footer}
+
+
+	</body>
+
+</html>

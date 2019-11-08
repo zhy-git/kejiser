@@ -1,0 +1,362 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta name="viewport" content="width=device-width,initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<meta charset="utf-8">
+		<meta name="format-detection" content="telephone=no" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/css/style_new.css?v=1" />
+		<link rel="stylesheet" href="{TEMPLATE_PATH}/css/zhibo-item.css?v=1" />
+		<script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+		<title>{if $id == 2}免费专区{elseif $id==3}付费专区{else}热销榜{/if}</title>
+		<style type="text/css">
+			.tMain {
+				top: 0rem;
+				bottom: 1.2rem;
+				position: absolute;
+				overflow: scroll;
+				overflow-x: hidden;
+				width: 100%;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.mid {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+			}
+			
+			.hide {
+				display: none;
+			}
+			
+			.list {
+				position: relative;
+			}
+			
+			.item-on {
+				color: #fea512;
+			}
+			
+			.listBox {
+				padding: 6px 0;
+				justify-content: space-between;
+				align-items: center;
+				overflow: hidden;
+				overflow-x: auto;
+				white-space: nowrap;
+			}
+			
+			.listBox:before {
+				width: 120%;
+			}
+			
+			.listBox>ul>li {
+				width: 55px;
+				font-size: 14px;
+				text-align: center;
+				padding: 0 16px;
+			}
+			
+			.selBox {
+				position: relative;
+				width: 100px;
+				font-size: 13px;
+			}
+			
+			.selInput {
+				width: 100%;
+				padding: 2px 6px;
+			}
+			
+			.optBox {
+				position: absolute;
+				z-index: 100;
+				width: 100%;
+				padding-left: 6px;
+				border: 1px solid #fea512;
+				border-top: 0;
+				background-color: #fff;
+			}
+			
+			.optBox>div {
+				line-height: 30px;
+			}
+			
+			.arrowB::before {
+				content: "";
+				position: absolute;
+				display: block;
+				width: 12px;
+				height: 12px;
+				border: 2px solid;
+				border-color: #999 #999 transparent transparent;
+				top: 60%;
+				-webkit-transform: translateY(-50%) scale(0.7) rotate(45deg);
+				transform: translateY(-50%) scale(0.7) rotate(45deg);
+				-webkit-transition: all 0.3s ease;
+				transition: all 0.3s ease;
+				border-radius: 2px;
+			}
+			
+			.arrowB::before {
+				right: 10px;
+				-webkit-transform: translateY(-88%) scale(0.7) rotate(135deg);
+				transform: translateY(-88%) scale(0.7) rotate(135deg);
+			}
+			
+			.listMore.arrowB::before {
+				right: 15px;
+				-webkit-transform: translateY(-88%) scale(0.7) rotate(45deg);
+				transform: translateY(-88%) scale(0.7) rotate(45deg);
+			}
+			
+			.listMore {
+				position: absolute;
+				top: 0;
+				right: 0;
+				width: 38px;
+				height: 38px;
+				background: rgba(255, 255, 255, 1);
+				z-index: 100;
+			}
+			
+			.listMore:after {
+				content: '';
+				display: block;
+				width: 20px;
+				height: 38px;
+				background: linear-gradient(270deg, rgba(255, 255, 255, 1), rgba(255, 255, 255, .6));
+				position: absolute;
+				top: 0;
+				right: 34px;
+			}
+			.lineText{ overflow: hidden;text-overflow: ellipsis;}
+.lineText{ white-space: nowrap;}
+		</style>
+		{php echo register_jssdk();}
+		<script type="text/javascript">
+			var chat_url = "{php echo $this->createMobileUrl('topic_info')}";
+			var series_info = "{php echo $this->createMobileUrl('series_info')}";
+			var type = '{$type}';
+			wx.ready(function() {
+				sharedata = {
+					title: "{$sharedata['title']}",
+					desc: "{$sharedata['desc']}",
+					link: "{$sharedata['link']}",
+					imgUrl: "{$sharedata['imgUrl']}",
+					success: function() {}
+				};
+				wx.onMenuShareAppMessage(sharedata);
+				wx.onMenuShareTimeline(sharedata);
+			});
+
+			function pageLoadCommon(a, b) {
+				a.scroll(function() {
+					distanceScrollCount = a[0].scrollHeight;
+					distanceScroll = a[0].scrollTop;
+					topicPageHight = a.height();
+					//console.dir(distanceScrollCount +"-"+ distanceScroll +"-"+ topicPageHight+"="+(distanceScrollCount - distanceScroll - topicPageHight));
+					2 >= distanceScrollCount - distanceScroll - topicPageHight && b()
+				})
+			}
+
+			function getHtml(Qindex, List) {
+				var html = '<li class="zhibo-item">';
+				html += '<a  class="flex" href="' + chat_url + "&topic_id=" + List[Qindex].id + '">';
+				html += '<div class="zhibo-item-img mr10">';
+				html += '<img src="' + List[Qindex].topic_icon + '" width="100%" height="100%">';
+				html += '</div>';
+				html += '<div class="sub"><p class="lineText">' + List[Qindex].topic_name + '</p>';
+				html += '<div class="grey f12 mt5"><div>';
+				if(List[Qindex].ing == 2) {
+					html += '<span class="mr10">' + List[Qindex].relative + '</span>';
+				} else if(List[Qindex].ing == 1) {
+					html += '<span class="tip-tag">直播中</span>';
+				}
+				html += '<span>人气:' + List[Qindex].look_numbers + '</span>';
+				if(List[Qindex].room_paymoney > 0) {
+					html += '<span class="fr red">￥' + List[Qindex].room_paymoney + '</span></div>';
+				} else {
+					html += '<span class="fr red">免费</span></div>';
+				}
+
+				html += '</div>';
+				html += '</div>';
+				html += '</a>';
+				html += '</li>';
+				return html;
+			}
+			function getseriesHtml(Qindex, List) {
+				var html = '<li class="zhibo-item">';
+				html += '<a  class="flex" href="' + series_info + "&series_id=" + List[Qindex].id + '">';
+				html += '<div class="zhibo-item-img mr10">';
+				html += '<img src="' + List[Qindex].room_icon + '" width="100%" height="100%">';
+				html += '</div>';
+				html += '<div style="flex:1;"><p>' + List[Qindex].room_name + '</p>';
+				html += '<div class="grey f12 mt5">';
+				html+='<div><span>'+List[Qindex].real_name+'</span>|<span class="mr10">共'+List[Qindex].count_subject+'节课</span></div>';
+				html += '<div><span>' + List[Qindex].count + '人次学习</span>';
+				if(List[Qindex].series_price > 0) {
+					html += '<span class="fr red">￥' + List[Qindex].series_price + '</span></div>';
+				}else {
+					html += '<span class="fr red">免费</span></div>';
+				}
+				html += '</div>';
+				html += '</div>';
+				html += '</a>';
+				html += '</li>';
+				return html;
+			}
+
+			var pindex = 1;
+
+			function loadHtml(postData) {
+				postData.type = type;
+				$.post(location.href, postData, function(result) {
+					$(".loading").hide();
+					if(result.pages < postData.pindex) {
+						$(".noMore").show();
+						return false;
+					}
+					pindex = result.pindex;
+					var last_html = "";
+					if(result.type =='series'){
+						for(var qindex in result.list) {
+							last_html += getseriesHtml(qindex, result.list);
+						}
+					}else{
+						for(var qindex in result.list) {
+							last_html += getHtml(qindex, result.list);
+						}
+					}
+					
+
+					$(".zhibo-item-box").append(last_html);
+				});
+			}
+
+			$(function() {
+
+				pageLoadCommon($(".tMain"), function() {
+					pindex++;
+					var postData = {
+						pindex: pindex,
+						type :type
+					};
+					loadHtml(postData);
+				});
+
+				var ing_size = $("#topic_ing").children("li").size();
+				if(ing_size == 1) {
+					var topic_li = $("#topic_ing").children("li").eq(0);
+				}
+
+				$(".mytag").click(function() {
+					$(".optBox").hide();
+					var data = $(this).attr('data');
+
+					type = data;
+					pindex = 1;
+					var postData = {
+						pindex: pindex,
+						type: data
+					};
+					$(".zhibo-item-box").empty();
+					loadHtml(postData);
+					$(".mytag").removeClass('active');
+					$(this).addClass('active');
+				});
+
+			});
+		</script>
+
+	</head>
+
+	<body>
+		<style>
+			.searchBox {
+				position: relative;
+			}
+		</style>
+
+		<div class="tMain">
+			<div class="searchBox">
+				<form name="form_search" id="form_search" action="{php echo $this->createMobileUrl('search')}" method="post">
+					<div class="sInput">
+						<input class="tc" type="text" name="keyword" value="" placeholder="搜索直播或者直播间" />
+						<button><i class="iconfont icon-search btn_search"></i></button>
+					</div>
+				</form>
+			</div>
+
+			<div class="tCapList mt10">
+				<ul>
+					<li class="mytag active" data='topic' >直播课</li>
+					<li class="mytag" data='series'>系列课</li>
+				</ul>
+			</div>
+
+			<style>
+				.teachers {
+					padding: 0 15px;
+				}
+				
+				.teacher {
+					margin-right: 40px;
+					line-height: 40px;
+					margin-bottom: 10px;
+				}
+				
+				.teacher:nth-child(3n+3) {
+					margin-right: 0;
+				}
+				
+				.teacher-img {
+					width: 40px;
+					height: 40px;
+					display: inline-block;
+					background-size: cover;
+					vertical-align: middle;
+					border-radius: 50%;
+					margin-right: 5px;
+				}
+				
+			</style>
+
+			{if $info_list }
+			<div class="">
+				<ul class="zhibo-item-box" id="topic_list">
+					{loop $info_list $topic}
+					<li class="zhibo-item">
+							<a class="flex" href="{php echo $this->createMobileUrl('topic_info',array('topic_id'=>$topic['id']))}">
+								<div class="zhibo-item-img mr10"><img src="{$topic['topic_icon']}" alt="" width="100%;" height="100%"></div>
+								<div class="sub">
+									<p class="lineText">{$topic['topic_name']}</p>
+									<div class="grey f12 mt5">
+										<div>
+											{if $topic['ing'] == 2}
+											<span class="mr10">{$topic['relative']}</span> {elseif $topic['ing']== 1}
+											<span class="tip-tag">直播中</span> {/if}
+											<span>人气:{$topic['look_numbers']}</span>
+											<span class="fr red">{if $topic['room_paymoney']>0}￥{$topic['room_paymoney']}{else}免费{/if}</span>
+										</div>
+									</div>
+								</div>
+							</a>
+					</li>
+					{/loop}
+				</ul>
+			</div>
+			{/if}
+		</div>
+
+		{template footer}
+
+		
+	</body>
+
+</html>

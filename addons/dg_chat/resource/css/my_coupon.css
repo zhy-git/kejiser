@@ -1,0 +1,66 @@
+/*定位和伪元素*/
+.pr{position: relative;}
+.before:before,.after:after{content: '';display: block;position: absolute;}
+i{font-style: initial;}
+/****************盒子布局*****************/
+[class*=flex]{ display: -webkit-box;display: -webkit-flex;  display: -ms-flexbox; display: flex;/* width: 100%;*/}
+[class*=flex-column-c]{justify-content: center;}
+[class*=flex-jb]{justify-content: space-between;}
+/****************overflow*****************/
+[class*=overflow]{overflow: hidden;}
+/****************高度与行高*****************/
+.hi30{height: 30px;line-height: 30px;}
+.hi36{height: 36px;line-height: 36px;}
+.hi40{height: 40px;line-height: 40px;}
+.hi46{height: 46px;line-height: 46px;}
+
+/****************字体大小*****************/
+.f12{font-size: 12px;}
+.f14{font-size: 14px;}
+.f16{font-size: 16px;}
+.f18{font-size: 18px;}
+/****************内边距和外边距*****************/
+.mt5{ margin-top:5px;}
+.mt15{ margin-top:15px;}
+.mb10{ margin-bottom:10px;}
+
+.bWhite{background: #fff;}
+
+/*****活动******/
+.activity .fla{
+	width:50%;
+	padding:0;
+}
+.activity li,.activity .fla{background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #f19937 5px);background-size: 15px 15px;background-position: 9px 3px;z-index: 0;}
+
+.CouponMin li.bGrey,.CouponMin li.bGrey .fla{background: radial-gradient(rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 5px, #ccc 5px);background-size: 15px 15px;background-position: 9px 3px;}
+.activity li:last-child{margin: 0;}
+.activity .fla:before{content: '';top: 0;bottom: 0;left: 10px;right: 0;z-index: -1;background: #f19937;}
+
+.activity .fla h2{font-size: 36px;font-weight: bold;line-height: 30px;}
+.activity .info a{border:1px solid #f19937;border-radius: 100px;padding: 3px 16px;width: 90px;}
+.activity .info a:active{background: #f19937;color:#fff;}
+.activity .infoUn p{padding-top: 20px;}
+.CouponMin li.bGrey .infoUn p{padding: 0;}
+.Number:before{right: 15px;}
+
+/*****优惠劵******/
+.CouponNav a{font-weight: 600;}
+.CouponNav a i{font-weight: 100; padding-left: 5px;}
+.CouponNav a.active,.CouponNav a.active i{color:#f19937 ;}
+.CouponNav a:before{bottom: 0;left: 50%;-webit-transform: translateX(-50%);transform: translateX(-50%);width:0%;-webkit-transition: all 0.4s linear;transition: all 0.4s linear;background: #f19937;width:0;height: 1px;}
+.CouponNav a.active:before{width: 50%;}
+
+.CouponMin ul,.CouponMin li.bGrey a{display: none;}
+.CouponMin ul.active{display: block;}
+.CouponMin li.bGrey .fla:before{background: #ccc;}
+
+.CouponMin li.bGrey i:before,.CouponMin li.bGrey i:after,.CouponMin li.bGrey i p,.CouponMin li.bGrey i.before{border-radius: 50%;}
+.CouponMin li.bGrey i.before,.CouponMin li.bGrey i:after{border:2px solid #ccc;}
+.CouponMin li.bGrey i.before{position: absolute;top: 0;right: -8px;width:70px;height: 70px;line-height:46px;color:#ccc;text-align: center;-webkit-transform: rotate(45deg);transform: rotate(45deg);z-index: 1;}
+.CouponMin li.bGrey i:before,.CouponMin li.bGrey i:after,.CouponMin li.bGrey i p{position: absolute;top: 50%;left:50%;-webkit-transform: translate(-50%,-50%);transform: translate(-50%,-50%);}
+
+.CouponMin li.bGrey i:before{width:60px;height: 60px;border:2px dashed #ccc;}
+.CouponMin li.bGrey i:after{width:40px;height: 40px;text-align: center;}
+.CouponMin li.bGrey i.before p{background: #fff;font-size: 12px;z-index: 99;line-height: 20px;width: 56px;}
+.CouponMin .info > div{position: relative;z-index: 4;}

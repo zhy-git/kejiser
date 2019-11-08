@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>付费直播间</title>
+<meta name="renderer" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+<meta name="format-detection" content="telephone=no">
+<meta name="format-detection" content="email=no">
+<meta name="format-detection" content="address=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css?v={php echo time();}">
+<script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+<script src="{TEMPLATE_PATH}/js/json2.min.js"></script>
+<script src="{TEMPLATE_PATH}/js/jq_addons.js"></script>
+<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css?v={php echo time();}">
+<link rel="stylesheet" href="{TEMPLATE_PATH}/font/iconfont.css?v={php echo time();}">
+{php echo register_jssdk();}
+
+</head>
+<script type="text/javascript" src="https://res.wx.qq.com/open/js/jweixin-1.3.0.js"></script>
+<script>
+var mini_pay = false;
+wx.ready(function () {
+	mini_pay=window.__wxjs_environment === 'miniprogram';
+});
+var pay_status_url="{php echo $this->createmobileurl('pay_status')}";
+var ti;
+function pay_status(id){
+	console.log(1)
+	$.post(pay_status_url,{'id':id},function(res){
+		if(res.success==1){
+			//alert('购买成功');
+			clearInterval(ti);
+			location.href="{$topic_url}";
+		}
+	})
+}
+</script>
+<body class="liveroom_bg">
+<div class="main_box_4 ">
+	<span class="img_p1"><img src="{$chat_room['room_icon']}"></span>
+	<span class="authentication_p2">{$chat_room['room_name']}</span>
+	<span class="authentication_p3">系列课：{$topic['room_name']}</span>
+	
+	<span class="authentication_p3" style="color:green;margin-top:20px;margin-bottom:20px;">
+		需要支付 {$topic['money']} 元
+	</span>
+
+	<!-- <span class="authentication_p3 use_coupon" style="color:red;margin-top:20px;margin-bottom:20px;">
+		优惠劵
+	</span> -->
+	
+	<span class="passwordsetbox">
+		<a href="javascript:;" class="topicpassword_a">确定</a>
+	</span>
+</div>  
+<!-- 返回首页悬浮框begin -->
+<style>
+	.popup_tips {background: #3E454C;display: inline-block;font-size: 14px;color: #fff;line-height: 1.5;text-align: center;border-radius: 20px;padding: 5px 20px;z-index: 300}
+	.mid {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);}
+	.backHome{
+		width:40px;
+		height:40px;
+		border-radius: 50%;
+		background: rgba(0,0,0,0.6);
+		text-align: center;
+		line-height: 40px;
+		position: fixed;
+		bottom:110px;
+		right:15px;
+		z-index: 100;
+	}
+	.backHome .iconHome{
+		color:#fff;
+		font-size: 24px;
+	}
+
+
+</style>
+	<div class="backHome">
+		<a href="{php echo $this->createMobileUrl('index')}"><i class="iconfont icon-shouye1 iconHome"></i></a>
+	</div>
+	<div id="erweima" style="position:fixed;top:0;width:100%;max-width: 640px;height:100vh;background:rgba(0,0,0,0.5);display:none;">
+        <div style="position:absolute;top:50%;left:50%;margin-left:-150px;margin-top:-150px">
+        <img style="width:300px;height:300px;" src="" id="code_img" alt="">
+            <div style="text-align:center;width:100%;color:#fff;margin-top:10px">请使用微信扫描二维码支付</div>
+        </div>
+           
+</div> 
+{template 'use_coupon'}
+<script type="text/javascript">
+
+/*微信支付开始*/
+function jsApiCall(result){
+api = eval("(" + result.jsApiParameters + ")");
+		WeixinJSBridge.invoke(
+			'getBrandWCPayRequest',
+			 api,
+			function(res){
+				WeixinJSBridge.log(res.err_msg);
+				if(res.err_msg == "get_brand_wcpay_request:ok") {
+					$(document).minTipsBox({	
+						tipsContent:"正在跳转，不要关闭！", 
+						tipsTime:1
+					});
+					var t=setTimeout("location.href='{$topic_url}'",1500)	
+                } else if(res.err_msg == "get_brand_wcpay_request:cancel"){
+                	$(document).minTipsBox({	
+						tipsContent:"取消支付！", 
+						tipsTime:1
+					});
+                }
+               else{
+//             	 alert(JSON.stringify(res));
+               	alert(res.err_msg);
+               }
+			}
+		);
+}
+
+function callpay(result){
+		if (typeof WeixinJSBridge == "undefined"){
+		    if( document.addEventListener ){
+		        document.addEventListener('WeixinJSBridgeReady', jsApiCall, false);
+		    }else if (document.attachEvent){
+		        document.attachEvent('WeixinJSBridgeReady', jsApiCall); 
+		        document.attachEvent('onWeixinJSBridgeReady', jsApiCall);
+		    }
+		}else{
+		    jsApiCall(result);
+		}
+}	
+/*微信支付结束*/
+$(function(){
+	$(".topicpassword_a").click(function(){
+		var coupon_id = $(".choose_coupon").children('.back').val();
+		$.post(location.href,{pay:true,'mini_pay':mini_pay,'coupon_id':coupon_id},function(result){
+				if(result.success==1){
+					var url = result.topic_url;
+					url =  encodeURIComponent(url);
+					wx.miniProgram.navigateTo({url:'/dg_live/pages/pay/index?num='+result.out_trade_no+'&uniacid='+'{$uniacid}'+'&mini_url='+url})
+				}else if(result.success == -1){
+					if(parseInt("{$is_ag}")==2){
+						callpay(result);
+					}else{
+						$("#code_img").attr('src',result.code_url);
+
+						$('#erweima').show();
+						ti=setInterval("pay_status("+result.order_id+")",1000);
+					}
+				}else if(result.success == -2){
+					$(document).minTipsBox({	
+						tipsContent:result.msg, 
+						tipsTime:1
+					});
+					location.href = "{php echo $this->createMobileUrl('series_info',array('series_id'=>$series_id))}";
+				}
+			
+		});
+	});
+});
+   $("#erweima").click(function(){
+			$("#erweima").hide()
+			clearInterval(ti);
+		})
+</script>
+</body></html>

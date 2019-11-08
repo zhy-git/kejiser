@@ -1,0 +1,57 @@
+<script>
+$(function(){
+	$('.use_coupon').click(function(){
+		$('.disCount').show();	
+		$('.discoupon').addClass('active');	
+		
+	})
+	$('.disCount').click(function(){
+		$('.disCount').hide();
+		$('.discoupon').removeClass('active');	
+		
+	})
+	$(".choose_coupon").click(function(){
+		$(".ra-radio").removeClass('back');
+		$(this).children('.ra-radio').addClass('back');
+		$(".use_coupon").text($(this).children('.ra-spa').text());
+		$(".disCount").hide();
+		return false;	
+	})
+})
+</script>
+
+<link rel="stylesheet" href="{TEMPLATE_PATH}/css/use_coupon.css">
+<style>
+	.disabled{
+pointer-events:none; 
+}
+.discoupon.active{
+	transition: transform .5s;
+	transform: translateY(-400px);
+}
+.disCount .discoupon{
+	bottom: -400px;
+	position: fixed;
+}
+</style>
+<div class="disCount" style="display:none;position:fixed;">
+	<ul class="discoupon">
+		<li class="dis-title">
+			优惠
+		</li>
+		{loop $coupon_list $coupon}
+		<label>
+			<li class="dis-radio clearfix choose_coupon ">
+				<span class="ra-spa">{$coupon['coupon_money']}元({if $coupon['coupon_type']==2}无门槛使用{else}满{php echo (float)$coupon['full_money']}元可使用{/if})</span>
+				<input type="radio" name="StrSex" value="{$coupon['c_id']}" class="ra-radio">
+			</li>
+		</label>
+		{/loop}
+		<label>
+			<li class="dis-radio clearfix choose_coupon">
+				<span class="ra-spa">不使用优惠</span>
+				<input type="radio" name="StrSex" value="0" class="ra-radio">
+			</li>
+		</label>
+	</ul>
+</div>

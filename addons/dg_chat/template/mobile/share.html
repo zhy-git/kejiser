@@ -1,0 +1,197 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>分享</title>
+    <meta name="description" content="分享" />
+    <meta name="keywords" content="分享" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta content="email=no" name="format-detection">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css" />
+	<link rel="stylesheet" href="{TEMPLATE_PATH}/live.css" />
+	<link rel="stylesheet" href="{TEMPLATE_PATH}/css/style_new.css?v=1" />
+	<link rel="stylesheet" href="{TEMPLATE_PATH}/css/zhibo-item.css?v=1" />
+	<link rel="stylesheet" href="{TEMPLATE_PATH}/css/font-awesome.min.css" />
+	<script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+
+    <style type="text/css">
+        /*!
+         * WePayUI v0.1.1 (https://github.com/wepayui/wepayui)
+         * Copyright 2017 Tencent, Inc.
+         * Licensed under the MIT license
+         * Component : [weui-dialog]
+         */
+
+        html {
+            -ms-text-size-adjust: 100%;
+            -webkit-text-size-adjust: 100%
+        }
+
+        body {
+            line-height: 1.6;
+            font-family: -apple-system-font, Helvetica Neue, sans-serif
+        }
+
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+
+
+        .weui-dialog__btn:first-child:after {
+            display: none
+        }
+
+        .weui-dialog__btn_default {
+            color: #353535
+        }
+
+        .weui-dialog__btn_primary {
+            color: #0bb20c
+        }
+
+        @media screen and (min-width:1024px) {
+            .weui-dialog {
+                width: 35%
+            }
+        }
+
+
+
+        body {
+            background: #f2f2f2;
+        }
+
+        .pay_head .banner {
+            width: 100%;
+            display: block;
+        }
+
+        .pay-content {
+            /* padding: 25% 7.8125%; */
+            background: #54bc6e;
+            width: 100%;
+        }
+
+        #qrImg img {
+            width: 100%;
+            height: 100%;
+        }
+
+        .pay-tips {
+            padding-bottom: 20%;
+            text-align: center;
+            color: #fff;
+            font-family: "微软雅黑";
+        }
+
+        .pay-tips .tips {
+            font-size: 20px;
+        }
+
+        .pay-tips .text {
+            font-size: 18px;
+        }
+
+        .check_tips {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #fff;
+            background: #fd5050;
+        }
+
+        .bottom_fix {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        .bottom_fix a,
+        .bottom_fix a img {
+            display: block;
+            width: 100%;
+        }
+
+        .dins {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="pay-content">
+        <div class="">
+            <div id="qrImg" style="width: 100%;"></div>
+            <!-- <img class="wxpay" id="qrcodeImg" src="http://img.hotapp.cn//images20171212/logos201805/_a/2018_06_26_14_55_56gcwm4.jpg"
+            /> -->
+            <!-- <div class="pay-tips">
+                <span class="tips">长按二维码识别,&nbsp;&nbsp;</span>
+                <span class="text">向商家付款</span>
+            </div> -->
+        </div>
+    </div>
+    <!-- <div class="js_dialog" id="dialog" style="opacity: 1;display: none;">
+        <div class="weui-mask"></div>
+        <div class="weui-dialog">
+            <div class="weui-dialog__bd" id="dialogText"></div>
+            <div class="weui-dialog__ft">
+                <a href="javascript:;" onclick="hideDialog()" class="weui-dialog__btn weui-dialog__btn_primary">知道了</a>
+            </div>
+        </div>
+    </div> -->
+    <img id="img1" src="/addons/dg_chat/resource/images/fenxiaong.jpg" class="dins">
+    <img id="img2" src="{$share_img}" class="dins">
+    <canvas id="mycanvas1" width="625" height="1200" style="border:1px solid #d3d3d3;" class="dins"></canvas>
+    {template footer}
+</body>
+
+</html>
+<script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+<script src="{TEMPLATE_PATH}/js/json2.min.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('img').each(function () {
+            $(this).attr('src', $(this).attr('src') + '?_=' + new Date().getTime())
+        })
+        var context = $("#mycanvas1")[0].getContext("2d");
+        var img1 = document.getElementById("img1");
+        var img2 = document.getElementById("img2");
+        var num = 0;
+        $('#img1, #img2').load(function () {
+            // context.drawImage(beijingImg, 0, 0);
+            context.drawImage(img1, 0, 0, 630, 1200);
+            context.drawImage(img2, 210, 500, 220, 220);
+            var mycanvas1 = document.getElementsByTagName('canvas')[0];
+            //将转换后的img标签插入到html中
+            console.log(num)
+            if (++num == 2) {
+                var imgx = convertCanvasToImage(mycanvas1)
+                console.log(imgx)
+                $('#qrImg').html(imgx)
+            }
+        })
+
+    })
+
+    //从 canvas 提取图片 image 
+    function convertCanvasToImage(canvas) {
+        //新Image对象，可以理解为DOM 
+        var image = new Image();
+        // canvas.toDataURL 返回的是一串Base64编码的URL，当然,浏览器自己肯定支持 
+        // 指定格式 PNG 
+        image.src = canvas.toDataURL("image/png");
+        return image;
+    }
+</script>

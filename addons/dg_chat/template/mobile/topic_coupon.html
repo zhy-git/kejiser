@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>优惠劵中心</title>
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/font/iconfont.css" />
+     <link rel="stylesheet" href="{TEMPLATE_PATH}/css/coupon_center.css" />
+    <script src="{TEMPLATE_PATH}/js/zepto.min.js"></script>
+    <script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+    <script src="{TEMPLATE_PATH}/mobiscroll.custom-2.16.1.min.js"></script>
+	<link rel="stylesheet" href="{TEMPLATE_PATH}/mobiscroll.custom-2.16.1.min.css">
+	<script type="text/javascript" src="{TEMPLATE_PATH}/js/clipboard.min.js"></script>
+</head>
+
+<body>
+<div class="activity p15">
+	<div class="Number bWhite mb10" style="background-color: #f19937;text-align: center;border-radius: 5px;">
+			<a class="hi46 disb pl15 pr15 create_coupon" href="javascript:;" style="color: #fff;">创建优惠劵</a>
+		</div>
+	<ul id="coupon">
+		{loop $coupon_list $coupon}
+		<li class="flex bWhite pr mb10 before after">
+			
+			<div class="fla flex-column-c" style="color: #f6bf81;">
+				<span class="img" style="background-image: url({TEMPLATE_PATH}/images/translate.png);"></span>
+				<span>领取码：</span>
+				<span>{$coupon['rece_code']}</span>
+			</div>
+			<div class="info sub fl flex-column flex-jb ml15 mr10">
+				<h2 class="f14 line-text" style="padding-left:10px;">{$coupon['coupon_name']}</h2>
+				<p><span style="display:block;padding-left:10px;">{$coupon['coupon_money']}元</span><i class="ml5">{if $coupon['coupon_type']==2}无门槛使用{else}满{php echo (float)$coupon['full_money']}元可使用{/if}</i></p>
+			</div>
+			<div class="fra tc flex-column-c before">
+			{if $coupon['coupon_number']}
+				{if $coupon['count']}
+					<div class="fraOVer flex-column-c h100 m-auto ">
+						<div class="fraw flex-column-c pr before">
+							<p class="bWhite">已领取</p>
+						</div>							
+					</div>
+				{else}
+					<div class="fraReceive">
+						<div class="fraW pr flex-column-c  m-auto">
+							<p>剩余</p>
+							<p>{$coupon['coupon_number']}</p>
+						</div>
+						<a class="f12 blank" href="javascript:;"  data-clipboard-action="copy" data-clipboard-text="{$coupon['rece_code']}" data="{$coupon['id']}" onclick="receive(this)">双击复制</a>
+					</div>
+				{/if}
+			{else}
+				<div class="fraOVer flex-column-c h100 m-auto ">
+					<div class="fraw flex-column-c pr before">
+						<p class="bWhite">已抢光</p>
+					</div>							
+				</div>
+			{/if}
+
+			</div>
+		</li>
+		{/loop}
+		
+	</ul>			
+</div>
+
+
+
+<div style="height: 70px;"></div>
+	
+<style type="text/css">
+	.box{
+		position: fixed;
+		top: 0;
+		width: 100%;
+		height: 100vh;
+		background: rgba(0,0,0,0.5);
+		z-index: 999;
+	}
+	.cont{
+		width: 80%;
+		height: 400px;
+		background-color: #fff;
+		position: absolute;
+		left: 10%;
+		top: 10%;
+		border-radius:5px ;
+		
+	}
+	.tit{
+		line-height:40px;
+		text-align: center;
+		font-size: 16px;
+	}
+	.ipn-box{
+		height: 320px;
+		overflow: scroll;
+		padding: 0 15px;
+	}
+	.ipn-box .inpt{
+		width: 100%;
+		height: 40px;
+		border-radius:5px ;
+		border: 1px solid #999;
+		background-color: #f4f4f4;
+		text-indent: 10px;
+	}
+	.choose,.result{
+		line-height: 40px;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		border-bottom: 1px solid #ededed;
+	}
+	.result{
+		color: #999;
+	}
+	.text{
+		height: 60px;
+		font-size: 11px;
+		padding: 0 15px;
+	}
+	.inp_num{
+		border: none;
+		text-align: right;
+	}
+	.btn{
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+		height: 40px;
+		line-height: 40px;
+		border-top:1px solid #ededed ;
+	}
+	.btn div{
+		width: 50%;
+		text-align: center;
+	}
+	.sure{
+		color: #f19937;
+		border-left:1px solid #ededed ;
+	}
+</style>
+<!--添加优惠券-->
+<div class="box" style="display:none">
+	<div class="cont">
+		<div class="tit">添加课程优惠券</div>
+		<div class="ipn-box">
+			<input type="text" class="inpt" name="" id="coupon_name" value="" placeholder="优惠券名称"/>
+			<div style="line-height: 40px;">优惠金额</div>
+			<input type="number" class="inpt" name="" id="coupon_money" value="" placeholder="价格（元）"/>
+			<div class="choose">
+				<span>在详情页公开领取</span>
+				<span class="is_show">未开启</span>
+				<input type="hidden" name="is_show" id="is_show">
+			</div>
+			<div class="choose">
+				<span>设置领取人数</span>
+				<span class="is_num">未开启</span>
+				<input type="hidden" name="is_num" id="is_num" >
+			</div>
+			<div class="result p_num" style="display:none">
+				<span>数量</span>
+				<input class="inp_num" type="number" placeholder="请输入数量" name="" id="coupon_num" value="" / min="1">
+			</div>
+			<div class="choose">
+				<span>设置领取时间</span>
+				<span class="is_rece">未开启</span>
+				<input type="hidden" name="is_rece" id="is_rece">
+			</div>
+			<div class="date" style="display:none">	
+				<div class="result time">
+					<span>截止时间</span>
+					<input type="text" class=" topicDateTime" id="mobiscroll" style="border:none">
+				</div>	
+			</div>
+			
+		</div>
+		<div class="btn">
+			<div class="cancel">取消</div>
+			<div class="sure">确定</div>
+		</div>
+	</div>
+</div>
+
+
+<!--<div style="width:100%;height:100vh;position:fixed;top: 0;background:rgba(0,0,0,0.5);display:none;z-index:999" class="">-->
+	<div class="popup_tips mid" style="z-index:999;display:none"></div>
+<!--</div>-->
+<!-- 返回首页悬浮框begin -->
+	<div class="backHome">
+		<a href="{php echo $this->createMobileUrl('index')}"><i class="iconfont icon-shouye1 iconHome"></i></a>
+	</div>
+
+<!-- 返回首页悬浮框end -->
+</body>
+<script>
+var pindex = 1;
+function pageLoadCommon(a, b) {
+			a.scroll(function() {
+				distanceScrollCount = document.body.scrollHeight;
+				distanceScroll = document.body.scrollTop;
+				topicPageHight = document.body.clientHeight;
+				1 >= distanceScrollCount - distanceScroll - topicPageHight && b()
+			})
+}
+function receive(obj) {
+	// receive(obj);
+	var clipboard = new ClipboardJS(obj);
+	var copynum = 0;
+	clipboard.on('success', function(e) {
+		//layer.msg("复制成功");
+		$(".popup_tips").show();
+		$(".popup_tips").text('复制成功,发送至好友让好友领取吧');
+ 		setTimeout(function(){
+ 			$(".popup_tips").hide();
+ 		},2000);
+	});
+	clipboard.on('error', function(e) {
+		console.log(e);
+		$(".popup_tips").show();
+		$(".popup_tips").text(res.msg);
+ 		setTimeout(function(){
+ 			$(".popup_tips").hide();
+ 		},500);
+	});
+};
+// function receive(obj){
+// 	var coupon_id=$(obj).attr('data');
+// 	var isloading=this.isloading||false,that=this;
+// 	if(isloading == true){
+// 		return;
+// 	}
+
+// 	this.isloading=true;
+// 	$.post(location.href,{'receive':true,'coupon_id':coupon_id},function(res){
+// 		if(res.success==1){
+// 			$(obj).prev().children().last().text(res.circulation);
+// 			$(obj).parent().parent().html('<div class="fraOVer flex-column-c h100 m-auto "><div class="fraw pr flex-column-c before"><p class="bWhite">已领取</p></div></div>');
+// 		}else{
+// 			$(".popup_tips").show();
+// 			$(".popup_tips").text(res.msg);
+// 			setTimeout(function(){
+// 			$(".popup_tips").hide();
+// 			},500);
+// 		}
+		
+		
+// 	}).complete(function(){
+// 		setTimeout(function(){
+// 			that.isloading=false;
+// 		},500);
+// 	})
+// }
+function getCouponHtml(List,Qindex){
+	var html='';
+	html+='<li class="flex bWhite pr mb10 before after"><div class="fla flex-column-c"><span class="img" style="background-image: url({TEMPLATE_PATH}/images/translate.png);"</span></div>';
+	html+='<div class="info sub fl flex-column flex-jb ml15 mr10"><h2 class="f14 line-text" style="padding-left:10px;">'+List[Qindex].coupon_name+'</h2>';
+	if(List[Qindex].coupon_type==2){
+		html+='<p><span style="display:block;padding-left:10px;">'+List[Qindex].coupon_money+'元</span><i class="ml5">无门槛使用</i></p>';
+	}else{
+		html+='<p><span style="display:block;padding-left:10px;">'+List[Qindex].coupon_money+'元</span><i class="ml5">满'+parseInt(List[Qindex].full_money)+'元可使用</i></p>';
+	}
+		html+='</div><div class="fra tc flex-column-c before">';
+	if(List[Qindex].coupon_number>0){
+		if(List[Qindex].count==1){
+			html+='<div class="fraOVer flex-column-c h100 m-auto "><div class="fraw pr flex-column-c before"><p class="bWhite">已领取</p></div></div>';
+		}else{
+			html+='<div class="fraReceive"><div class="fraW pr flex-column-c  m-auto"><p>剩余</p><p>'+List[Qindex].coupon_number+'</p></div>';
+			html+='<a class="f12 blank" href="javascript:;" data="'+List[Qindex].id+'" onclick="receive(this)">立即领取</a></div>';
+		}
+	}else{
+		html+='<div class="fraOVer flex-column-c h100 m-auto "><div class="fraw pr flex-column-c before"><p class="bWhite">已抢光</p></div></div>';
+	}
+	html+='</div></li>';
+	
+	return html;
+}
+function couponLoad(pindex){
+	$.post(location.href,{'pindex':pindex},function(res){
+		var coupon = res.list;
+		if(jQuery.isEmptyObject(coupon)) {
+			$("#next").html('<p class="grey">已加载全部</p>');
+			return false;
+		}else{
+			var html='';
+			for(var i=0;i<coupon.length;i++){
+				html+=getCouponHtml(coupon,i);
+			}
+			$("#coupon").append(html);
+			$("#next").html('<span class="loading"></span><p class="grey">已加载全部</p>');
+		}
+	})
+}
+$(function(){
+	pageLoadCommon($(document), function() {
+		pindex++;
+		couponLoad(pindex);
+	});
+	$('.topicDateTime').mobiscroll().datetime({
+        theme: "android-holo-light",
+        mode: "scroller",
+        display: "bottom",
+        lang: "zh",
+        minDate: new Date(),
+        maxDate: new Date(new Date().setMonth(new Date().getMonth() + 6)),
+        dateFormat:"yy-mm-dd",
+        timeFormat:"HH:ii",
+        stepMinute: 1  
+    });
+	$(".create_coupon").click(function(){
+		$(".box").show();
+	})
+	$(".cancel").click(function(){
+		$(".box").hide();
+	})
+	$(".is_show").click(function(){
+		$(".is_show").text($(".is_show").text() == '已开启'?'未开启':'已开启');
+		$("#is_show").val($(".is_show").text() == '已开启'?1:0);
+	});
+	$(".is_num").click(function(){
+		$(".is_num").text($(".is_num").text() == '已开启'?'未开启':'已开启');
+		$("#is_num").val($(".is_num").text() == '已开启'?1:0);
+		if($("#is_num").val() ==1 ){
+			$(".p_num").show();
+		}else{
+			$(".p_num").hide();
+			$("#coupon_num").val('');
+		}
+	})
+	$(".is_rece").click(function(){
+		$(".is_rece").text($(".is_rece").text() == '已开启'?'未开启':'已开启');
+		$("#is_rece").val($(".is_rece").text() == '已开启'?1:0);
+		if($("#is_rece").val() ==1 ){
+			$(".date").show();
+
+		}else{
+			$(".date").hide();
+			$("#mobiscroll").val('');
+		}
+	})
+	$(".sure").click(function(){
+		var coupon_name = $("#coupon_name").val();
+		var coupon_money  = $("#coupon_money").val();
+		var is_show = $("#is_show").val();
+		var coupon_number = $("#coupon_num").val();
+		var end_time = $("#mobiscroll").val();
+		var flag = true;
+		if(coupon_name == ''){
+			$(".popup_tips").show();
+			$(".popup_tips").text('请输入优惠劵名称');
+			setTimeout(function(){$("popup_tips").hide();},1000);
+			flag =false;
+		}
+		if(coupon_money == ''){
+			$(".popup_tips").show();
+			$(".popup_tips").text('请输入优惠劵价格');
+			setTimeout(function(){
+			$(".popup_tips").hide();
+			},1000);
+			flag =false;
+			
+		}
+		if($("#is_num").val() == 1&&coupon_number==''){
+			$(".popup_tips").show();
+			$(".popup_tips").text('请输入优惠劵数量');
+			setTimeout(function(){
+			$(".popup_tips").hide();
+			},1000);
+				flag =false;
+		}
+		if($("#is_num").val() == 1 &&coupon_number==''){
+			$(".popup_tips").show();
+			$(".popup_tips").text('请输入优惠劵数量');
+			setTimeout(function(){
+			$(".popup_tips").hide();
+			},1000);
+			flag =false;
+		}
+		if($("#is_rece").val() == 1 &&end_time==''){
+			$(".popup_tips").show();
+			$(".popup_tips").text('请输入时间');
+			setTimeout(function(){
+			$(".popup_tips").hide();
+			},1000);
+			flag =false;
+		}
+		if(flag == true){
+			$.post(location.href,{create_true:true,coupon_name:coupon_name,coupon_money:coupon_money,is_show:is_show,coupon_number:coupon_number,end_time:end_time},function(result){
+					if(result.success == 1){
+						location.reload();
+					}
+			})
+		}
+		
+	})
+})
+</script>
+</html>

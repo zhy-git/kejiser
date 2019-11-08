@@ -1,0 +1,312 @@
+{template 'common/header'}
+
+<ul class="nav nav-tabs">
+	<li {if $_GPC['do'] =='' || $_GPC['do'] == 'topic_manage'}class="active"{/if}><a href="{php echo $this->createWebUrl('topic_manage')}">话题管理</a></li>
+	
+</ul>
+
+<div class="main">
+ <form action="" method="post" class="form-horizontal form" id="setting-form">
+		<div class="panel panel-default">
+		
+			<div class="panel-body">
+			
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;">*</span>课程封面</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_image('topic_icon', $topic['topic_icon'])}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>课程标题</label>
+					<div class="col-sm-8">
+						<input type="text" name="topic_name" class="form-control" value="{$topic['topic_name']}" />
+					</div>
+				</div>
+				
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>课程介绍</label>
+					<div class="col-sm-8">
+					 <textarea style="height: 160px;" id="topic_desc" name="topic_desc"
+                          class="form-control span7" cols="60">{$topic['topic_desc']}</textarea>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 control-label"><span style="color:red;">*</span>概要图片</label>
+					<div class="col-sm-9 col-xs-12">
+						{php echo tpl_form_field_multi_image('topic_imgs', $topic['topic_imgs'])}
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>主讲人</label>
+					<div class="col-sm-8">
+						<input type="text" name="guest_name" class="form-control" value="{$topic['guest_name']}" />
+					<div class="help-block"></div>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>主讲人介绍</label>
+					<div class="col-sm-8">
+						
+						 <textarea style="height: 150px;" id="guest_info" name="guest_info"
+                          class="form-control span7" cols="60">{$topic['guest_info']}</textarea>
+					<div class="help-block"></div>
+					</div>
+				</div>
+				
+		<div class="form-group">
+ 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">是否开启弹幕</label>
+            <div class="col-sm-9 col-xs-6">
+				<div class="input-group">
+					<label class="radio-inline">
+                	<input type="radio" name="is_opendm" value="1" {if $topic['is_opendm']==1 }checked="checked"{/if}>开启
+	                </label>
+	                <label class="radio-inline">
+	                	<input type="radio" name="is_opendm" value="0" {if $topic['is_opendm']==0 }checked="checked"{/if}>关闭
+	                </label>    
+				</div>
+            </div>
+         </div>
+		 
+		 <div class="form-group">
+ 			<label class="col-xs-12 col-sm-3 col-md-2 control-label">直播间</label>
+            <div class="col-sm-9 col-xs-6">
+				<div class="input-group">
+					<label class="radio-inline">
+                	<input type="radio" name="topic_style" value="1" class="back_video" {if $topic['topic_style'] == 1}checked='checked'{/if}>语音直播
+	                </label>
+	                <label class="radio-inline">
+	                	<input type="radio" name="topic_style" value="{if $chat_type=='letv'}5{else}2{/if}" {if $topic['topic_style'] == 2||$topic['topic_style'] == 5}checked='checked'{/if} class="back_video">视频直播
+	                </label>    
+	                <label class="radio-inline">
+	                	<input type="radio" name="topic_style" value="{if $chat_type=='letv'}4{else}3{/if}" {if $topic['topic_style'] == 3||$topic['topic_style'] == 4}checked='checked'{/if}class="back_video">录播视频
+	                </label>
+	                <label class="radio-inline">
+	                	<input type="radio" name="topic_style" value="6" class="back_video" {if $topic['topic_style'] == 6}checked='checked'{/if}>第三方视频
+	                </label>
+				</div>
+            </div>
+         </div>
+         
+          <div class="form-group activityid" style="display:none">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>乐视活动id</label>
+					<div class="col-sm-8">
+						<input type="text" name="activityid" class="form-control" value="" />
+					</div>
+			</div> 
+			<div class="form-group video-id" style="display:none">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>{if $chat_type=='letv'}乐视{else}腾讯{/if}视频id</label>
+					<div class="col-sm-8">
+						<input type="text" name="{if $chat_type=='letv'}videoid{else}file_id{/if}" class="form-control" value="{if $chat_type=='letv'}{$topic['vedioid']}{else}{$topic['file_id']}{/if}" />
+					</div>
+			</div> 
+			
+			<div class="form-group third-url" style="display:none" >
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>上传视频</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_video('third_url',$topic['third_url']);}
+						<div class="help-block">请将视频分享的【通用代码】中src=""内容（不包括src=和引号）复制到下列输入框 
+例：<iframe frameborder="0" width="640" height="498" src="https://v.qq.com/iframe/player.html?vid=v0019c7up3l&tiny=0&auto=0"allowfullscreen></iframe>（红色部分）</div>
+					</div>
+			</div>
+			
+			<div class="form-group push_url">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>腾讯云推流地址</label>
+					<div class="col-sm-8">
+						<input type="text" name="push_url" class="form-control" value="{$push_url}" / readonly>
+					</div>
+			</div>
+		
+         	<div class="modal-body" id="body_status">
+						<div class="form-group">
+							<label class="col-xs-12 col-sm-3 col-md-2 control-label"> 课程状态</label>
+							<div class="col-sm-9 col-xs-12">
+
+								<select id='topic_status' name="topic_status" class="form-control">
+									<option value="-1" {if $topic['topic_status']==-1}selected{/if}>禁用</option>
+									<option value="1" {if $topic['topic_status']==1}selected{/if}>直播中</option>
+									<option value="2" {if $topic['topic_status']==2}selected{/if}>已结束</option>
+								</select>
+							</div>
+						</div>
+					</div>
+            {if $topic['topic_type'] == 'ticket'}
+            <div class="form-group ticket-type"style="display:block;">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>设置入场票费用</label>
+					<div class="col-sm-8">
+						<input type="text"value="{$topic['room_paymoney']}" class="form-control" attr-id="" onblur="prove(this)" name="room_paymoney">
+					</div>
+					<!--<div class="help-block">最小金额1元</div>-->
+			</div>
+            {/if}
+			{if $topic['topic_type'] == 'password'}
+			<div class="form-group password-type">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>设置一个固定密码</label>
+					<div class="col-sm-8">
+						<input type="text" placeholder="支持英文和数字，不区分大小写，不支持特殊符号" value="{$topic['room_password']}" class="form-control fixed_code_value fixedCodeValue" attr-id="" onkeyup=" if($(this).val().length &gt;= 12) $(this).val($(this).val().substr(0,12))" name="room_password">
+					</div>
+			</div>
+			
+			<div class="form-group password-type">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>设置听众获取密码提示</label>
+					<div class="col-sm-8">
+						<input type="text" placeholder="" value="{$topic['qrcode_desc']}" class="form-control" name="qrcode_desc">
+					</div>
+					<div class="help-block">提示用户如何获取密码</div>
+			</div>
+			
+			<div class="form-group password-type">
+				<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label">上传二维码</label>
+					<div class="col-sm-8">
+						{php echo tpl_form_field_image('qrcode_url', $topic['qrcode_url'])}
+					</div>
+			</div>
+			{/if}
+               <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>开始时间</label>
+					<div class="col-sm-8">
+					{php echo tpl_form_field_date('begin_time', $topic['begin_time'],true)}			
+					<div class="help-block"></div>
+					
+					</div>
+				</div>
+				
+				
+			<div class="form-group ">
+
+				<label class="col-xs-12 col-sm-3 col-md-2 control-label">分类标签</label>
+				<div class="col-sm-9 col-xs-12">
+					{loop $tag_record $row}
+				 <label class="checkbox-inline">
+			        <input type="checkbox" name="tags_name[]" class="tag_check" value="{$row['id']}" {if in_array($row['id'],$tag,true)}checked{/if}> {$row['tag_name']}
+			    </label>
+				  {/loop}
+				</div>
+			</div>
+
+            <div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>虚拟人气</label>
+					<div class="col-sm-8">
+						<input type="text" name="x_look_numbers" class="form-control" value="{$topic['x_look_numbers']}" />
+					</div>
+			</div> 
+			
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>房间内排序</label>
+					<div class="col-sm-8">
+						<input type="text" name="topic_order" class="form-control" value="{$topic['topic_order']}" />
+					</div>
+					<div class="help-block">数字越大越靠前</div>
+			</div> 
+			 
+			<div class="form-group">
+					<label class="col-xs-12 col-sm-3 col-md-2 col-lg-2 control-label"><span style="color:red;">*</span>全局排序</label>
+					<div class="col-sm-8">
+						<input type="text" name="gl_order" class="form-control" value="{$topic['gl_order']}" />
+					</div>
+					<div class="help-block">数字越大越靠前</div>
+			</div>  
+         				
+ 	</div>
+		</div>
+		<div class="form-group col-sm-12">
+			<input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+			<input type="hidden" name="token" value="{$_W['token']}" />
+		</div>
+</div>
+<script type="text/javascript">
+$('.tag_check').click(function(){
+	if($("input:checkbox:checked").length==3){
+		alert('最多只能选择两个标签');
+		$(this).attr("checked",false);
+	}
+})
+	var tags="{$topic['tags']}";
+	var chat_type = "{$chat_type}";
+require(['jquery', 'util'], function ($, u) {
+    $(function () {
+    	if(tags!=''){
+				var tagsarray=tags.split(',');
+				for(i=0;i<tagsarray.length;i++){
+					$(".tag_"+tagsarray[i]).addClass("active");
+					$(".tag_"+tagsarray[i]).children('input').attr("checked",true);
+				}
+			}
+		if($(".back_video").eq(0).prop('checked') == true){
+				$(".activityid").hide();
+				$(".video-id").hide();
+				$(".third-url").hide();
+				$(".push_url").hide();
+		}else if($(".back_video").eq(1).prop('checked') == true &&chat_type=='letv'){
+				$(".activityid").hide();
+				$(".third-url").hide();
+				$(".video-id").show();
+				$(".push_url").hide();
+		}else if($(".back_video").eq(1).prop('checked') == true &&chat_type=='tencent'){
+				$(".activityid").hide();
+				$(".video-id").hide();
+				$(".third-url").hide();
+				$(".push_url").show();
+		}else if($(".back_video").eq(2).prop('checked') == true &&chat_type=='tencent' ){
+				$(".activityid").hide();
+				$(".third-url").hide();
+				$(".video-id").show();
+				$(".push_url").hide();
+		}else if($(".back_video").eq(2).prop('checked') == true &&chat_type=='letv' ){
+				$(".activityid").hide();
+				$(".third-url").hide();
+				$(".video-id").show();
+				$(".push_url").hide();
+		}else{
+				$(".activityid").hide();
+				$(".video-id").hide();
+				$(".third-url").show();
+				$(".push_url").hide();
+		}
+        //u.editor($('#topic_desc')[0]);
+        //u.editor($('#guest_info')[0]);
+    });
+});
+function prove(obj){
+       var reg = new RegExp("^(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*))$");
+    if(!reg.test($(obj).val())){
+        alert("请输入数字!");
+    }
+    
+  }
+$(".back_video").click(function(){
+	if($(this).val() == 5){
+		$(".activityid").show();
+		$(".third-url").hide();
+		$(".video-id").hide();
+		$(".push_url").hide();
+	}else if($(this).val() == 3||$(this).val() ==4 ){
+		$(".activityid").hide();
+		$(".third-url").hide();
+		$(".video-id").show();
+		$(".push_url").hide();
+	}else if($(this).val() == 6){
+		$(".activityid").hide();
+		$(".video-id").hide();
+		$(".third-url").show();
+		$(".push_url").hide();
+	}else if($(this).val() == 2){
+		$(".activityid").hide();
+		$(".video-id").hide();
+		$(".third-url").hide();
+		$(".push_url").show();
+	}else{
+		$(".activityid").hide();
+		$(".video-id").hide();
+		$(".third-url").hide();
+		$(".push_url").hide();
+	}
+			
+})
+</script>
+{template 'common/footer'}

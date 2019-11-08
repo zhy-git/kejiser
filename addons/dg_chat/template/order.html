@@ -1,0 +1,44 @@
+{template 'common/header'}
+<style type="text/css">
+    .table>thead>tr>td, .table>tbody>tr>td, .table>tfoot>tr>td{
+        white-space:normal;
+    }
+</style>
+<div class="main">
+
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row-fluid">
+                <div class="span8 control-group">
+                    共计 <span style="color:red;">{$total['countnum']}</span> 条数据，收入 <span style="color:red;">{$total['countmoney']}</span> 元
+                </div>
+            </div>
+        </div>
+        <div class="panel-body table-responsive">
+            <table class="table table-hover">
+                <thead class="navbar-inner">
+                <tr>
+                    <th style="width:100px;">赞赏人头像</th>
+                    <th>赞赏人昵称</th>
+                    <th align="center" style="width:100px;">赞赏金额</th>
+                    <th align="center">支付时间</th>
+                </tr>
+                </thead>
+                <tbody>
+                {loop $records $row}
+                <tr>
+                    <td><img alt="" src="{$row['pay_avatar']}" width='auto' style="max-width:50px; max-height:50px;" height='auto'></td>
+                    <td>{$row['pay_nickname']}</td>
+                    <td>{$row['pay_money']}</td>
+                    <td>{$row['transaction_id']}
+                    <td>{php echo date('Y/m/d H:i:s', $row['pay_time']);}
+                </tr>
+                {/loop}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    {$pager}
+</div>
+
+{template 'common/footer'}

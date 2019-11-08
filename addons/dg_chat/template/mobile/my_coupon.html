@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>我的优惠劵</title>
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/font/iconfont.css" />
+    <script src="{TEMPLATE_PATH}/js/jquery.min.js"></script>
+    <script src="{TEMPLATE_PATH}/js/my_coupon.js"></script>
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/css/css1/style.css?v={php echo time();}">
+     <link rel="stylesheet" href="{TEMPLATE_PATH}/css/my_coupon.css?v={php echo time();}">
+</head>
+<body>	
+		<div class="fooTextBox">
+			<div class="CouponNav flex tc hi46 bWhite f16">
+				<a class="sub pr before active" href="javascript:;" data="no_use" onclick="couponClick(this)">未使用<i class="grey">({$not_use})</i></a>
+				<a class="sub pr before" href="javascript:;" data="al_use" onclick="couponClick(this)">已使用<i class="grey">({$al_use})</i></a>
+				<a class="sub pr before" href="javascript:;" data="outtime" onclick="couponClick(this)">已过期<i class="grey">({$al_ex_use})</i></a>
+			</div>
+			<div class="activity p15 CouponMin">
+			<!-- <div class="Number bWhite arrow-r mb10">
+						<a class="hi46 disb pl15 pr15" href="{php echo $this->createMobileurl('coupon_center')}">去领券中心</a>
+				</div> -->
+				<ul class="active" id='coupon'>
+                {loop $coupon_list $coupon}			
+					<li class="flex bWhite pr mb10 overflow">
+						<div class="fla tc blank flex-column-c before pr">
+							<h2 class="blank"><i class="f18">￥</i>{$coupon['coupon_money']}</h2>
+							<p class="f14">{if $coupon['coupon_type']==2}无门槛使用{else}满{$coupon['full_money']}元可使用{/if}</p>
+						</div>
+						<div class="info sub pl20 pt10 pb10 pr10 bWhite flex-column-c">
+							<div>
+								<h3 class="f16 line-text">{$coupon['coupon_name']}</h3>
+								<p class="f12 grey mt5">{$coupon['start_time']}~{$coupon['end_time']}</p>
+								<div class="infoUn flex-jb">
+									<p class="grey"></p>
+									<a class="mt15 disi" href="{php echo $this->createMobileurl('index')}">立即使用</a>
+								</div>
+								
+							</div>						
+						</div>
+					</li>
+                {/loop}
+				</ul>
+			</div>
+			<div class="tc" id="next" style="display:none">
+             <p class="grey">已加载全部~</p>
+             </div>  
+			<div style="height: 100px;"></div>
+			<!-- foot start -->
+			{template footer}
+		    <!-- foot end -->
+		</div>
+	</body>
+</body>
+<script type="text/javascript">
+    var pindex = 1;
+    var postData = {};
+    var coupon_type = '';
+    var conpon_url="{php echo $this->createMobileurl('index')}";
+    function pageLoadCommon(a, b) {
+        a.scroll(function() {
+            distanceScrollCount = document.body.scrollHeight;
+            distanceScroll = document.body.scrollTop;
+            topicPageHight = document.body.clientHeight;
+            1 >= distanceScrollCount - distanceScroll - topicPageHight && b()
+        })
+    }
+    
+    $(function(){   
+        pageLoadCommon($(document), function() {
+            pindex++;
+            postData.pindex=pindex;
+            postData.coupon_type=coupon_type;
+            couponLoad(postData);
+        });         
+        $('.CouponNav a').click(function(){
+            var _index=$(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+            
+        })
+    })
+</script>
+</html>

@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="keywords" content="" />
+    <meta name="description" content="" />
+    <title>信息编辑</title>
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/font/iconfont.css" />
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/live.css?v={php echo time();}">
+    <script src="{TEMPLATE_PATH}/js/zepto.min.js"></script>
+    <link rel="stylesheet" href="{TEMPLATE_PATH}/wtCommon.css?v={php echo time();}">
+</head>
+{php echo register_jssdk();}
+<style>
+body{background:#f5f5f5;}
+#box{ padding-bottom: 58px;overflow: hidden;}
+#box.expert{ padding-top: 46px;}
+#box.active{ height: 100%; overflow: hidden;}
+/****ä¼šå‘˜ä¸­å¿ƒ******/
+.Member_head{background: #f19937;position: relative;}
+.Member_img{width:5rem;margin:0 auto;text-align: center;color:#fff;}
+.Member_img span{width:5rem;height: 5rem;display:block;margin:0 auto;border:5px solid #f19937;background-size:cover;background-repeat:no-repeat;background-position:center center;-webkit-border-radius: 100%;border-radius: 100%;}
+.Member_img p{padding-top: 5px;}
+.Member_head .bianji{position: absolute;top:15px;right: 15px;}
+.Member_head .bianji a{color:#fff;display: block;}
+.Member_head .bianji a i,.Member_menoy a i{ padding-right: 5px;}
+
+.Member_menoy{position: absolute;bottom:10px;left: 50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);height: 30px;line-height: 30px;background: #fff;padding:0 20px;-webkit-border-radius: 5px;border-radius: 5px;}
+.Member_menoy a{color:#f19937;display: block;}
+.Member_menoy a i{font-size: 20px;vertical-align: middle;}
+
+.Member_min{ margin-top: 10px;}
+.Member_min li{height: 45px;line-height: 45px;background: #fff;padding:0 15px;border-bottom: 1px solid rgba(229,229,229,0.3);}
+.Member_min li i{color: #969696;}
+
+.Member_head .vip{position: absolute;top:50%;left: 50%;margin: -10px 0 0 10px;background:#f00;-webkit-border-radius: 5px;border-radius: 5px;}
+.Member_head .vip i{padding: 0px 12px;color:#fff;}
+/****èµ„æ–™ç¼–è¾‘******/
+.adit .adit_balance{background: #fff; padding: 20px 15px;}
+.adit .adit_balance p i{height: 30px;line-height: 30px;background:rgba(9,187,9,0.1);border:1px dashed #09a507;color:#09A507;font-size: 16px; padding: 8px 30px;margin:0 8px;-webkit-border-radius: 5px;border-radius: 5px;}
+
+.adit{margin-top:10px;}
+.adit_list{background:#fff;border-radius:5px;overflow:hidden;}
+.adit_list li{border-bottom:1px solid #f5f5f5;}
+.adit_list li .add_tit{height:45px;line-height:45px; padding: 0 15px;}
+.adit_list li .add_tit h3{font-size:14px;font-weight:normal;}
+.adit_list li .add_tit i{float: right;color:#969696;}
+.adit_list li .add_input{height:45px;line-height:45px;background: #fff; padding: 0 15px;}
+.adit_list li .add_input.add{height: auto;line-height: normal;}
+.adit_list li .add_input input{border:none;width:100%;height: 100%;outline: none;text-align:right;}
+.adit_list .add_input .img{width:34px;height:34px;border-radius:50%;display:block;float:right;margin:6px 0;background-position: center center;background-repeat: no-repeat;background-size: cover;}
+.adit_min .btn{width:90%;height: 45px;background:#f19937;line-height: 45px;text-align: center;margin: 30px auto;-webkit-border-radius: 5px;border-radius: 5px;box-shadow:0 0 10px rgba(214,153,55,.3);font-size:16px;}
+.adit_min .btn a{display: block;color:#fff;}
+.touxiang{padding: 30px 0;}
+.popup_tips {background: #3E454C;display: inline-block;font-size: 14px;color: #fff;line-height: 1.5;text-align: center;border-radius: 20px;padding: 5px 20px;z-index: 300}
+.mid {position: absolute;top: 50%;left: 50%;transform: translate(-50%, -50%);}
+
+[class*=flex]{ display: -webkit-box;display: -webkit-flex;  display: -ms-flexbox; display: flex; width: 100%;}
+[class*=flex] .sub,[class*=flex] > li{ -webkit-box-flex: 1; -webkit-flex: 1; -ms-flex: 1; flex: 1; overflow: hidden;}
+[class*=flex-column]{-webkit-flex-direction: column; flex-direction: column;}
+[class*=flex-wrap] {flex-wrap: wrap;}
+[class*=flex-column]{-webkit-flex-direction: column; flex-direction: column;}
+[class*=flex-column-c]{justify-content: center;}
+[class*=flex-column-ja]{align-items: center;}
+[class*=flex-jb]{justify-content: space-between;}
+</style>
+<body>
+<div id="box">
+    <div class="Member_head" style="margin-bottom:">
+        <div class="Member_img touxiang">
+            <span style="background-image: url({$avatar});"></span>
+            <p>{$nickname}</p>
+        </div>
+    </div>
+    <div class="adit">
+        <div class="adit_min">
+            <form action="{php echo $this->createmobileurl('edit',array('op'=>'post'))}">
+                <div class="adit_list">
+                    <ul>
+					<li class="flex">
+						<div class="add_tit">
+							<h3>姓名</h3>
+						</div>
+						<div class="add_input sub">
+							<input type="text" id="real_name" placeholder="请输入您的姓名" value="{$user['real_name']}"/>
+						</div>
+					</li>
+					
+					<li class="flex">
+						<div class="add_tit">
+							<h3>手机号</h3>
+						</div>
+						<div class="add_input sub">
+							<input type="text" id="mobile" placeholder="请输入您的手机号" value="{$user['mobile']}"/ onblur="change_mobile(this)">
+						</div>
+						<div class="yanzheng appear" onclick="send_msg(this)">
+							<span>发送验证码</span>
+						</div>
+					</li>
+					<style>
+						.yanzheng{width:70px;height:36px;line-height:36px;background:#f19937;color:#fff;border-radius:3px;font-size: 14px;text-align: center;margin: 5px;}
+						.appear{display:none}
+					</style>
+					<li class="appear">
+					<div class="flex">
+						<div class="add_tit">
+							<h3>验证码</h3>
+						</div>
+						<div class="add_input sub">
+							<input type="text" id="validate" placeholder="请输入验证码" value=""/>
+						</div>
+					</div>
+					</li>
+					
+					{loop $custom_all $field}
+					{if $field['field_type']=='text'}
+                        <li class="flex">
+                            <div class="add_tit">
+                                <h3>{$field['field_name']}</h3>
+                            </div>
+                            <div class="add_input sub">
+                                <input type="text" placeholder="{$field['desc']}" name="text" data-type="{$field['field_type']}" data-desc="{$field['field_name']}" data-ness="{$field['is_ness']}" class="keys" value="{$info[$field['id']]}"/>
+                            </div>
+                        </li>
+					{elseif $field['field_type'] == 'mobile'}
+						 <li class="flex">
+							<div class="add_tit">
+								<h3>{$field['field_name']}</h3>
+							</div>
+							<div class="add_input sub">
+								<input type="number" placeholder="{$field['desc']}" name="text" data-type="{$field['field_type']}" data-desc="{$field['field_name']}" data-ness="{$field['is_ness']}" class="keys"  value="{$info[$field['id']]}"/>
+							</div>
+						</li>
+					{elseif $field['field_type'] == 'img'}
+						 <li class="flex">
+							<div class="add_tit">
+								<h3>{$field['field_name']}</h3>
+							</div>
+							<div class="add_input sub" onclick="chooseImage(this)">
+							{if !empty($info[$field['id']])}
+							<div class="img fr" style="background-image:url({$info[$field['id']]})"></div>
+							{else}
+							<span class="detail">{$field['desc']}</span>
+							{/if}
+								<input type="hidden" name="hide" class="keys" data-type="{$field['field_type']}" data-desc="{$field['field_name']}" data-ness="{$field['is_ness']}">
+								
+							</div>
+						</li>
+					{else}
+					<li class="flex">
+						<div class="add_tit">
+							<h3>{$field['field_name']}</h3>
+						</div>
+						<div class="add_input sub">
+							<input type="number" placeholder="{$field['desc']}" name="text" data-type="{$field['field_type']}" data-desc="{$field['field_name']}" class="keys"  value="{$info[$field['id']]}" data-ness="{$field['is_ness']}"/>
+						</div>
+					</li>
+					{/if}
+					{/loop}
+					
+                    </ul>
+                </div>
+                <div class="btn">
+                    <a href="javascript:void(0);" onclick="add()" id="add">提交保存</a>
+                </div>
+            </form>
+        </div>
+    </div>
+	
+<div class="popup_tips mid" style="display:none"></div>
+<!-- 返回首页悬浮框begin -->
+<style>
+	.backHome{
+		width:40px;
+		height:40px;
+		border-radius: 50%;
+		background: rgba(0,0,0,0.6);
+		text-align: center;
+		line-height: 40px;
+		position: fixed;
+		bottom:100px;
+		right:15px;
+		z-index: 100;
+	}
+	.backHome .iconHome{
+		color:#fff;
+		font-size: 24px;
+	}
+
+
+</style>
+	<!-- <div class="backHome">
+		<a href="{php echo $this->createMobileUrl('index')}"><i class="iconfont icon-shouye1 iconHome"></i></a>
+	</div> -->
+
+<!-- 返回首页悬浮框end -->
+</body>
+<script>
+var topic_id = "{$topic_id}";
+function chooseImage(obj){
+	var posturl=location.href;
+	wx.chooseImage({
+		count: 1,
+		sizeType: ['compressed'], // 可以指定是原图还是压缩图，默认二者都有
+		sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+		success: function (res) {
+			var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+			var firstId=localIds.toString();
+			wx.uploadImage({
+				localId: firstId, // 需要上传的图片的本地ID，由chooseImage接口获得
+				isShowProgressTips: 1, // 默认为1，显示进度提示
+				success: function (res) {
+					var serverId = res.serverId; // 返回图片的服务器端ID
+					$.getJSON(posturl+"&mediaid="+serverId, function(result){
+						$(obj).children(".keys").val(result.imgurl);
+						$(obj).children('.detail').hide();
+						$(obj).children('.img').remove();
+						$(obj).append('<div class="img fr" style="background-image:url('+result.imgurl+')"></div>');
+					});
+				}
+			});
+		}
+	});
+}
+function add(){
+	var key = new Array();
+	var status = false;
+
+	var real_name = $("#real_name").val();
+	var mobile = $("#mobile").val();
+	var validate = $("#validate").val();
+	if(real_name == ''){
+		$(".popup_tips").text('姓名不能为空');
+		$(".popup_tips").show();
+		setTimeout(function(){$(".popup_tips").hide()},1000);
+		status=true;
+		return false;	
+	}
+	if(!(/^1[34578]\d{9}$/.test(mobile))){
+		$(".popup_tips").text('手机号输入有误');
+		$(".popup_tips").show();
+		setTimeout(function(){$(".popup_tips").hide()},1000);
+		status=true;
+		return false;
+	}
+	
+	if(old_msg_info==''||old_msg_info!=mobile){
+		if(validate == ''){
+			$(".popup_tips").text('请输入验证码');
+			$(".popup_tips").show();
+			setTimeout(function(){$(".popup_tips").hide()},1000)
+			status=true;
+			return false;
+		}
+	}
+	
+	$(".keys").each(function(){
+	var ness = $(this).attr('data-ness');
+	if($(this).attr('data-type') == 'mobile'){
+		if(!(/^1[34578]\d{9}$/.test($(this).val()))){
+			$(".popup_tips").text('手机号输入有误');
+			$(".popup_tips").show();
+			setTimeout(function(){$(".popup_tips").hide()},1000);
+			status=true;
+			return false;
+		}
+	}
+	
+	if($(this).attr('data-type') == 'text'){
+		if($(this).val() == ''&& ness == 2){
+			$(".popup_tips").text('请输入您的'+$(this).attr('data-desc'));
+			$(".popup_tips").show();
+			setTimeout(function(){$(".popup_tips").hide()},1000);
+			status=true;
+			return false;
+		}
+	}
+	key.push($(this).val());
+	})
+	if(status == true){
+		return false;
+	}
+    $.ajax({
+        type:"post",
+        url:location.href,
+        data:{key:key,'real_name':real_name,'mobile':mobile,'add':true,'validate':validate},
+        success:function(re){
+            if(re.success==1){
+				$(".popup_tips").text(re.content);
+				$(".popup_tips").show();
+				if(topic_id!=''){
+					setTimeout(function(){$(".popup_tips").hide();location.href="{php echo $this->createMobileUrl('topic_info',array('topic_id'=>$topic_id,'fuid'=>$_GPC['fuid']))}";},1000);
+				}else{
+					setTimeout(function(){$(".popup_tips").hide();location.href="{php echo $this->createMobileUrl('my_chat')}";},1000);
+				}
+				
+               
+            }else{
+                $(".popup_tips").text(re.content);
+				$(".popup_tips").show();
+				setTimeout(function(){$(".popup_tips").hide();},1000);
+            }
+        }
+    });
+}
+
+var countdown=60;
+var old_msg_info = '{$user["mobile"]}'; 
+function sen_time(obj) { 
+    if (countdown == 0) { 
+        obj.removeAttribute("disabled");    
+        $(obj).children().text("发送验证码"); 
+        countdown = 60; 
+        return;
+    } else { 
+        obj.setAttribute("disabled", true); 
+        $(obj).children().text(countdown + "s"); 
+        countdown--; 
+    } 
+setTimeout(function() { 
+    sen_time(obj) }
+    ,1000) 
+}
+function send_msg(obj){
+	if(countdown < 60){
+		return false;
+	}
+	var mobile = $("#mobile").val();
+	if(!(/^1[34578]\d{9}$/.test(mobile))){
+		$(".popup_tips").text('手机号输入有误');
+		$(".popup_tips").show();
+		setTimeout(function(){$(".popup_tips").hide()},1000);
+		return false;
+	}
+	$.post(location.href,{'send':true,'mobile':mobile},function(result){
+		if(result.success == 1){
+			$(".popup_tips").text('发送成功');
+			$(".popup_tips").show();
+			setTimeout(function(){$(".popup_tips").hide();},1000);
+			sen_time(obj)
+		}else{
+			$(".popup_tips").text('发送失败');
+			$(".popup_tips").show();
+			setTimeout(function(){$(".popup_tips").hide();},1000);
+		}
+	})
+}
+function change_mobile(obj){
+	if($(obj).val() != old_msg_info){
+		$(".appear").show();	
+	}else{
+		$(".appear").hide();
+	}
+}
+$(function(){
+	if(old_msg_info==''){
+		$(".appear").css('display','block');
+	}
+})
+</script>
+</html>
