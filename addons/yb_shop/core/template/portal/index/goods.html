@@ -1,0 +1,30 @@
+{if !empty($item.list)}
+<div class='index_new_goods index_bg_{$index}'>
+    <div class="goods_style{$item.style_type}">
+        {volist name="item.list" id="val" key="k"}
+            <a href="{$val.url}">
+                <div class='goods_item'>
+                    <mip-img layout="container" src='{$val.imgurl}' class='goods_pic'></mip-img>
+                    <div class='goods_info_box'> <div class='goods_info'>
+                        <span class="index_goods_{$index}_name">
+                            {$val.name}
+                        </span>
+                    </div>
+                        <div class='goods_desc'>
+                            <span class="index_goods_{$index}_desc">
+                                {$val.description}
+                            </span>
+                        </div>
+                    </div>
+                    <div class='clear'></div>
+                    <div class="index_price price">
+                        <span class="span">￥</span>
+                        <span class="span02">{$val.price}</span>
+                    </div>
+                    <div class='index_buy_icon'></div>
+                </div>
+            </a>
+        {/volist}
+    </div>
+</div>
+{/if}

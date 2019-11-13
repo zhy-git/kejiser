@@ -1,0 +1,28 @@
+{extend name="portal/base"/}
+
+{block name="link"}
+<link rel="stylesheet" type="text/css" href="/public/portal/css/article_info.css">
+{/block}
+
+
+{block name="main"}
+
+    {if $show==1}
+    <div class="page_content">
+        <div class='case_tit'>{$info.title}</div>
+        <div class='case_time'>发布时间：{$info.create_time} 浏览量：{$info.click}</div>
+        <div class='wxParse case_content'>
+            <div class="pic_lxm">  <mip-img src='{$info.image}'></mip-img></div>
+            <div class="lxm_content">
+                {$info.content}
+            </div>
+        </div>
+    </div>
+    {/if}
+    {if $show==2}
+  <div class="fui-loading empty">
+    <div class="text">该文章已不存在</div>
+  </div>
+    {/if}
+
+{/block}

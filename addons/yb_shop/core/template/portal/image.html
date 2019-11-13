@@ -1,0 +1,32 @@
+{extend name="portal/base"/}
+
+{block name="link"}
+<link rel="stylesheet" type="text/css" href="/public/portal/css/image.css">
+{/block}
+
+{block name="resources"}
+        {volist name="list" id="item" key="k"}
+        .photo{$k}{background-image:url({$item.img_cover})}
+        {/volist}
+        .loading{float:none;width:100%;}
+{/block}
+
+{block name="main"}
+    <div class="photo_list">
+        {volist name="list" id="vo" key="k"}
+            <div class='photo_items'>
+                <div class='image photo{$k}'></div>
+            </div>
+        {/volist}
+        {if $data_end==1}
+        <div class="loading">
+            <div class="fui-loading empty">
+                <div class="text">没有更多内容了</div>
+            </div>
+        </div>
+        {/if}
+    </div>
+    {if $data_end==2}
+    <a href="/photo/{$group_id}_{$page}.html"><button class="page_button">点击更多</button></a>
+    {/if}
+{/block}

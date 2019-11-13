@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <link href="https://res.wx.qq.com/mpres/htmledition/images/favicon218877.ico" rel="Shortcut Icon">
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" type="text/css" href="css/weweb.min.css">
+    <meta name="viewport" content="width=device-width, height=device-height,user-scalable=no, initial-scale=1.0"/>
+    <!-- <script src="/script/recorder.js"></script> -->
+    <script src="script/jquery-2.1.1.js" type="text/javascript"></script>
+</head>
+<body>
+<div class="head" style="display: none">
+    <div class="jshook-ws-head" style="display: none">
+        <div class="head-back jshook-ws-head-back">
+            <i class="head-back-icon"></i>
+            <span class="jshook-ws-head-back-text"></span>
+        </div>
+        <div class="head-home jshook-ws-head-home">
+            <i class="head-home-icon"></i>
+        </div>
+        <h3 class="head-title jshook-ws-head-title">
+            <i class="head-title-loading"></i>
+            <span></span>
+        </h3>
+        <div class="head-option jshook-ws-head-option">
+        </div>
+    </div>
+</div>
+<div class="scrollable">
+</div>
+<style>
+    .tabbar-root {
+        z-index: 999999999;
+        position: fixed;
+        height: 48px;
+        background: #fff;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+    }
+    .tabbar-root ul {
+        justify-content: center;
+        display: flex;
+    }
+    .tabbar-root ul li {
+        list-style: none;
+        width: 4rem;
+        text-align: center;
+    }
+    .tabbar-root ul li span {
+        display: block;
+    }
+    .tabbar-root ul li span img {
+        width: 30px;
+        height: 30px;
+    }
+    .tabbar-root ul li a {
+        font-size: 0.75rem;
+    }
+</style>
+<div class="tabbar-root menu-list">
+</div>
+<!--<style>
+    .menu-list {z-index: 999999999;position: fixed;height: 48px;background: #fff;width:100%;bottom:0;left:0;}
+    .menu-list ul {justify-content:center;display: flex;}
+    .menu-list ul li {list-style: none;width:4rem; text-align: center;}
+    .menu-list ul li span {display:block;}
+    .menu-list ul li span img {width:30px; height: 30px;}
+    .menu-list ul li a {font-size:0.75rem;}
+</style>
+<div class="menu-list" style="display: none">
+</div>-->
+<script>
+    var __wxConfig__ = {
+        "debug": false,
+        "babel": true,
+        "appname": "debug",
+        "window": {
+            "backgroundTextStyle": "light",
+            "navigationBarBackgroundColor": "#F4F4F4",
+            "navigationBarTitleText": "",
+            "navigationBarTextStyle": "black",
+            "backgroundColor": "#FFF5EE",
+            "enablePullDownRefresh": false,
+            "pages": {
+                "yb_shop/pages/power/index": {"navigationBarTitleText": ""},
+                "yb_shop/pages/caregory/index": {"navigationBarTitleText": "商品分类", "enablePullDownRefresh": false},
+                "yb_shop/pages/index/index": {},
+                "yb_shop/pages/goods/detail/index": {
+                    "navigationBarTitleText": "商品详情",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/form/index": {"enablePullDownRefresh": false},
+                "yb_shop/pages/order/index": {"navigationBarTitleText": "我的订单"},
+                "yb_shop/pages/order/detail/index": {"navigationBarTitleText": "订单详情"},
+                "yb_shop/pages/order/express/index": {"navigationBarTitleText": "物流信息"},
+                "yb_shop/pages/order/comment/index": {"navigationBarTitleText": "评价"},
+                "yb_shop/pages/order/create/index": {
+                    "navigationBarTitleText": "确认订单",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/order/pay/index": {
+                    "navigationBarTitleText": "收银台",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/pintuan/pages/index/index": {
+                    "navigationBarTitleText": "拼团首页",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#ff4544",
+                    "navigationBarTextStyle": "white"
+                },
+                "yb_shop/pages/pintuan/pages/template/toast": {},
+                "yb_shop/pages/pintuan/pages/index/list": {
+                    "navigationBarTitleText": "拼团列表",
+                    "navigationBarBackgroundColor": "#ffffff",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/utils/wxParse/wxParse": {},
+                "yb_shop/pages/pintuan/pages/goods/detail": {
+                    "navigationBarTitleText": "商品详情",
+                    "navigationBarTextStyle": "black",
+                    "navigationBarBackgroundColor": "#ffffff"
+                },
+                "yb_shop/pages/pintuan/pages/goods/payfor": {
+                    "navigationBarTextStyle": "black",
+                    "navigationBarTitleText": "确认订单",
+                    "navigationBarBackgroundColor": "#ffffff"
+                },
+                "yb_shop/pages/pintuan/pages/orders/detail": {
+                    "navigationBarBackgroundColor": "#ffffff",
+                    "enablePullDownRefresh": false,
+                    "navigationBarTitleText": "订单详情",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/pintuan/pages/orders/index": {
+                    "navigationBarBackgroundColor": "#ffffff",
+                    "navigationBarTextStyle": "black",
+                    "navigationBarTitleText": "我的拼团订单"
+                },
+                "yb_shop/pages/member/index/index": {
+                    "navigationBarTitleText": "会员中心",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "disableScroll": true,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/history/index": {
+                    "navigationBarTitleText": "我的足迹",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/favorite/index": {
+                    "navigationBarTitleText": "我的关注",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/address/index": {
+                    "navigationBarTitleText": "收货地址",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/address/post": {
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/address/select": {
+                    "navigationBarTitleText": "选择地址",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/cart/index": {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/about/index": {
+                    "navigationBarTitleText": "关于我们",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/coupon/index": {
+                    "navigationBarTitleText": "我的优惠券",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/member/map/index": {
+                    "navigationBarTitleText": "公司位置",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/error/index": {},
+                "yb_shop/pages/web/index": {},
+                "yb_shop/pages/image/index": {
+                    "navigationBarTitleText": "信息列表",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/book_list/index": {
+                    "navigationBarTitleText": "预约列表",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/book_info/index": {
+                    "navigationBarTitleText": "预约详情",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/class_article/index": {"navigationBarTitleText": "分类", "enablePullDownRefresh": false},
+                "yb_shop/pages/find_info/index": {},
+                "yb_shop/pages/class_image/index": {
+                    "navigationBarTitleText": "分类",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark"
+                },
+                "yb_shop/pages/contact/index": {
+                    "navigationBarTitleText": "联系我们",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark"
+                },
+                "yb_shop/pages/shop_coupon/index": {
+                    "navigationBarTitleText": "优惠券",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/goods/index/index": {
+                    "navigationBarBackgroundColor": "#ffffff",
+                    "navigationBarTextStyle": "black",
+                    "enablePullDownRefresh": false,
+                    "navigationBarTitleText": "商品列表"
+                },
+                "yb_shop/pages/shop_comment/index": {},
+                "yb_shop/pages/shop_book/index": {},
+                "yb_shop/pages/product/index": {
+                    "navigationBarTitleText": "商品列表",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/write_comment/index": {
+                    "navigationBarTitleText": "评论",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/appointment/index": {
+                    "navigationBarTitleText": "我的预约",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/find/index": {
+                    "navigationBarTitleText": "信息列表",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/index/index": {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/discount_info/index": {
+                    "navigationBarTitleText": "砍价详情",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/goods_info/index": {
+                    "navigationBarTitleText": "活动详情",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/good_list/index": {
+                    "navigationBarTitleText": "活动列表",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/my_record/index": {
+                    "navigationBarTitleText": "我的砍价",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/company/index": {
+                    "navigationBarTitleText": "联系我们",
+                    "enablePullDownRefresh": false,
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/record/index": {
+                    "navigationBarTitleText": "砍价记录",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/share_info/index": {
+                    "navigationBarTitleText": "砍价详情",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/order/detail/index": {"navigationBarTitleText": "订单详情"},
+                "yb_shop/pages/kanjia/order/create/index": {
+                    "navigationBarTitleText": "确认订单",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/order/pay/index": {
+                    "navigationBarTitleText": "收银台",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/order/index": {
+                    "navigationBarTitleText": "我的砍价订单",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/kanjia/user_center/index": {
+                    "navigationBarTitleText": "我的",
+                    "enablePullDownRefresh": false,
+                    "backgroundTextStyle": "dark",
+                    "navigationBarBackgroundColor": "#f8f8f8",
+                    "navigationBarTextStyle": "black"
+                },
+                "yb_shop/pages/fenxiao/pages/index/index": {"navigationBarTitleText": ""},
+                "yb_shop/pages/fenxiao/pages/add-share/index": {
+                    "enablePullDownRefresh": false,
+                    "navigationBarTitleText": ""
+                },
+                "yb_shop/pages/fenxiao/pages/share-team/share-team": {"navigationBarTitleText": ""},
+                "yb_shop/pages/fenxiao/pages/share-order/share-order": {"navigationBarTitleText": ""},
+                "yb_shop/pages/fenxiao/pages/cash-detail/cash-detail": {"navigationBarTitleText": ""},
+                "yb_shop/pages/fenxiao/pages/share-money/share-money": {
+                    "enablePullDownRefresh": false,
+                    "navigationBarTitleText": ""
+                },
+                "yb_shop/pages/fenxiao/pages/share-qrcode/share-qrcode": {
+                    "enablePullDownRefresh": false,
+                    "navigationBarTitleText": ""
+                },
+                "yb_shop/pages/fenxiao/pages/cash/cash": {
+                    "navigationBarTitleText": "申请提现",
+                    "enablePullDownRefresh": false
+                }
+            }
+        },
+        "userInfo": {
+            "headUrl": "https://s-media-cache-ak0.pinimg.com/136x136/7f/f7/b9/7ff7b921190bc4c05a1f3c11ff2ce086.jpg",
+            "city": "Chaoyang",
+            "gender": 1,
+            "nickName": "测试帐号",
+            "province": "Beijing"
+        },
+        "pages": ["yb_shop/pages/index/index", "yb_shop/pages/power/index", "yb_shop/pages/caregory/index", "yb_shop/pages/goods/index/index", "yb_shop/pages/goods/detail/index", "yb_shop/pages/form/index", "yb_shop/pages/order/index", "yb_shop/pages/order/detail/index", "yb_shop/pages/order/express/index", "yb_shop/pages/order/comment/index", "yb_shop/pages/order/create/index", "yb_shop/pages/order/pay/index", "yb_shop/pages/pintuan/pages/index/index", "yb_shop/pages/pintuan/pages/index/list", "yb_shop/utils/wxParse/wxParse", "yb_shop/pages/pintuan/pages/template/toast", "yb_shop/pages/pintuan/pages/goods/detail", "yb_shop/pages/pintuan/pages/goods/payfor", "yb_shop/pages/pintuan/pages/orders/index", "yb_shop/pages/pintuan/pages/orders/detail", "yb_shop/pages/member/index/index", "yb_shop/pages/member/favorite/index", "yb_shop/pages/member/history/index", "yb_shop/pages/member/address/index", "yb_shop/pages/member/address/post", "yb_shop/pages/member/address/select", "yb_shop/pages/member/cart/index", "yb_shop/pages/member/about/index", "yb_shop/pages/member/coupon/index", "yb_shop/pages/member/map/index", "yb_shop/pages/error/index", "yb_shop/pages/find/index", "yb_shop/pages/web/index", "yb_shop/pages/image/index", "yb_shop/pages/book_list/index", "yb_shop/pages/book_info/index", "yb_shop/pages/class_article/index", "yb_shop/pages/class_image/index", "yb_shop/pages/find_info/index", "yb_shop/pages/contact/index", "yb_shop/pages/shop_coupon/index", "yb_shop/pages/shop_comment/index", "yb_shop/pages/shop_book/index", "yb_shop/pages/product/index", "yb_shop/pages/write_comment/index", "yb_shop/pages/appointment/index", "yb_shop/pages/company/index", "yb_shop/pages/kanjia/index/index", "yb_shop/pages/kanjia/goods_info/index", "yb_shop/pages/kanjia/discount_info/index", "yb_shop/pages/kanjia/good_list/index", "yb_shop/pages/kanjia/my_record/index", "yb_shop/pages/kanjia/record/index", "yb_shop/pages/kanjia/share_info/index", "yb_shop/pages/kanjia/order/create/index", "yb_shop/pages/kanjia/order/detail/index", "yb_shop/pages/kanjia/order/pay/index", "yb_shop/pages/kanjia/order/index", "yb_shop/pages/kanjia/user_center/index", "yb_shop/pages/fenxiao/pages/index/index", "yb_shop/pages/fenxiao/pages/add-share/index", "yb_shop/pages/fenxiao/pages/share-team/share-team", "yb_shop/pages/fenxiao/pages/share-order/share-order", "yb_shop/pages/fenxiao/pages/cash/cash", "yb_shop/pages/fenxiao/pages/cash-detail/cash-detail", "yb_shop/pages/fenxiao/pages/share-money/share-money", "yb_shop/pages/fenxiao/pages/share-qrcode/share-qrcode"],
+        "root": "yb_shop/pages/index/index",
+        "appid": "touristappid",
+        "isTourist": true
+    };
+    var __root__ = 'yb_shop/pages/index/index';
+    var __wxRoute;
+    var __wxRouteBegin;
+    global = {};
+    var __url = window.location.href;
+    __url = __url.substring(0, __url.indexOf("?")) + "?#!";
+    function GetRequest() {
+        var url = location.search; //获取url中"?"符后的字串
+        console.log("url:" + url);
+        console.log("href:" + location.href);
+        var theRequest = new Object();
+        if (url != "") {
+            if (url.indexOf("?") != -1) {
+                var str = url.substr(1);
+                var strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+        } else {
+            var href = location.href;
+            if (href.indexOf("?") != -1 && href.indexOf("&") != -1) {
+                var index = href.indexOf("&") + 1;
+                var str = href.substr(index);
+                var strs = str.split("&");
+                for (var i = 0; i < strs.length; i++) {
+                    theRequest[strs[i].split("=")[0]] = unescape(strs[i].split("=")[1]);
+                }
+            }
+        }
+        return theRequest;
+    }
+    var theRequest = GetRequest();
+    var __UID__ = theRequest["uid"];
+    var __uniacid__ = theRequest["mch_id"];
+</script>
+<script src="script/weweb.js?v=1.0.0" type="text/javascript"></script>
+<script src="script/app-service.js?v=1.0.0"></script>
+<script>
+    //debugger;
+    var appIndex = getApp();
+    if (typeof(__uniacid__) == "undefined") {
+        __uniacid__ = appIndex.getCache("__uniacid__");
+        appIndex.siteInfo.uniacid = __uniacid__;
+    } else {
+        appIndex.siteInfo.uniacid = __uniacid__;
+        appIndex.setCache("__uniacid__", __uniacid__);
+    }
+    appIndex.siteInfo.siteroot = "https://"+window.location.host;
+    ServiceJSBridge.doCommand({
+        sdkName: 'onLaunch'
+    })
+    function showMenu(key) {
+        $(".menu-list").show();
+        var menuList ;
+        appIndex.getMenuList(function (t) {
+            menuList = t;
+            var html = '<ul>';
+            for (var i = 0; i < menuList.length; i++) {
+                //html += '<li ><a href="JavaScript:reditMenu(\''+__url+menuList[i]["imgurl"].substr(1)+'\',\''+menuList[i]["key"]+'\')"><span>';
+                html += '<li ><a href="' + __url + menuList[i]["imgurl"].substr(1) + '"><span>';
+                if (key == "") {
+                    html += '<img src="' + menuList[i]["page_select_icon"] + '"/>';
+                } else {
+                    if (key == menuList[i]["key"]) {
+                        html += '<img src="' + menuList[i]["page_select_icon"] + '"/>';
+                    } else {
+                        html += '<img src="' + menuList[i]["page_icon"] + '"/>';
+                    }
+                }
+                html += '</span>' + menuList[i]["name"] + '</a></li>';
+            }
+            html += '</ul>';
+            $(".tabbar-root").html(html);
+        });
+    }
+    function reditMenu(url, key) {
+        appIndex.setCache("menu_key", key);
+        window.location.href = url;
+    }
+</script>
+</body>
+</html>

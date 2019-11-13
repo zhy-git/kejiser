@@ -1,0 +1,240 @@
+{extend name="base"/}
+{block name="main"}
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div class="n_tab_line">
+            <a href="{:url('card/user')}" class="n_tab_list">会员列表</a>
+            <div class="cl"></div>
+        </div>
+        <div class="cl pd-5 bg-1 bk-gray mt-20">
+            <form class="Huiform" method="post" action="__CONF_SITE__admin/card/user" target="_self"
+                  style="padding:15px;">
+                <div class="text-c">
+                    <input type="text" class="input-text" value="{$search_name}" style="width:250px"
+                           placeholder="输入关键字" name="search_name">
+                    <button type="submit" class="btn btn-search radius" name=""><i class="Hui-iconfont">&#xe665;</i> 搜索
+                    </button>
+                </div>
+            </form>
+        </div>
+        <div id="tab_demo" class="HuiTab" style="margin-top: 15px;">
+            <div class="tabBar clearfix">
+                <span {if condition="$status==''" } class="current" {/if}
+                onclick="window.location.href='__CONF_SITE__admin/card/user'">全部</span>
+                <span {if condition="$status=='0'" } class="current" {/if}
+                onclick="window.location.href='__CONF_SITE__admin/card/user&status=0'">审核中</span>
+                <span {if condition="$status=='1'" } class="current" {/if}
+                onclick="window.location.href='__CONF_SITE__admin/card/user&status=1'">已通过</span>
+            </div>
+        </div>
+        {if $status>=1}{else}
+        <div class="cl pd-5 bg-1 bk-gray mt-20" style="padding:10px;border-bottom:0;margin-top: 15px;">
+            <span class="page_btn"><a href="javascript:;" onclick="all_pass()" class="btn btn-new radius"><i
+                    class="Hui-iconfont">&#xe630;</i> 批量通过</a></span>
+        </div>
+        {/if}
+        <table class="table table-border table-bordered table-hover table-bg">
+            <thead>
+            <tr class="text-c">
+                {if $status>=1}{else}
+                <th><input id="all_select" name="" type="checkbox" value=""></th>
+                {/if}
+                <th>微信昵称</th>
+                <th>姓名</th>
+                <th>手机号</th>
+                <th>卡号</th>
+                <th>余额</th>
+                <th>状态</th>
+                <th>时间</th>
+                <th>备注信息</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody id="tbody">
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                {if $status>=1}{else}
+                <td><input name="sub" type="checkbox" value="{$vo['id']}"></td>
+                {/if}
+                <td>{$vo['nick_name']}</td>
+                <td>{$vo['name']}</td>
+                <td>{$vo['mobile']}</td>
+                <td>{$vo['card_num']}</td>
+                <td>￥{$vo['money']}</td>
+                {if $vo['status']==1}
+                <td>已通过</td>
+                {elseif $vo['status']==2}
+                <td>未通过</td>
+                {else}
+                <td>审核中</td>
+                {/if}
+                <td>{$vo['create_time']|date='Y-m-d H:i:s',###}</td>
+                <td>{$vo['seller_comments']}</td>
+                <td>
+                    {if $vo['status']==1}
+                    <a href="javascript:;" onclick="recharge('{$vo.id}')" title="充值"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">&nbsp;充值&nbsp;</a>
+                    <a href="javascript:;" onclick="del_share(this,'{$vo.id}')" title="删除会员"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">删除会员</a>
+                    {elseif $vo['status']==2}
+                    <a href="javascript:;" onclick="is_pass(this,'{$vo.id}')" title="通过"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">通过</a>
+                    <a href="javascript:;" onclick="del_share(this,'{$vo.id}')" title="删除会员"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">删除会员</a>
+                    {else}
+                    <a href="javascript:;" onclick="is_pass(this,'{$vo.id}')" title="通过"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">通过</a>
+                    <a href="javascript:;" onclick="no_pass(this,'{$vo.id}')" title="不通过"
+                       style="text-decoration:none;color:#0066cc;" class="ml-5">不通过</a>
+                    {/if}
+                    <a href="javascript:;"
+                       onclick="add_comments('修改备注','__CONF_SITE__admin/card/comment_edit&id={$vo.id}','800','500')"
+                       title="修改备注" style="text-decoration:none;color:#0066cc;" class="ml-5">修改备注</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </article>
+</div>
+{/block}
+{block name="script"}
+<script>
+    $(function () {
+        $("#all_select").click(function () {
+            $("#tbody input[name=sub]").each(function () {
+                var jj = $(this).prop('checked');
+                if (jj) {
+                    $(this).prop('checked', false);
+                } else {
+                    $(this).prop('checked', true);
+                }
+            })
+        })
+    });
+    function del_share(obj, sid) {
+        $.ajax({
+            type: 'post',
+            url: "{:url('Card/user_edit')}",
+            data: {
+                "id": sid,
+                "types": 'del_card'
+            },
+            success: function (res) {
+                if (res > 0) {
+                    $(obj).parents("tr").remove();
+                    layer.msg('操作成功', {icon: 1, time: 500});
+                    window.location.reload();
+                } else {
+                    layer.msg('操作失败', {icon: 2, time: 1000});
+                }
+            }
+        });
+    }
+    function is_pass(e, sid) {
+        $.ajax({
+            type: 'post',
+            url: "{:url('card/user_edit')}",
+            data: {
+                "id": sid,
+                "types": 'is_pass'
+            },
+            success: function (data) {
+                if (data > 0) {
+                    layer.msg('操作成功', {icon: 1, time: 500});
+                    window.location.reload();
+                } else {
+                    layer.msg('操作失败', {icon: 2, time: 1000});
+                }
+            }
+        });
+    }
+    function no_pass(e, sid) {
+        $.ajax({
+            type: 'post',
+            url: "{:url('card/user_edit')}",
+            data: {
+                "id": sid,
+                "types": 'no_pass'
+            },
+            success: function (data) {
+                if (data > 0) {
+                    layer.msg('操作成功', {icon: 1, time: 500});
+                    window.location.reload();
+                } else {
+                    layer.msg('操作失败', {icon: 2, time: 1000});
+                }
+            }
+        });
+    }
+    function all_pass() {
+        var id = '';
+        $('#tbody input[type=checkbox]:checked').each(function () {
+            if (!isNaN($(this).val())) {
+                id = $(this).val() + ',' + id;
+            }
+        });
+        if (id == '') {
+            layer.msg('请选择用户', {icon: 5, time: 1000});
+            return false;
+        } else {
+            id = id.substring(0, id.length - 1);
+        }
+        $.ajax({
+            type: 'post',
+            url: "{:url('Card/user_edit')}",
+            data: {
+                "id": id,
+                "types": 'all_pass'
+            },
+            success: function (data) {
+                if (data > 0) {
+                    layer.msg('操作成功', {icon: 1, time: 500});
+                    window.location.reload();
+                } else {
+                    layer.msg('操作失败', {icon: 2, time: 1000});
+                }
+            }
+        });
+    }
+    function add_comments(title, url, w, h) {
+        layer_show(title, url, w, h);
+    }
+    function child_show(title, url, w, h, o) {
+        var check = $('#' + o).text();
+        if (check == '0') {
+            alert('当前等级无下线');
+            return false;
+        }
+        layer_show(title, url, w, h);
+    }
+    function recharge(id) {
+            layer.prompt({title: '请输入充值金额', formType: 0}, function (money, index) {
+                 money=parseFloat(money);
+                if(money<0){
+                    layer.msg('充值金额不小于0!', {icon: 2, time: 3000});
+                    return false;
+                }
+                $.ajax({
+                    type: "post",
+                    url: "__CONF_SITE__admin/card/recharge_money",
+                    async: false,
+                    data: {"money":parseFloat(money),
+                    id:id},
+                    dataType: 'json',
+                    success: function (data) {
+                       if(data>0){
+                           layer.msg('充值成功!', {icon: 1, time: 3000},function(){
+                                window.location.reload();
+                           });
+                       }else{
+                           layer.msg('充值失败!', {icon: 2, time: 3000});
+                           return false;
+                       }
+                    }
+                });
+                layer.close(index);
+            });
+    }
+</script>
+{/block}

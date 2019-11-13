@@ -1,0 +1,62 @@
+{extend name="base"/}
+{block name="main"}
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div class="n_tab_line">
+            <a href="" class="n_tab_list">配送规则</a>
+            <div class="l n_tab_add" style="width: auto">
+                <a style="line-height: 21px;" class="btn btn-search radius" href="{:url('delivery/edit')}">
+                    <i class="Hui-iconfont">&#xe600;</i> 添加配送规则
+                </a>
+            </div>
+        </div>
+        <table class="table table-border table-bordered table-bg">
+            <thead>
+            <tr class="text-c">
+                <th>配送名称</th>
+                <th>配送平台</th>
+                <th>操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {volist name="list" id="vo"}
+            <tr class="text-c">
+                <td>{$vo['name']}</td>
+                <td>{$type[$vo['delivery_type']]}</td>
+                <td>
+                    <a title="编辑" href="{:url('delivery/edit',['pid'=>$vo['id']])}" class="ml-5" style="text-decoration:none">编辑</a>
+                    <a title="删除" href="javascript:;" onclick="delivery_del('{$vo.id}')" class="ml-5" style="text-decoration:none">删除</a>
+                </td>
+            </tr>
+            {/volist}
+            </tbody>
+        </table>
+    </article>
+    <div class="n_page_no">
+        {$list->render()}
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    function delivery_del(id) {
+        layer.confirm('确认要删除吗？',function(index){
+            $.ajax({
+                type : "post",
+                url : "{:url('delivery/delivery_del')}",
+                data: {pid: id},
+                dataType:"json",
+                success : function(data) {
+                    if(data['code']>0 ){
+                        layer.msg('删除成功',{icon:1,time:1000},function () {
+                            location.reload();
+                        });
+                    }else{
+                        layer.msg("删除失败",{icon:5,time:1000});
+                    }
+                }
+            });
+        });
+    }
+</script>
+{/block}

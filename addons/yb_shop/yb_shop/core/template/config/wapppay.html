@@ -1,0 +1,145 @@
+{extend name="base"/}
+{block name="main"}
+<style>.form_message {display: block; height: 38px; line-height: 38px; text-align: left;color:#999;}
+.formControls .btn {float:left;margin-right:15px;}
+.clear{clear:both;}
+.form-label {font-weight: bold;}</style>
+<article class="cl pd-20">
+	<div id="tab_demo" class="HuiTab" style="margin-bottom: 15px; position:relative;">
+		<div class="tabBar clearfix">
+			<span class="current">小程序管理</span>
+			<span onclick="window.location.href='{:url('config/wxrefund')}&do=display'">微信退款设置</span>
+		</div>
+	</div>
+<form id="main_form" method="post">
+	<input type="hidden" value="{$info['id']}" id="id" name="id">
+	<div class="form form-horizontal" id="main">
+		<div class="row cl">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>小程序名称：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" autocomplete="off" value="{$wxappinfo.name}" placeholder="请点击左侧 返回系统 在小程序管理界面 配置相关参数" readonly class="input-text" id="APP_NAME" name="APP_NAME">
+				<p >小程序名称 如需更改 请 <a href="{$siteroot}">返回平台</a> 在【小程序管理界面】 配置相关参数</p>
+			</div>
+		</div>
+		<div class="row cl" style="margin-top:2px;">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>小程序应用编号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" autocomplete="off" value="{$wxappinfo.key}" placeholder="请点击左侧 返回系统 在小程序管理界面 配置相关参数" readonly class="input-text" id="APP_ID" name="APP_ID">
+				<p >小程序应用编号 APPID 如需更改 请 <a href="{$siteroot}">返回平台</a> 在【小程序管理界面】 配置相关参数</p>
+			</div>
+		</div>
+		<div class="row cl" style="margin-top:2px;">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>小程序应用秘匙：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" autocomplete="off" value="{$wxappinfo.secret}" placeholder="请点击左侧 返回系统 在小程序管理界面 配置相关参数" readonly class="input-text" id="APP_SECRET" name="APP_SECRET">
+				<p >小程序应用秘匙 APP_SECRET 如需更改 请 <a href="{$siteroot}">返回平台</a> 在【小程序管理界面】 配置相关参数</p>
+			</div>
+		</div>
+		<div v-if="pay_type == 0">
+		<div class="row cl" style="margin-top:2px;">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>微信支付商户号：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" autocomplete="off" value="{$info['value']['APP_MCHID']}" placeholder="请输入APP_MCHID" class="input-text" id="APP_MCHID" name="APP_MCHID">
+				<span class="form_message">商户号 APP_MCHID <a href="https://pay.weixin.qq.com/" target="_blank">登录微信支付商户平台</a>，在【账户中心-账户设置-商户信息】中查看</span>
+			</div>
+		</div>
+		<div class="row cl" style="margin-top:2px;">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>微信支付密钥：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="text" autocomplete="off" value="{$info['value']['APP_KEY']}" placeholder="请输入APP_KEY" class="input-text" id="APP_KEY" name="APP_KEY">
+				<span class="form_message">微信支付密钥 APP_KEY <a href="https://pay.weixin.qq.com/" target="_blank">登录微信支付商户平台</a>，在【账户中心-账户设置-API安全】中设置</span>
+			</div>
+		</div>
+		</div>
+		<div v-if="pay_type == 1">
+			<div class="row cl" style="margin-top:2px;">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>服务商APPID：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" autocomplete="off" value="{$info['value']['SERVICE_APPID']}" placeholder="请输入APP_MCHID" class="input-text" id="SERVICE_APPID" name="SERVICE_APPID">
+					<span class="form_message">服务商APPID,一般情况为认证的服务号appid</span>
+				</div>
+			</div>
+			<div class="row cl" style="margin-top:2px;">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>服务商商户号：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" autocomplete="off" value="{$info['value']['SERVICE_MCHID']}" placeholder="请输入APP_KEY" class="input-text" id="SERVICE_MCHID" name="SERVICE_MCHID">
+					<span class="form_message">服务商商户号</span>
+				</div>
+			</div>
+			<div class="row cl" style="margin-top:2px;">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>服务商支付密钥：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" autocomplete="off" value="{$info['value']['SERVICE_KEY']}" placeholder="请输入APP_KEY" class="input-text" id="SERVICE_KEY" name="SERVICE_KEY">
+					<span class="form_message">微信支付密钥 APP_KEY <a href="https://pay.weixin.qq.com/" target="_blank">登录微信支付商户平台</a>，在【账户中心-账户设置-API安全-密钥设置】中设置</span>
+				</div>
+			</div>
+			<div class="row cl" style="margin-top:2px;">
+				<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>支付子商户号：</label>
+				<div class="formControls col-xs-8 col-sm-9">
+					<input type="text" autocomplete="off" value="{$info['value']['SUB_MCHID']}" placeholder="请输入APP_MCHID" class="input-text" id="SUB_MCHID" name="SUB_MCHID">
+					<span class="form_message">子商户号,服务商平台为当前用户创建的子商户号</span>
+				</div>
+			</div>
+		</div>
+		<div class="row cl" style="margin-top:2px;display: flex;align-items: center;">
+			<label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>支付类型：</label>
+			<div class="formControls col-xs-8 col-sm-9">
+				<input type="radio" name="PAY_TYPE" value="0" v-model="pay_type" style="margin-right: 2px;"/>普通支付
+				<input type="radio" name="PAY_TYPE" value="1" v-model="pay_type" style="margin-left: 8px;margin-right: 2px;"/>服务商支付
+			</div>
+		</div>
+		<div class="row cl">
+			<div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+				<input class="btn btn-primary radius" onclick="addAdvertAjax()" type="button" value="   提交   " style="padding:6px 12px;">
+			</div>
+		</div>
+	</div>
+</form>
+	<input type="hidden" id="bus_id" value="{$user_info['id']}">
+	<input type="hidden" value="" id="fabu">
+</article>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var vm = new Vue({
+        el: '#main',
+        data: {
+			pay_type:{$info['value']['PAY_TYPE']}
+        }
+    });
+    $("#main_form").on('submit',function () {
+		return false;
+    });
+    var flag = false;
+    function addAdvertAjax() {
+        if(flag){return};
+        flag = true;
+        $.ajax({
+            url: "{:url('config/WAppPay')}",
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#main_form')[0]),
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success:function (res) {
+                console.log(res);
+                flag = false;
+                if (res["code"] > 0) {
+                    layer.msg('提交成功!',{icon:1,time:1000},function () {
+                        window.parent.location.href="{:url('config/wapppay')}";
+                    });
+                }else{
+                    layer.msg(res['message'],{icon:5,time:1000});
+                }
+            },
+            error:function (err) {
+                console.log(err);
+                flag = false;
+            }
+        }).done(function(res) {
+        }).fail(function(res) {
+        });
+    }
+</script>
+{/block}

@@ -1,0 +1,12 @@
+  {volist name="item.list" id="val" key="k"}
+  <div class='aaa{$item.style}'>
+      <a href="{:h5linkmip($val)}">
+      <div class="default_btn index_button{$index}">
+       {if $item.show_icon==1}
+        <mip-img src='{$val.imgurl}' class="index_button_pic{$index}"></mip-img>
+        {/if}
+        <span>{$item.name}</span>
+      </div>
+      </a>
+  </div>
+{/volist}

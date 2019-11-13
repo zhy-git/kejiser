@@ -1,0 +1,31 @@
+<!--<view class="secAtyIngList secAtyList" style='background:{{item.bg_color}}'>-->
+  <!--<view class="secGoodsItem" wx:for="{{miaoshalist[index]}}" wx:for-item='val' wx:for-index='key'>-->
+   <!--<view class="countdownWrap"><text style='color:#444;font-size:28rpx;'>{{2 == val.status ? "距结束" : "距开始"}}</text> <view class="countdown"><text class="cdDay">{{mscountDownList[index][key].countDownDay}}</text>:<text class="cdHours">{{mscountDownList[index][key].countDownHour}}</text>:<text class="cdMinute">{{mscountDownList[index][key].countDownMinute}}</text>:<text class="cdSecond">{{mscountDownList[index][key].countDownSecond}}</text></view></view>-->
+    <!--<view class="secGoodsInfo">-->
+      <!--<view class="secLeft">-->
+        <!--<image src="{{val.pic}}" class="commGoodsImg"></image>-->
+      <!--</view>-->
+      <!--<view class="secRight">-->
+        <!--<text class="secGoodsName" style='color:{{item.text_color?item.text_color:"#444444"}}'>{{val.name}}</text>-->
+        <!--<view>-->
+          <!--<text style='color:#666;font-size:28rpx;'>秒杀价:</text>-->
+          <!--<text style="color:#FF4A05;">￥</text><text class="secPrice">{{val.nprice}}</text>-->
+          <!--<text class="originalPrice">￥{{val.oprice}}</text>-->
+        <!--</view>-->
+        <!--<view class="rBottom">-->
+          <!--<view>-->
+            <!--<view class="barWrap">-->
+              <!--<view class="bar" style="width:{{val.progress}}%;"></view>-->
+            <!--</view>-->
+            <!--<text class="leftNum" wx:if="{{2 == val.status}}">剩余：{{val.rest_sell}}</text>-->
+            <!--<text class="leftNum" wx:if="{{val.status != 2}}">库存：{{val.all_sell}}</text>-->
+          <!--</view>-->
+          <!--<navigator class="secBtn" url="/yb_shop/pages/miaosha/seckillGoods/index?id={{val.id}}" wx:if="{{2== val.status && 0 != val.rest_sell}}">立即秒杀</navigator>-->
+          <!--<navigator class="secBtn soldOutBtn" wx:elif="{{2== val.status && 0 == val.rest_sell}}">抢光了</navigator>-->
+          <!--<navigator class="secBtn raedyBtn" url="/yb_shop/pages/miaosha/seckillGoods/index?id={{val.id}}" wx:elif="{{1== val.status}}">即将开始</navigator>-->
+          <!--<navigator class="secBtn raedyBtn" url="/yb_shop/pages/miaosha/seckillGoods/index?id={{val.id}}" wx:elif="{{0== val.status}}">活动已结束</navigator>-->
+        <!--</view>-->
+      <!--</view>-->
+    <!--</view>-->
+  <!--</view>-->
+<!--</view>-->

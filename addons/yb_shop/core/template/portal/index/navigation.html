@@ -1,0 +1,20 @@
+
+<div class='index_top_nav icon_no{$item.style_type} index_bg_{$index}'>
+
+    {volist name="item.list" id="val"}
+
+    <div class="relative index_navigation_{$index}">
+        <a href="{:h5linkmip($val)}" class="nvitem">
+        <mip-img src='{$val.imgurl}'></mip-img>
+        {if $val.name != ''}
+        <div class="index_nav_name">
+            {$val.name}
+        </div>
+        {/if}
+        </a>
+    </div>
+
+
+    {/volist}
+
+</div>

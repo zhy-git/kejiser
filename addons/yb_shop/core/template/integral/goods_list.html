@@ -1,0 +1,181 @@
+{extend name="base"/}
+{block name="main"}
+<style>
+    .chakanjilu{background: none;color: #0066CC; border: none;font-size: 14px}
+    .chakanjilu:hover{border-bottom: 1px solid #0066cc}
+</style>
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div id="tab_demo" class="HuiTab" style="margin-bottom: 15px; position:relative;">
+            <div class="tabBar clearfix">
+                <span class="current">商品列表</span>
+                <span onclick="window.location.href='__CONF_SITE__admin/integral/class_list'">商品分类</span>
+                <div onclick="window.location.href='__CONF_SITE__admin/integral/add_goods'"  class="n_tab_add"><i class="Hui-iconfont">&#xe600;</i>添加商品</div>
+            </div>
+        </div>
+        <div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20">
+                <form class="Huiform" method="post" action="__CONF_SITE__admin/integral/shop" style=" padding: 15px;">
+                    <div class="text-c">
+                        <input type="text" name="search_text" value="{$search_text}" placeholder=" 商品名称" style="width:250px" class="input-text">
+                        <span class="select-box" style="width: auto;">
+                          <select class="select" size="1" name="class_id">
+                              <option value="0">全部</option>
+                              {volist name="class_list" id="cl"}
+                                <option {if $cl['id']==$class_id} selected {/if} value="{$cl['id']}">{$cl['name']}</option>
+                              {/volist}
+                          </select>
+                        </span>
+                        <button class="btn btn-search radius" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜商品</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-bg table-hover table-sort">
+                    <colgroup>
+                        <col width="5%">
+                        <col>
+                        <col width="30%">
+                        <col>
+                        <col>
+                        <col>
+                        <col>
+                    </colgroup>
+                    <thead>
+                    <tr class="text-c">
+                        <th>排序</th>
+                        <th>商品图片</th>
+                        <th>商品名称</th>
+                        <th>所属分类</th>
+                        <th>类型</th>
+                        <th>库存</th>
+                        <th>所需积分</th>
+                        <th>兑换记录</th>
+                        <th>显示/隐藏</th>
+                        <th>发布时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {volist name="list" id="r" key='k'}
+                    <tr class="text-c va-m">
+                        <td style="text-align: center;">
+                            <input style="width: 60px;" type="number" class="sort input-common" data-id="{$r['id']}" name="sort" value="{$r['sort']}" size="1" >
+                        </td>
+                        <td><img width="60" height="60" class="integral-thumb" onerror="this.src='/public/goods/img/default_goods_image_240.gif'" src="{$r['image']}"></td>
+                        <td>{$r['title']|subtext=10}</td>
+                        <td>{$r['class_name']}</td>
+                        <td>{$r['type_lxm']==1?'虚拟':'实物'}</td>
+                        <td>{$r['num']}</td>
+                        <td>{$r['integral']}</td>
+                        <td>
+                            <!--{$r['sales']}<br/>-->
+                            <button onclick="to_detail('{$r.id}','{$r.type_lxm}')" class="chakanjilu">查看记录</button>
+                        </td>
+                        <td>
+                            {if $r['status']==1}
+                            <a class="label label-success radius" onclick="integral_type(this,'{$r.id}')">显示中</a>
+                            {/if}
+                            {if $r['status']==2}
+                            <a class="label label-error radius" onclick="integral_type(this,'{$r.id}')">隐藏中</a>
+                            {/if}
+                        </td>
+                        <td>{$r['create_time']|date="Y-m-d H:i:s",###}</td>
+                        <td>
+                            <a style="text-decoration:none;color:#0066cc;" title="编辑" href="{:url('admin/integral/add_goods',['id'=>$r['id']])}">编辑</a>
+                            <a style="text-decoration:none;color:#0066cc;" title="删除" href="javascript:void(0);" onclick="integral_del(this,'{$r.id}')"  type="button" value="删除">删除</a>
+                            <!--<a style="text-decoration:none;color:#0066cc;" title="复制" href="javascript:void(0);" onclick="copy_now('wxpath{$k}')" id="wxpath{$k}" data-clipboard-text="yb_shop/pages/find_info/index?id={$r['id']}">复制链接</a>-->
+                        </td>
+                    </tr>
+                    {/volist}
+                    </tbody>
+                </table>
+                <div class="n_page_no">
+                    {$page}
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+        {/block}
+        {block name="script"}
+        <script type="text/javascript">
+            function to_detail(id,type_lxm) {
+                layer_open('领取记录', '{:url(\'admin/integral/receive_integral\')}&id='+id+'&type_lxm='+type_lxm, 900, 620, true);
+            }
+            /*商品-删除*/
+            function integral_del(obj,id){
+                layer.confirm('确认要删除吗？',function(index){
+                    //后台处理
+                    $.ajax({
+                        type : "post",
+                        url : "{:url('admin/integral/del_integral')}",
+                        data : {
+                            "id" : id.toString(),
+                        },
+                        success : function(data) {
+                            if (data['code'] >0) {
+                                $(obj).parents("tr").remove();
+                                layer.msg('删除成功!',{icon:1,time:1000});
+                            }
+                            else
+                            {
+                                layer.msg('删除失败', {icon: 2, time: 1000});
+                            }
+                        }
+                    })
+                });
+            }
+            function integral_type(obj,id) {
+                $.ajax({
+                    type : "post",
+                    url : "__CONF_SITE__admin/integral/integral_status",
+                    data : {'id':id},
+                    success : function(data) {
+                        console.log(data);
+                        if(data['code']>0 ){
+                            layer.msg('操作成功',{icon:1,time:1000},function () {
+                                location.reload();
+                            });
+                        }else{
+                            layer.msg('操作失败',{icon:5,time:1000});
+                        }
+                    }
+                });
+            }
+            function copy_now(id) {
+                id='#'+id;
+                var check=$(id).attr('data-clipboard-text');
+                if(check.length<=0){
+                    layer.msg("链接信息有误", {icon: 2, time: 1000});
+                    return false;
+                }
+                var clipboard=new Clipboard(id);
+                clipboard.on('success',function(e){
+                    layer.msg("链接复制成功", {icon: 1, time: 500});
+                });
+                clipboard.on('error', function(e) {
+                    layer.msg("链接信息有误", {icon: 2, time: 1000});
+                });
+            }
+            $("input[name=sort]").change(function(){
+                var id = $(this).data("id");
+                var sort = $(this).val().trim();
+                $.ajax({
+                    type:"post",
+                    url:"{:url('integral/integral_sort')}",
+                    data:{'id':id,'sort':sort},
+                    dataType:"json",
+                    success: function (data) {
+                        if(data.code>0){
+                            layer.msg('操作成功', {icon: 1, time: 1000},function () {
+                                window.location.reload();
+                            });
+                        }else{
+                            layer.msg('操作失败', {icon: 2, time: 1000});
+                        }
+                    }
+                });
+            });
+        </script>
+        {/block}

@@ -1,0 +1,32 @@
+{extend name="portal/base"/}
+
+{block name="link"}
+<link rel="stylesheet" type="text/css" href="/public/portal/css/product_info.css">
+{/block}
+
+{block name="resources"}
+        .index_video{width:100%;height:350px;display:block;}
+{/block}
+
+{block name="main"}
+
+    {if $show==1}
+    <div class="page_content">
+        <div class='wxParse case_content'>
+            <div>
+                <mip-video id="myVideo" class="index_video" src="{$info.video_url}"></mip-video>
+            </div>
+            <div class="pic_lxm">  <mip-img src='{$info.image}'></mip-img></div>
+            <div class="lxm_content">
+                {$info.content}
+            </div>
+        </div>
+    </div>
+    {/if}
+    {if $show==2}
+    <div class="fui-loading empty">
+        <div class="text">该产品已不存在</div>
+    </div>
+    {/if}
+
+{/block}

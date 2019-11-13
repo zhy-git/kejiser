@@ -1,0 +1,245 @@
+﻿{extend name="base"/}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/public/css/yb_index.css?v=1.0" />
+{/block}
+{block name="main"}
+<style>
+    .page-container .main-content {height: calc(100% - 51px) !important;    background: #fafafa !important;}
+    .new_index_tit {height:37px; line-height:37px;display: flex;}
+    .new_tit_box {height:19px;font-size:16px; font-weight: bold;color:#4fa2ff;margin-top:18px;padding-left:10px;line-height:19px;}
+    .index_icon_box { height:67px;line-height:67px;}
+    .goods-state ul li{justify-content:center;display: flex;}
+    .index_info_box {width:60px;}
+    .wxz_tit_box{    float: left;margin-left: 10px;cursor: pointer;margin-top: 10px;font-size: 16px;font-weight: bold;color: #666;}
+    .bg{width: 6px;height: 28px;background: #3bd98c;margin-top: 15px;}
+</style>
+	<div class="Hui-article">
+		<article class="cl pd-20" style="padding-top:0;">
+			<div class="new_index_tit">
+				<div class="new_tit_box">销售简报</div>
+			</div>
+			{if $use!=1}
+			<div class="statistical" style="margin-top: 20px">
+				<ul>
+					<li style="width: 15%;background: linear-gradient(to top right, #d86eec, #ae67f5);border-radius: 8px;margin-right:2% !important;" class="order-amount-statistics">
+						<header>
+							<i class="ns-icon-base i-order-amount"></i>
+							<span>订单总金额(元)</span>
+						</header>
+						<p class="js-order-amount">{$order_pay|default=0.00}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #5facfe, #6993ff);border-radius: 8px;margin-right:2% !important;" class="focus-number-statistics">
+						<header>
+							<i class="ns-icon-base i-focus-number"></i>
+							<span>会员人数(个)</span>
+						</header>
+						<p class="js-weixin-fans-count">{$user_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #fe8268, #ff758f);border-radius: 8px;margin-right:2% !important;" class="goods-release-statistics">
+						<header>
+							<i class="ns-icon-base i-goods-release"></i>
+							<span>商品发布(个)</span>
+						</header>
+						<p class="js-goods-release-count">{$goods_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #33c8c4, #1caace);border-radius: 8px;margin-right:2% !important;" class="order-total-statistics">
+						<header>
+							<i class="ns-icon-base i-order-total"></i>
+							<span>订单总数(笔)</span>
+						</header>
+						<p class="js-order-total">{$order_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #d870ed, #af68f6);border-radius: 8px;margin-right:2% !important;" class="month-sales-statistics">
+						<header>
+							<i class="ns-icon-base i-month-sales"></i>
+							<span>本月订单(笔)</span>
+						</header>
+						<p class="js-month-sales">{$order_month|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #60abfe, #6c8cff);border-radius: 8px;" class="completed-transaction-statistics">
+						<header>
+							<i class="ns-icon-base i-completed-transaction"></i>
+							<span>已完成交易(笔)</span>
+						</header>
+						<p class="js-order-finish-count">{$order_complete|default=0}</p>
+					</li>
+				</ul>
+			</div>
+            <div id="order" v-show="show" style="display: none;">
+			<div class="new_index_tit">
+				<!--<div class="new_tit_box">近期售出：交易中的订单</div>-->
+
+                <span class="bg"></span>
+                <div v-for="(v,k) in order_name">
+                    <div @click="tap_order_type(k)" :class="k==order_type?'new_tit_box':'wxz_tit_box'">{{v}}</div>
+                </div>
+			</div>
+			<div class="goods-prompt" style="border-radius: 6px !important; width:100% !important;margin-top: 20px;;">
+				<!--<div class="subtitle">-->
+					<!--<img src="/public/images/green_list.png" /><label>近期售出：<span>交易中的订单</span></label>-->
+				<!--</div>-->
+				<div class="goods-state a-line order" style="height: 135px;padding-top: 30px;">
+
+                    <ul>
+                    <li onclick="to_orderlist(0)" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon01.jpg"></div><div class="index_info_box"><h4 class="daifukuan" style="font-size:32px;margin-bottom:0 !important;">{{order_count['dzf'][order_type]}}</h4>待支付</div></li>
+                    <li onclick="to_orderlist(1)" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon02.jpg"></div><div class="index_info_box"><h4 class="daifahuo" style="font-size:32px;margin-bottom:0 !important;">{{order_count['dfh'][order_type]}}</h4>待发货</div></li>
+                    <li onclick="to_orderlist(2)" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon03.jpg"></div><div class="index_info_box"><h4 class="yifahuo" style="font-size:32px;margin-bottom:0 !important;">{{order_count['yfh'][order_type]}}</h4>已发货</div></li>
+                    <li onclick="to_orderlist(7)" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon05.jpg"></div><div class="index_info_box"><h4 class="tuikuanzhong" style="font-size:32px;margin-bottom:0 !important;">{{order_count['dhx'][order_type]}}</h4>待核销</div></li>
+                    <li onclick="to_orderlist(3)" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon04.jpg"></div><div class="index_info_box"><h4 class="yishouhuo" style="font-size:32px;margin-bottom:0 !important;">{{order_count['yqs'][order_type]}}</h4>已签收</div></li>
+                    </ul>
+				</div>
+			</div>
+            </div>
+			{/if}
+			<br><br><br><br><br><br><br><br>
+			<div class="count-box">
+				<div class="main-content" id="mainContent" style="width: 1505px;border-left:0 !important;">
+					<div id="container" data-highcharts-chart="0">
+						<div class="highcharts-container" id="highcharts-0" style="position: relative; overflow: hidden; width: 100%; height: 400px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &amp; quot; Lucida Grande&amp;quot; , &amp; quot; Lucida Sans Unicode&amp;quot; , Verdana , Arial, Helvetica, sans-serif; font-size: 12px;"></div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+<script src="/public/js/highcharts.js"></script>
+<script>
+    var time = [1+"日",2+"日",3+"日",4+"日",5+"日",6+"日",7+"日",8+"日",9+"日",10+"日",11+"日",12+"日",13+"日",14+"日",15+"日",16+"日",17+"日",18+"日",19+"日",20+"日",21+"日",22+"日",23+"日",24+"日",25+"日",26+"日",27+"日",28+"日",29+"日",30+"日"];
+    var data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $(function(){
+        var widn = $('.goods-state').width();
+        $('#mainContent').css('width', widn + 10);
+        Chart = new Highcharts.Chart("container",{
+            "xAxis" : {
+                "categories" : time
+            },
+            "legend" : {
+                "enabled" : false
+            },
+            "series" : [ {
+                "name" : "下单量",
+                "data" : data
+            } ],
+            "title" : {
+                "text" : "<b>下单量<\/b>",
+                "x" : -20
+            },
+            "chart" : {
+                "type" : "line"
+            },
+            "colors" : [ "#058DC7", "#ED561B", "#8bbc21",
+                "#0d233a" ],
+            "credits" : {
+                "enabled" : false
+            },
+            "exporting" : {
+                "enabled" : false
+            },
+            "yAxis" : {
+                "title" : {
+                    "text" : "下单量"
+                }
+            }
+        });
+        $.ajax({
+            type : "post",
+            url : "__CONF_SITE__admin/count/OrderCount",
+            success : function(data) {
+                Chart.update({
+                    xAxis : {
+                        categories : data[0]
+                    },
+                    series : [ {
+                        name : "下单量",
+                        data : data[1]
+                    }]
+                });
+                $("#order_num").html(data[2]);
+                $("#order_money").html(data[3]+"元");
+            }
+        });
+
+    });
+        var vum = new Vue({
+            el: '#order',
+            data: {
+                show:true,
+                styleObject:{color:'red'},
+                order_type: 0,
+                order_name: ['商品订单', '砍价订单', '拼团订单', '秒杀订单'],
+                order_count: {'dzf':[0,0,0,0],'dfh':[0,0,0,0],'yfh':[0,0,0,0],'dhx':[0,0,0,0],'yqs':[0,0,0,0]}
+            },
+            methods: {
+                tap_order_type: function (index) {
+                    this.order_type=index;
+                }
+            }
+        })
+        function to_orderlist(k){
+            if(vum.order_type==0){
+                location.href='__CONF_SITE__admin/order/orderlist&status='+k;
+            }else if(vum.order_type==1){
+                if(k==7){k=8;}
+                location.href='__CONF_SITE__admin/bargain/bargain_order&status='+k;
+            }else if(vum.order_type==3){
+                if(k==7){k=8;}
+                location.href='__CONF_SITE__admin/activity/ac_order&type=1&status='+k;
+            }else if(vum.order_type==2){
+                if(k==0){k=1;}else if(k==1){
+                    k=3;
+                }else if(k==2){
+                    k=4;
+                }else if(k==7){
+                    k=8;
+                }else if(k==3){
+                    k=6;
+                }
+                location.href='__CONF_SITE__admin/group/group_order&status='+k;
+            }
+
+        }
+        get_order();
+        function get_order(){
+            $.ajax({
+                type : "post",
+                url : "__CONF_SITE__admin/index/order_count",
+                success : function(data) {console.log(data);
+                    vum.order_count=JSON.parse(data);
+                }
+            })
+        }
+</script>
+ <footer class="footer" style="background: #FFFFFF;height: 25px;margin-top: -5px;padding-top: 10px;line-height: 25px;">
+        <p>{$copyright.content}</p>
+	 {if $show_we7}
+	 <div class="container-fluid footer text-center" role="footer">
+		 <div class="friend-link" >
+			 {if empty($_W['footerright'])}
+			 <a href="http://www.we7.cc">微信开发</a>
+			 <a href="http://s.we7.cc">微信应用</a>
+			 <a href="http://bbs.we7.cc">微擎论坛</a>
+			 <a href="http://s.we7.cc">联系客服</a>
+			 {else}
+			 {$_W['footerright']}
+			 {/if}
+		 </div>
+		 <div class="copyright">
+			 {if empty($_W['footerleft'])}
+			 Powered by
+			 <a href="http://www.we7.cc"><b>微擎</b></a> v{$IMS_VERSION}  &copy; 2014-2018
+			 <a href="http://www.we7.cc">www.we7.cc</a>{else}
+			 {$_W['footerleft']}
+			 {/if}</div>
+		 {if !empty($_W['icp'])}<div>备案号：<a href="http://www.miitbeian.gov.cn" target="_blank">{$_W['icp']}</a></div>{/if}
+	 </div>
+	 {if !empty($_W['statcode'])}{$_W['statcode']}{/if}
+	 {if !empty($_GPC) && !in_array($_GPC, array('keyword', 'special', 'welcome', 'default', 'userapi')) || defined('IN_MODULE')}
+	 <script>
+         if(typeof $.fn.tooltip != 'function' || typeof $.fn.tab != 'function' || typeof $.fn.modal != 'function' || typeof $.fn.dropdown != 'function') {
+             require(['bootstrap']);
+         }
+	 </script>
+	 {/if}
+	 {/if}
+    </footer>
+{/block}

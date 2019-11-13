@@ -1,0 +1,112 @@
+{extend name="base"/}
+{block name="main"}
+<style>
+  a.n_tab_add:hover {color:#fff !important;text-decoration: none !important;}
+</style>
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div id="tab_demo" class="HuiTab" style="margin-bottom: 15px; position:relative;">
+            <div class="tabBar clearfix">
+                <span class="current" onclick="get_wan()">万能页面列表</span>
+                <a href="__CONF_SITE__admin/custom/power"  class="n_tab_add"><i class="Hui-iconfont">&#xe600;</i>添加页面</a>
+            </div>
+        </div>
+        <div>
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-bg table-hover table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th>标题</th>
+                        <th>预览图</th>
+                        <th>小程序链接</th>
+                        <th>添加时间</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody id="tbody">
+                    {foreach name="list" id="r" key="k"}
+                    <tr class="text-c va-m">
+                        <td>{$r['name']|subtext=20}</td>
+                        <td><a target="_blank" href="{$r.img}"><img src="{$r.img}" width="50" height="50"></a></td>
+                        <td>yb_shop/pages/power/index?id={$r.id}</td>
+                        <td>{$r['create_time']|date="Y-m-d H:i:s",###}</td>
+                        <td>
+                            <a style="text-decoration:none;color:#0066cc;" title="复制" href="javascript:void(0);" onclick="universal_copy(this,'{$r.id}')">复制</a>
+                            <a style="text-decoration:none;color:#0066cc;" title="编辑" href="__CONF_SITE__admin/custom/power&id={$r.id}">编辑页面</a>
+                            <a style="text-decoration:none;color:#0066cc;" title="删除" href="javascript:void(0);" onclick="universal_del(this,'{$r.id}')">删除</a>
+                            <a style="text-decoration:none;color:#0066cc;" title="复制" href="javascript:void(0);" onclick="copy_now('wxpath{$k}')" id="wxpath{$k}" data-clipboard-text="yb_shop/pages/power/index?id={$r.id}">复制链接</a>
+                        </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <div class="n_page_no">
+                    {$list->render()}
+                </div>
+            </div>
+        </div>
+        {/block}
+        {block name="script"}
+        <script type="text/javascript">
+            function universal_copy(obj,id){
+                layer.confirm('复制将会生成新的万能页面，是否继续？',function(index){
+                    //后台处理
+                    $.ajax({
+                        type : "post",
+                        url : "__CONF_SITE__admin/menu/copy_universal",
+                        data : {
+                            "id" : id.toString(),
+                        },
+                        success : function(data) {
+                            if (data['code'] >0) {
+                                layer.msg('复制成功!',{icon:1,time:1000},function () {
+                                    window.location.reload();
+                                });
+                            }
+                            else
+                            {
+                                layer.msg('复制失败', {icon: 2, time: 1000});
+                            }
+                        }
+                    })
+                });
+            }
+            function universal_del(obj,id){
+                layer.confirm('确认要删除吗？如果小程序正在使用可能会影响体验！',function(index){
+                    //后台处理
+                    $.ajax({
+                        type : "post",
+                        url : "__CONF_SITE__admin/menu/del_universal",
+                        data : {
+                            "id" : id.toString(),
+                        },
+                        success : function(data) {
+                            if (data['code'] >0) {
+                                $(obj).parents("tr").remove();
+                                layer.msg('删除成功!',{icon:1,time:1000});
+                            }
+                            else
+                            {
+                                layer.msg('删除失败', {icon: 2, time: 1000});
+                            }
+                        }
+                    })
+                });
+            }
+            function copy_now(id) {
+                id='#'+id;
+                var check=$(id).attr('data-clipboard-text');
+                if(check.length<=0){
+                    layer.msg("链接信息有误", {icon: 2, time: 1000});
+                    return false;
+                }
+                var clipboard=new Clipboard(id);
+                clipboard.on('success',function(e){
+                    layer.msg("链接复制成功", {icon: 1, time: 500});
+                });
+                clipboard.on('error', function(e) {
+                    layer.msg("链接信息有误", {icon: 2, time: 1000});
+                });
+            }
+        </script>
+        {/block}

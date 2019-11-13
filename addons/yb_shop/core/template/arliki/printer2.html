@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!-- saved from url=(0077)http://api.niuteam.cn/index.php?s=/admin/order/printOrder&print_order_ids=900 -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+	<title>订单打印</title>
+	<style>
+		*{ padding: 0; margin: 0; } body{ font:12px/1.5 "宋体", Arial, Helvetica, sans-serif; color:#404040; text-align:center } .print_area{ width: auto; margin: 20px; height:600px } .print_area table{ border-top: 1px solid #aaa; width: 100%; text-align: left; } .print_area table tr th,.print_area table tr td{ padding: 8px 10px; padding-left: 16px; } .print_area table tr td ul li{ list-style: none; height: 25px; line-height: 25px; } .handlerA { width:200px; height:25px; line-height:25px; overflow:hidden; color:#fff; background:#aaa; border:1px solid #aaa; text-align:center; } .handlerB { width:200px; margin:0 auto; height:120px; border:1px solid #ccc; background:#ccc; } .confirmPrintBtn { background:#0096ff; border:1px solid #0096ff; color:#fff; padding:6px 20px; font-weight:bold; font-size:14px; vertical-align:middle; } .cancelPrintBtn { background:#999; border:1px solid #999; color:white; padding:6px 20px; font-weight:bold; font-size:14px; vertical-align:middle; } .printSuccessBtn { background:#0096ff; border:1px solid #0096ff; color:#fff; padding:4px 15px; font-weight:bold; font-size:14px; vertical-align:middle; } .printFailBtn { background:#0096ff; border:1px solid #0096ff; color:#fff; padding:4px 18px; font-weight:bold; font-size:14px; vertical-align:middle; }
+	</style>
+	<script src="/public/js/jquery-2.1.1.js"></script>
+	<script src="/public/js/jquery.qrcode.min.js"></script>
+</head>
+<body>
+		<div class="print_area" style="page-break-after: always;">
+		<table style="border-top: none;padding: 0;">
+			<tbody><tr>
+				<th style="width:250px;" valign="bottom">下单用户：{:getUserName($info['uid'])}</th>
+			</tr>
+		</tbody></table>
+		<table>
+			<tbody><tr>
+				<th>订单号：{$info['orderNum']}</th>
+				<th style="width:250px;">下单日期：{$info['createTime']|date='Y-m-d H:i:s',###}</th>
+			</tr>
+		</tbody></table>
+		<table>
+			<thead>
+			<tr>
+				<th style="width:8%;">序号</th>
+				<th class="cell-10" style="width:30%;">商品</th>
+				<th style="width:10%;">数量</th>
+				<th style="width:10%;">订单价格(元)</th>
+			</tr>
+			</thead>
+			<tbody>
+			<!-- 待发货商品 -->
+			<tr class="test-item">
+				<td class="td-goods-image" rowspan="1">
+					1
+				</td>
+				<td class="cell-10" style="width:200px;">
+					<a href="javascript:;" target="_blank">{$info['name']}</a>
+				</td>
+				<td>{$info['goodsNum']}</td>
+				<td>{$info['totalPrice']}</td>
+			</tr>
+			</tbody>
+		</table>
+		<table>
+			<tbody>
+			<!-- 物流 -->
+			<tr><?php $json=json_ecd_all($info['address']); ?>
+				<th>收货信息：</th>
+				<td>
+					<p>{$json['userName']}，{$json['telNumber']}，{$json['province']}{$json['county']}{$json['city']}{$json['address']}</p>
+				</td>
+			</tr>
+		</tbody></table>
+		<!--<table>-->
+			<!--<tbody><tr>-->
+				<!--<td>{$qrcode}</td>-->
+				<!--<td></td>-->
+			<!--</tr>-->
+		<!--</tbody></table>-->
+	</div>
+		<div class="extraElement">
+	    <div id="popA" style="width: 202px; opacity: 0.8; position: absolute; top: 660.5px; left: 389px; cursor: move;">
+	        <div class="handlerB">
+	            <table>
+	                <tbody>
+	                    <tr style="height: 30px;line-height:30px;">
+	                        <td colspan="4" style="text-align:center;background:#999;color:#fff;">操作</td></tr>
+	                    <tr style="height: 40px;"></tr>
+	                    <tr>
+	                        <td style="width: 50px;"></td>
+	                        <td>
+	                            <input class="confirmPrintBtn" value="打印" onclick="javascript: printIt();" id="print" style="cursor: pointer;" type="button"></td>
+	                        <td>
+	                            <input class="cancelPrintBtn" onclick="javascript: printCancel();" value="取消" style="cursor: pointer;" type="button"></td>
+	                        <td style="width: 50px;"></td>
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	    <div id="popB" style="width: 202px;opacity: 0.9;display: none;position: fixed;top: 200px;left: 42%;">
+	        <div class="handlerA" style="width:202px;text-align:center;background: #999;height: 28px;line-height: 28px;">
+	            <span style="color: red;font-size: 14px;">反馈您的打印结果【非常重要】</span></div>
+	        <div class="handlerB">
+	            <table>
+	                <tbody>
+	                    <tr style="height: 50px;">
+	                        <td></td>
+	                        <td></td>
+	                        <td></td>
+	                        <td></td>
+	                    </tr>
+	                    <tr>
+	                        <!-- <td style="width: 60px;"></td> -->
+	                        <td>
+	                            <input class="printSuccessBtn" value="打印成功" onclick="javascript: printSuccess();" style="cursor: pointer;" type="button"></td>
+	                        <td>
+	                            <input class="printFailBtn" value="打印失败" onclick="javascript: printFail();" style="cursor: pointer;" type="button"></td>
+	                        <!-- <td style="width: 60px;"></td> -->
+	                    </tr>
+	                </tbody>
+	            </table>
+	        </div>
+	    </div>
+	</div>
+
+<script>
+$(function(){
+	showDiv($("#popA"));
+	$("#popA").easydrag();
+	showDiv($("#popB"));
+	$("#popB").easydrag();
+	function showDiv(obj) {
+		center(obj);
+		$(window).scroll(function () {
+			center(obj);
+		});
+		$(window).resize(function () {
+			center(obj);
+		});
+	}
+
+	function center(obj) {
+		var windowWidth = document.documentElement.clientWidth;
+		var windowHeight = document.documentElement.clientHeight;
+		var popupHeight = $(obj).height();
+		var popupWidth = $(obj).width();
+		$(obj).css({
+			"position": "absolute",
+			"top": (windowHeight - popupHeight) / 2 + $(document).scrollTop() - 150,
+			"left": (windowWidth - popupWidth) / 2
+		});
+	}
+})
+// 打印失败
+function printFail() {
+	$("#popA").css("display", "block");
+	$("#popB").css("display", "none");
+};
+
+// 打印
+function printIt() {
+	$("#popA").css("display", "none");
+	window.print();
+	setTimeout(function () {
+		$("#popB").css("display", "block");
+	}, 1000);
+}
+
+// 取消打印
+function printCancel() {
+	window.close();
+}
+
+// 打印成功后【当用户确定打印成功后才会修改订单的打印状态】
+function printSuccess() {
+	window.close();
+}
+
+</script>
+</body></html>

@@ -1,0 +1,160 @@
+{extend name="mip_pc/base"/}
+{block name="main"}
+<!--首页产品分类-->
+<div class="part2  ecf0f3">
+    <div class="w">
+        <div class="fl prolist">
+            <div class="title"><span>产品分类</span></div>
+            <div class="comt">
+                <ul id="pro-class">
+
+                    {volist name="product_class" id="item"}
+                    <li><a href="/product/{$item.id}_1.html" title="{$item.name}">{$item.name}</a></li>
+                    {/volist}
+
+                </ul>
+            </div>
+            <div class="moreti">
+                <a href="" class="a1" title="更多产品">更多产品</a>
+            </div>
+        </div>
+        <!---->
+        <div class="fr product slideTxtBox">
+            <div class="hd latag">
+                <ul class="fl" id="pro-hot-news-tag">
+                    <li class="on">热销产品<i></i></li>
+                </ul>
+                <div class="tel fr">
+                        <span>全国咨询热线
+                            <p>{$mchs.phone}</p>
+                        </span>
+                </div>
+            </div>
+            <div class="bd">
+                <!---->
+                <div class="comt pro-list-tag">
+                    <ul class="produtlist" id="defProList">
+                        {volist name="product_list" id="item"}
+                        <li>
+                            <a href="/product/{$item.id}.html" title="{$item.title}">
+                                <mip-img class="lazy" src="{$item.image}" alt="{$item.title}"></mip-img>
+                                <span>{$item.title}</span>
+                            </a>
+                        </li>
+                        {/volist}
+                    </ul>
+                </div>
+                <!---->
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>
+
+<!--首页资讯+联系我们-->
+<div class="part9 f2f2f2">
+    <div class="w">
+        <div class="left fl">
+
+            <!--news-->
+            <div class="news slideTxtBox">
+
+                <div class="bd">
+
+                    <!---->
+                    <div class="comt">
+                        <ul>
+                            {volist name="article_list" id="item" key="ai"}
+
+                            {if ($ai-1) == 0}
+                            <div class="newstop">
+                                <a href="/article/{$item.article_id}.html" title="{$item.short_title}">
+                                    <mip-img src="{$item.image}"></mip-img>
+                                    <div class="txt">
+                                        <p>{$item.short_title}</p>
+                                        <span>{$item.title}</span>
+                                    </div>
+                                </a>
+                            </div>
+                            {else}
+
+                            <li>
+                                <a href="/article/{$item.article_id}.html" title="{$item.short_title}">
+                                    <i>0{$ai-1}</i>
+                                    <span>
+                                                <b>{$item.short_title}</b>
+                                                <p>[{:date('Y-m-d',$item['create_time'])}]</p>
+                                        </span>
+                                </a>
+                            </li>
+
+                            {/if}
+
+                            {/volist}
+
+                        </ul>
+                        <div class="clear"></div>
+                    </div>
+                    <!---->
+
+                </div>
+            </div>
+            <!---->
+        </div>
+        <mip-form method="post" url="{$site_url}addons/yb_shop/core/{:url('pc/search')}">
+            <div class="right fr">
+                <div class="tik">
+                    <p>咨询我们</p>
+                    <span>如果您有什么需求，请在此填写您的信息，我们工作人员将在24小时内和您联系！</span>
+                </div>
+                <ul>
+                    <li>
+                        <input type="text" placeholder="联系人" disabled>
+                    </li>
+                    <li>
+                        <input type="text" placeholder="联系电话" disabled>
+                    </li>
+                    <li>
+                        <input type="email" placeholder="联系邮箱" disabled>
+                    </li>
+                    <li class="bot">
+                        <input type="button" id="submit" class="button1" value="给我留言" disabled>
+                    </li>
+                </ul>
+
+                <div class="tpk">
+                    <span>全国订购定制热线</span>
+                    <i>{$mchs.phone}</i>
+                </div>
+            </div>
+        </mip-form>
+        <div class="clearfix"></div>
+    </div>
+</div>
+<!--part9-->
+
+<!--首页资讯列表-->
+<div class="seo-list">
+
+    {volist name="article_class" id="item" key="ii"}
+
+    <dl {if $ii == 1}class="first"{/if}>
+    <dt>{$item.name}<span><a href="">MORE+</a></span></dt>
+
+    {volist name="item.list" id="vo"}
+
+    <dd>
+        <a href="/article/{$vo.article_id}.html" title="{$vo.short_title}">
+            <div class="actitle">{$vo.short_title}</div>
+            <span>{:date('m-d',$vo['create_time'])}</span>
+        </a>
+    </dd>
+
+    {/volist}
+    </dl>
+
+    {/volist}
+
+</div>
+<div class="clear"></div>
+{/block}

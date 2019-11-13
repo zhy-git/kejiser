@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>[#Title#]</title>
+    <meta name="Keywords" content="[#Keywords#]" />
+    <meta name="Description" content="[#Description#]" />
+
+    <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
+    <link rel="stylesheet" type="text/css" href="/public/portal/css/app.css">
+
+    {block name="link"/}{/block}
+
+    <!--TODO: canonical href需要替换成原页面url-->
+    <link rel="canonical" href="[#PAGE_URL#]">
+    <title>{$list.page.name}</title>
+    <!--TODO: 替换样式-->
+    <style mip-custom>
+        .red-text { color: #f00;}
+        .middle-text { text-align: center; font-size: 20px;}
+        hr { margin: 20px 0;}
+
+        {if $pages.show_tabbar}
+            .page{
+                padding-bottom: 70px;
+            }
+        {/if}
+
+        {block name="resources"/}{/block}
+
+        .tabbar_bg{
+            z-index:99999;background:{$tabbar.bg_color};
+        }
+
+        .tabbar_bg .label{
+            color:{$tabbar.text_color}
+        }
+
+        .active .label{
+            color:{$tabbar.select_color}
+        }
+
+    </style>
+    <!-- noscript 标签是为了在不支持 script 的环境下快速的展现 MIP 页面，推荐使用 -->
+    <noscript>
+        <style mip-officialrelease>
+            body {
+                -webkit-animation: none;
+                -moz-animation: none;
+                -ms-animation: none;
+                animation: none;
+            }
+        </style>
+    </noscript>
+</head>
+<body>
+<div class="page">
+
+    {block name="main"}{/block}
+    {include file="portal/common/tabbar" /}
+
+</div>
+
+
+
+
+<!--mip 运行环境-->
+<script src="https://c.mipcdn.com/static/v1/mip.js"></script>
+</body>
+</html>

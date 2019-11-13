@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html mip>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,minimum-scale=1,initial-scale=1">
+    <title>[#Title#]</title>
+    <META NAME='ROBOTS' CONTENT='NOINDEX,NOFOLLOW,noarchive'>
+    <meta name="Keywords" content="[#Keywords#]" />
+    <meta name="Description" content="[#Description#]" />
+    <link rel="canonical" href="[#PAGE_URL#]">
+    <link rel="stylesheet" type="text/css" href="https://c.mipcdn.com/static/v1/mip.css">
+    <link rel="stylesheet" href="/public/mip_pc/css/style.min.css" />
+    <link rel="stylesheet" href="/public/mip_pc/css/main.min.css" />
+    <link rel="stylesheet" href="/public/mip_pc/css/page.min.css" />
+    <link rel="stylesheet" href="/public/mip_pc/css/common.css" />
+
+</head>
+<body>
+
+<!--top-->
+<div class="header">
+    <div class="w">
+        <div class="fl logo">
+            <a href="/">
+                <mip-img src="{$mchs.logo}"></mip-img>
+            </a>
+        </div>
+        <div class="tel fr">
+			<span>
+				全国咨询热线
+				<p>{$mchs.phone}</p>
+			</span>
+        </div>
+    </div>
+</div>
+<!--top end-->
+<!-- nav -->
+<div class="nav">
+    <div class="w">
+        <ul>
+            <li><a href="/index.html" class="{if empty($act) || $act == 'home'}hover{/if} nav-bl0">首页</a></li>
+            <li><a class="{if $act == 'about'}hover{/if}" href="/about.html" title="关于我们">关于我们</a></li>
+            <li><a class="{if $act == 'product'}hover{/if}" href="/product/0_1.html" title="产品展示">产品展示</a></li>
+            {volist name="article_classes" id="vo"}
+                <li>
+                    <a class="{if $act == 'article' && $article_class_id == $vo.class_id}hover{/if}" href="/article/{$vo.class_id}_1.html" title="{$vo.name}">
+                        {$vo.name}
+                    </a>
+                </li>
+            {/volist}
+            <li><a class="{if $act == 'contact'}hover{/if} nav-br0" href="/contact.html" title="联系我们">联系我们</a></li>
+        </ul>
+    </div>
+</div>
+<!--nav end-->
+
+
+{volist name="list.all_data" id="item" key="index"}
+{if $item.type=='banner'}
+<div class="banner" id="banner">
+
+
+    <mip-carousel
+            autoplay
+            defer="5000"
+            width="1920"
+            height="1080"
+            layout="container"
+            class="index_banner"
+            {if $item.jiaodian_dots == 'block'}
+    indicatorId="mip-carousel-example"
+    {/if}>
+    {volist name="item.list" id="img"}
+    <mip-img
+            src="{$img.imgurl}">
+    </mip-img>
+    {/volist}
+    </mip-carousel>
+    {if $item.jiaodian_dots == 'block'}
+    <div class="mip-carousel-indicator-wrapper">
+        <div class="mip-carousel-indicatorDot" id="mip-carousel-example">
+            {volist name="item.list" id="img"}
+            <div class="mip-carousel-indecator-item"></div>
+            {/volist}
+        </div>
+    </div>
+    {/if}
+
+
+    <div class="clear"></div>
+</div>
+{/if}
+
+{if $item.type=='search'}
+<div class="part1">
+    <div class="w">
+        <div class="fl"><b>热门关键词</b>
+            <div class="keya">
+                <a href="" title="{$item.hot_word!=''?$item.hot_word:'产品'}">{$item.hot_word!=''?$item.hot_word:'产品'}</a>
+            </div>
+        </div>
+        <!--ss-->
+        <mip-form method="post" url="{$site_url}addons/yb_shop/core/{:url('pc/search')}">
+            <div class="ss fr">
+                <div class="search">
+                    <div class="search_form">
+                        <input type="text" name="key" placeholder="请输入关键字">
+                    </div>
+                    <div class="search_btn">
+                        <input type="submit" id="SearchSubmit" class="pushbutton" value="">
+                    </div>
+                </div>
+            </div>
+        </mip-form>
+        <!--ssend-->
+    </div>
+</div>
+{/if}
+
+
+{/volist}
+
+<!--banner end-->
+
+{block name="main"}{/block}
+
+
+<div class="foot">
+    <div class="botnav">
+        <ul class="w">
+
+            <li><a href="/index.html">首页</a></li>
+            <li><a href="/about.html" title="关于我们">关于我们</a></li>
+            <li><a href="/product/0_1.html" title="产品展示">产品展示</a></li>
+            {volist name="article_classes" id="vo"}
+            <li>
+                <a href="/article/{$vo.class_id}_1.html" title="{$vo.name}">
+                    {$vo.name}
+                </a>
+            </li>
+            {/volist}
+            <li><a href="/contact.html" title="联系我们">联系我们</a></li>
+
+        </ul>
+    </div>
+    <div class="base">
+        <div class="w">
+            <div class=" left fl">
+                <h1>{$mchs.site_name}</h1>
+                <div class="txt">
+                    <p class="a1 a"><i></i>地址：{$mchs.address}</p>
+                    <p class="a2 a"><i></i>电话：{$mchs.phone}   QQ: {$mchs.qq}</p>
+                    <p class="a3 a"><i></i>&copy; Copyright {$mchs.name}</p>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="tel">
+					<span>
+						咨询热线
+						<p>{$mchs.phone}</p>
+					</span>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+        </div>
+    </div>
+</div>
+
+<!--mip 运行环境-->
+<script src="https://c.mipcdn.com/static/v1/mip.js"></script>
+
+</body>
+</html>

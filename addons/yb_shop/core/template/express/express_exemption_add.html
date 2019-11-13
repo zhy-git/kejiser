@@ -1,0 +1,381 @@
+{extend name="base"/}
+{block name="resources"}
+<style>
+    .panel .panel-body {padding: 1rem 0;}  .form-group {margin-top: 10px;}  .form-group {margin-bottom: 1rem;width: 100%;}  .form-group-label {width: 180px;-webkit-flex: 0 0 180px;-ms-flex: 0 0 180px;flex: 0 0 180px;}  .text-right {text-align: right !important;}  label.required {position: relative;}  .col-form-label {padding-top: calc(.35rem - 1px);padding-bottom: calc(.35rem - 1px);}  label.required:before {content: "*";display: inline;position: absolute;left: -.75rem;color: #ff4544;font-weight: bolder;top: 25%;right: -10px;}  .form-control {display: block;width: 100%;padding: .5rem .75rem;font-size: 1rem;line-height: 1.25;color: #464a4c;background-color: #fff;background-image: none;-webkit-background-clip: padding-box;background-clip: padding-box;border: 1px solid rgba(0, 0, 0, .15);border-radius: .25rem;-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;}  .col-sm-6 {-webkit-box-flex: 0;-webkit-flex: 0 0 50%;-ms-flex: 0 0 50%;flex: 0 0 50%;max-width: 50%;}  .col-form-label {padding-top: calc(.35rem - 1px);padding-bottom: calc(.35rem - 1px);}  .col-form-label {padding-top: calc(.5rem - 1px * 2);padding-bottom: calc(.5rem - 1px * 2);margin-bottom: 0;}  .mb-3 {margin-bottom: 1rem !important;}  .card {position: relative;display: -webkit-box;display: -webkit-flex;display: -ms-flexbox;display: flex;-webkit-box-orient: vertical;-webkit-box-direction: normal;-webkit-flex-direction: column;-ms-flex-direction: column;flex-direction: column;background-color: #fff;;border-radius: .25rem;}  .btn, .form-control, .modal-content, .card-block {border-radius: .15rem;}  .card-block {-webkit-box-flex: 1;-webkit-flex: 1 1 auto;-ms-flex: 1 1 auto;flex: 1 1 auto;padding: 1.25rem; border: 1px solid rgba(0, 0, 0, .125);margin-top: 10px;}  .float-right {float: right !important;}
+</style>
+<style>
+    .pop_bg {position: absolute;top:0;left:0;width:100%;height:100%;z-index: 999;background-color: rgba(0,0,0,0.5);}
+    .pop_box {width:600px;margin:0 auto;z-index: 99999;position: absolute;left: calc(50% - 300px);background: #fff;padding:20px;position: fixed;top: 200px;}
+    .pop_scroll {max-height: 300px;overflow-y: scroll;}
+    .log_box {padding-bottom: 15px;}
+    .log_box ul li {width:50%;float:left; height:50px;line-height: 50px;}
+    .areas_box ul li {width:50%;float:left; height:50px;line-height: 50px;}
+    .areas_tit {background: #f2f2f2; height:50px; line-height: 50px;padding-left:15px;}
+    .areas_box ul li div {margin-left:15px;}
+    .clear { clear: both;}
+    .ares_input {margin-left: 8px !important; height: 36px !important; line-height: 36px !important;border: 1px solid rgba(0, 0, 0, .15) !important;    padding: 5px;}
+    .areas_btn01 {width: 115px;height: 35px;
+        line-height: 35px;
+        color: rgb(255, 255, 255);
+        background-color: rgb(13, 163, 249);
+        float: left;
+        text-align: center;
+        font-size: 15px;
+        cursor: pointer;
+        border-radius: 5px;
+        margin-left: 130px;
+        border: 1px solid rgb(13, 163, 249);}
+    .areas_btn02 {
+        width: 115px;height: 35px;
+        line-height: 35px;
+        float: left;
+        color: rgb(136, 136, 136);
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(136, 136, 136);
+        margin-left: 50px;
+        cursor: pointer;
+        border-radius: 5px;text-align: center;
+        font-size: 15px;
+    }
+    .areas_btn_box {
+        background: #fff;
+        height: 60px;
+        width: 560px;
+        border-top: 1px solid #eeeeee;
+        padding-top: 20px;}
+</style>
+{/block}
+{block name="main"}
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div id="tab_demo" class="HuiTab" style="margin-top: 0px; position: relative;">
+            <div class="tabBar clearfix">
+                <span onclick="window.location.href='{:url(\'express/express_rules\')}'">运费规则</span>
+                <span class="current" onclick="window.location.href='{:url(\'express/express_exemption\')}'">包邮规则</span>
+            </div>
+        </div>
+    </article>
+    <div id="main" class="panel-body" style="display: none" v-show="show">
+        <form class="auto-form">
+            <div class="form-group row">
+                <div class="form-group-label col-sm-2 text-right"><label class="col-form-label required">包邮金额</label>
+                </div>
+                <div class="col-sm-6"><input type="text" value="{$price}" class="form-control" id="price"></div>
+            </div>
+            <div class="form-group row detail">
+                <div class="form-group-label col-sm-2 text-right"><label class=" col-form-label required">运费规则</label>
+                </div>
+                <div class="col-sm-6 col-form-label">
+                    <div class="card mb-3">
+                        <div class="card-block" v-for="(v,k) in fee">
+                            <div class="mb-3">
+                                <a href="javascript:" class="del-rules-btn float-right" style="font-size: 15px;font-weight: bold;color: #06c" @click="del_fee_li(k)">[-删除条目]</a>
+                            </div>
+                            <div><span>城市：</span>
+                                <span v-for="(v2,k2) in v.city_list">
+                                    <span>{{v2}} &nbsp;&nbsp;</span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <!--显示弹窗的城市信息如果为show_area==true的话-->
+                    <a href="javascript:" class="show-rules-modal" @click="show_area=true">[+新增条目]</a>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="form-group-label col-sm-2 text-right"></div>
+                <div class="col-sm-6"><a href="javascript:" onclick="express_add()" class="btn btn-primary auto-form-btn">保存</a></div>
+            </div>
+        </form>
+        <!--显示弹窗的城市信息如果为show_area==true的话-->
+        <div v-if="show_area" class="pop_box">
+            <div class="pop_scroll">
+                <div v-for="(v,k) in area" class="areas_box">
+                    <div v-if="v.city_num>0" class="areas_tit">
+                        <input @click="chose_pro(v.id,k)" name="pro" type="checkbox" />
+                        <label>
+                            <span>{{v.name}}</span>
+                            <span @click="area_open(k)" v-if="!v.is_open"><img src="public/images/jiantou.png " alt="" style="width: 10px;height: 8px" class="xia"></span>
+                            <span @click="area_open(k)" v-if="v.is_open"><img src="public/images/jiantouer.png " alt="" style="width: 10px;height: 8px;" class="shang"></span>
+                        </label>
+                    </div>
+                    <div v-show="v.is_open">
+                        <ul>
+                            <li v-for="(v2,k2) in v.city">
+                                <div v-if="!v2.hidden">
+                                    <input @click="chose_city(v2.id,k,k2,v2.name)" type="checkbox" name="city"  :data-value="'pro_'+v.id" :data-valname="v2.name" :data-id="v2.id" :data-index="k2" :id="'city_'+v2.id"/>
+                                    <label :for="'city_'+v2.id">{{v2.name}}</label>
+                                </div>
+                            </li>
+                            <div class="clear"></div>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="areas_btn_box">
+                <div @click="add_fee_mo()" class="areas_btn01">确认</div>
+                <div class="areas_btn02" @click="show_area=false">取消</div>
+                <div class="clear"></div>
+            </div>
+        </div>
+        <div v-if="show_area" class="pop_bg"></div>
+    </div>
+</div>
+{/block}
+{block name="script"}
+<script type="text/javascript">
+    var flag = false;//防止重复提交
+    function express_rules_show() {
+        /*console.log(window.location.search);
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)", "i");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null)
+            console.log(unescape(r[0]));
+        return unescape(r[2]);
+        return null;*/
+        /* $.ajax({
+             type : "post",
+             url : "{:url('express/express_rules_save')}",
+             data : {
+                 'id':vm.fee_id,
+                 'values' : JSON.stringify(vm.fee),
+                 'name' : vm.name,
+                 'type_fee' : vm.type_fee,
+                 'area':JSON.stringify(vm.area)
+             },
+             success : function(data) {
+                 if (data["code"] > 0) {
+                     layer.msg('操作成功',{icon:1,time:1000},function () {
+                         window.location.href="{:url('Express/express_rules')}";
+                     });
+                 }else{
+                     layer.msg('操作失败', {icon: 2, time: 1000});
+                 }
+             }
+         });*/
+    }
+    function verify( price,fee) {
+        if(price == ''){
+            layer.msg('请输入包邮金额',{icon:5,time:1000});
+            return false;
+        }
+        if(fee.length<1){
+            layer.msg('请添加规则',{icon:5,time:1000});
+            return false;
+        }
+        return true;
+    }
+    function express_add(){
+        vm.price=$("#price").val();
+        if (verify(vm.price,vm.fee) && !flag) {
+            flag = true;
+            $.ajax({
+                type : "post",
+                url : "{:url('express/express_exemption_save')}",
+                data : {
+                    'id':vm.fee_id,
+                    'values' : JSON.stringify(vm.fee),
+                    'price' : vm.price,
+                    'area':JSON.stringify(vm.area)
+                },
+                success : function(data) {
+                    if (data["code"] > 0) {
+                        layer.msg('操作成功',{icon:1,time:1000},function () {
+                            window.location.href="{:url('Express/express_exemption')}";
+                        });
+                    }else{
+                        layer.msg('操作失败', {icon: 2, time: 1000});
+                    }
+                }
+            });
+        }
+    }
+        var vm = new Vue({
+            el: '#main',
+            data: {
+                type_fee: 0,//件
+                fee_id:0,
+                area: [],
+                price:'',
+                area_new: [],
+                show_area: false,//选择地区
+                fee: [],
+                add_fee: {
+                    city: {},
+                    city_list: []
+                },
+                show: false
+            },
+            created: function () {
+                var that = this;
+                var fee_id='<?php echo $fee_id?>';
+                var area = [];
+                that.fee_id=fee_id;
+                if(fee_id==0){
+                    area = JSON.parse('<?php echo $area?>');
+                    that.area_new = JSON.parse('<?php echo $area?>');
+                    that.type_fee=1;
+                }else{
+                    area = JSON.parse('<?php echo $area_e?>');
+                    that.area_new = JSON.parse('<?php echo $area_e?>');
+                    that.fee=JSON.parse('<?php echo $values?>');
+                    that.type_fee='<?php echo $type_fee?>';
+                    that.price='<?php echo price?>';
+                }
+                that.area = area;
+                that.show = true;
+            },
+            watch:{
+                type_fee:function(val,oldVal){
+                    var that=this;
+                    var frist_num=1;
+                    if(oldVal!=0){
+                        if(val==2){
+                            frist_num=1000;
+                        }
+                        that.add_fee={
+                            city: {},
+                            city_list: []
+                        };
+                        that.area = JSON.parse('<?php echo $area?>');
+                        that.area_new = JSON.parse('<?php echo $area?>');
+                        that.fee=[];
+                    }
+                }
+            },
+            methods: {
+                //删除运费规则
+                del_fee_li:function(index){
+                    var that=this;
+                    var arr=that.fee;
+                    var city=arr[index].city;
+                    var area=that.area;
+                    var res=[];
+                    for (var i in city) {
+                        res=that.city_to_index(i);
+                      //  console.log(res)
+                        area[res[0]].city[res[1]]['hidden'] = false;//显示隐藏城市
+                        area[res[0]].city_num= area[res[0]].city_num + 1;
+                    }
+                    var str = JSON.stringify(area);
+                    that.area=JSON.parse(str);
+                    that.area_new=JSON.parse(str);
+                    var new_arr=[];
+                    for(var s=0;s<arr.length;s++){
+                        if(s!=index){
+                            new_arr.push(arr[s]);
+                        }
+                    }
+                    that.fee=new_arr;
+                },
+                area_open:function(index){
+                    var that = this;
+                    var a = !that.area[index]['is_open'];
+                    Vue.set(that.area[index],"is_open",a);
+                },
+                //选择省份
+                chose_pro: function (id, k) {
+                    var that = this, f = 'pro_' + id, name = '', sid = '', index,
+                        city = that.add_fee.city,
+                        area_new = that.area_new;
+                    $("input[data-value=" + f + "]").each(function () {
+                        if ($(this).attr("data-value") == f) {
+                            sid = $(this).attr("data-id");
+                            name = $(this).attr("data-valname");
+                            index = $(this).attr("data-index");
+                            if (!$(this)[0].checked) {
+                                if(name=='市辖区' || name=='县'){
+                                    name=that.area[k].name+name;
+                                }
+                                city[sid] = name;
+                                area_new[k].city[index]['hidden'] = true;
+                                area_new[k].city_num = area_new[k].city_num - 1;
+                            } else {
+                                area_new[k].city[index]['hidden'] = false;
+                                area_new[k].city_num = area_new[k].city_num + 1;
+                                delete city[sid];
+                            }
+                            that.area_new = area_new;
+                            that.add_fee.city = city;
+                            that.add_fee.city_list = that.obj_to_arr(city);
+                            $(this).prop("checked", !$(this)[0].checked);
+                        }
+                    });
+                },
+                //选择城市
+                chose_city: function (id, k, index, name) {
+                    var f = '#city_' + id;
+                    var that = this,
+                        city = that.add_fee.city,
+                        area_new = that.area_new;
+                    if ($(this)[0].checked) {
+                        if(name=='市辖区' || name=='县'){
+                            name=that.area[k].name+name;
+                        }
+                        city[id] = name;
+                        area_new[k].city[index]['hidden'] = true;
+                        area_new[k].city_num = area_new[k].city_num - 1;
+                    } else {
+                        area_new[k].city[index]['hidden'] = false;
+                        area_new[k].city_num = area_new[k].city_num + 1;
+                        delete city[id];
+                    }
+                    that.area_new = area_new;
+                    that.add_fee.city = city;
+                    that.add_fee.city_list = that.obj_to_arr(city);
+                    $(f).prop("checked", $(f)[0].checked);
+
+                },
+                //添加运费规则
+                add_fee_mo: function () {
+                    var that = this,
+                        fee = that.fee;
+                    if(that.add_fee.city_list.length<1){
+                        layer.msg('请选择城市',{icon:5,time:1000});
+                        return false;
+                    }
+                    var str = JSON.stringify(that.area_new);
+                    that.fee = fee.concat([that.add_fee]);
+                    that.add_fee = {
+                        city: {},
+                        city_list: []
+                    };
+                    that.area = JSON.parse(str);
+                    that.show_area = false;
+                },
+                //根据城市id获取，省，市的index
+                city_to_index:function(city_id){
+                    var that=this;
+                    var area=that.area;
+                    var aa=false;
+                    var arr=[];
+                    for(var i=0;i<area.length;i++){
+//                        console.log('--------pro---------')
+//                        console.log(area[i])
+                        for(var r=0;r<area[i]['city'].length;r++){
+//                            console.log('--------city---------')
+//                            console.log(area[i]['city'][r])
+                            if(area[i]['city'][r]['id']==city_id){
+                                arr[0]=i;
+                                arr[1]=r;
+                                aa=true;break;
+                            }
+                        }
+                        if(aa){
+                            break;
+                        }
+                    }
+                    return arr;
+                },
+                obj_to_arr: function (object) {
+                    var arr = []
+                    for (var i in object) {
+                        arr.push(object[i]);
+                    }
+                    return arr;
+                }
+            }
+    });
+
+</script>
+{/block}

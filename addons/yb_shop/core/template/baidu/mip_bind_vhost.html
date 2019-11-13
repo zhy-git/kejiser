@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/public/static/h-ui/css/H-ui.min.css" />
+</head>
+<body>
+<article class="cl pd-20">
+    <form action="" method="post" class="form form-horizontal" id="main_form">
+        <input type="hidden" name="type" value="{$type}">
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>域名：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" autocomplete="off" value="" placeholder="域名" class="input-text" id="host" name="host">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <label class="form-label col-xs-2 col-sm-2"><span class="c-red">*</span>端口：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="number" autocomplete="off" value="80" placeholder="端口,默认80端口" class="input-text" name="port">
+            </div>
+        </div>
+
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-3" style="margin-top: 50px;">
+                <input class="btn btn-primary radius" onclick="addSuppAjax()" type="button" value="&nbsp;&nbsp;提交&nbsp;&nbsp;">
+            </div>
+        </div>
+    </form>
+</article>
+<script type="text/javascript" src="/public/js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="/public/static/layer/2.4/layer.js"></script>
+<link rel="stylesheet" type="text/css" href="/public/css/defau.css">
+<script src="/public/menu/js/iframetools.js"></script>
+<script type="text/javascript">
+    //模块输入信息验证
+    var flag = false;//防止重复提交
+    function addSuppAjax() {
+
+        var host = $("#host").val().trim();
+        if(host.length === 0)
+        {
+            layer.msg("请填写域名",{icon:5,time:1000});
+            return;
+        }
+
+        if(flag){return};
+        flag = true;
+
+        $.ajax({
+            url: "{:url('baidu/mip_bind_vhost')}",
+            type: 'POST',
+            cache: false,
+            data: new FormData($('#main_form')[0]),
+            processData: false,
+            contentType: false,
+            dataType: 'json',
+            success:function (res) {
+                if (res["code"] > 0) {
+                    layer.msg('绑定成功!',{icon:1,time:1000},function () {
+                        window.parent.location.reload();
+                    });
+                }else{
+                    layer.msg(res["message"],{icon:5,time:1000});
+                    flag = false;
+                }
+            },
+            fail:function (err) {
+                layer.msg("绑定失败",{icon:5,time:1000});
+                flag = false;
+            }
+        });
+    }
+
+</script>
+</body>
+</html>

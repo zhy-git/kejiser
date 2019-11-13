@@ -1,0 +1,49 @@
+{extend name="base"/}
+{block name="main"}
+<div class="Hui-article">
+    <article class="cl pd-20">
+        <div id="tab_demo" class="HuiTab" style="margin-bottom: 15px; position:relative;">
+            <div class="tabBar clearfix">
+                <span class="current">充值记录</span>
+            </div>
+        </div>
+        <div>
+            <div class="cl pd-5 bg-1 bk-gray mt-20">
+                <form class="Huiform" method="post" action="__CONF_SITE__admin/card/recharge" style=" padding: 15px;">
+                    <div class="text-c">
+                        <input type="text" name="search_text" value="{$search_text}" placeholder="姓名,昵称" style="width:250px" class="input-text">
+                        <button class="btn btn-search radius" type="submit"><i class="Hui-iconfont">&#xe665;</i> 搜内容</button>
+                    </div>
+                </form>
+            </div>
+            <div class="mt-20">
+                <table class="table table-border table-bordered table-bg table-hover table-sort">
+                    <thead>
+                    <tr class="text-c">
+                        <th>微信昵称</th>
+                        <th>姓名</th>
+                        <th>充值金额</th>
+                        <th>赠送金额</th>
+                        <th>赠送积分</th>
+                        <th>充值时间</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {foreach name="$list" item="v1"}
+                    <tr class="pid_0" style="height: 30px;">
+                        <td style="text-align: center;">{$v1['nick_name']}</td>
+                        <td style="text-align: center;">{$v1['name']}</td>
+                        <td style="text-align: center;">￥{$v1['payprice']}</td>
+                        <td style="text-align: center;">￥{$v1['giveprice']}</td>
+                        <td style="text-align: center;">{$v1['integral']}</td>
+                        <td style="text-align: center;"> {:date('Y-m-d H:i:s',$v1['create_time'])} </td>
+                    </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
+                <div class="n_page_no">
+                    {$page}
+                </div>
+            </div>
+        </div>
+        {/block}

@@ -1,0 +1,156 @@
+﻿{extend name="base"/}
+{block name="resources"}
+<link rel="stylesheet" type="text/css" href="/public/css/dashboard.css">
+<link rel="stylesheet" type="text/css" href="/public/css/yb_index.css?v=1.0" />
+{/block}
+{block name="main"}
+<style>
+	.page-container .main-content {height: calc(100% - 51px) !important;    background: #f2f2f2 !important;}
+	.new_index_tit {height:37px; line-height:37px;}
+	.new_tit_box {border-left:5px solid #3bd98c;height:19px;font-size:16px; font-weight: bold;color:#4fa2ff;margin-top:18px;padding-left:10px;line-height:19px;}
+	.index_icon_box { height:67px;line-height:67px;}
+	.goods-state ul li{justify-content:center;display: flex;}
+	.index_info_box {width:60px;}
+</style>
+	<div class="Hui-article">
+		<article class="cl pd-20" style="padding-top:0;">
+			<div class="new_index_tit">
+				<div class="new_tit_box">销售简报</div>
+			</div>
+			{if $use!=1}
+			<div class="statistical">
+				<ul>
+					<li style="width: 15%;background: linear-gradient(to top right, #d86eec, #ae67f5);border-radius: 8px;margin-right:2% !important;" class="order-amount-statistics">
+						<header>
+							<i class="ns-icon-base i-order-amount"></i>
+							<span>订单总金额(元)</span>
+						</header>
+						<p class="js-order-amount">{$order_pay|default=0.00}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #5facfe, #6993ff);border-radius: 8px;margin-right:2% !important;" class="focus-number-statistics">
+						<header>
+							<i class="ns-icon-base i-focus-number"></i>
+							<span>会员人数(个)</span>
+						</header>
+						<p class="js-weixin-fans-count">{$user_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #fe8268, #ff758f);border-radius: 8px;margin-right:2% !important;" class="goods-release-statistics">
+						<header>
+							<i class="ns-icon-base i-goods-release"></i>
+							<span>商品发布(个)</span>
+						</header>
+						<p class="js-goods-release-count">{$goods_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #33c8c4, #1caace);border-radius: 8px;margin-right:2% !important;" class="order-total-statistics">
+						<header>
+							<i class="ns-icon-base i-order-total"></i>
+							<span>订单总数(笔)</span>
+						</header>
+						<p class="js-order-total">{$order_sum|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #d870ed, #af68f6);border-radius: 8px;margin-right:2% !important;" class="month-sales-statistics">
+						<header>
+							<i class="ns-icon-base i-month-sales"></i>
+							<span>本月订单(笔)</span>
+						</header>
+						<p class="js-month-sales">{$order_month|default=0}</p>
+					</li>
+					<li style="width: 15%;background: linear-gradient(to top right, #60abfe, #6c8cff);border-radius: 8px;" class="completed-transaction-statistics">
+						<header>
+							<i class="ns-icon-base i-completed-transaction"></i>
+							<span>已完成交易(笔)</span>
+						</header>
+						<p class="js-order-finish-count">{$order_complete|default=0}</p>
+					</li>
+				</ul>
+			</div>
+			<div class="new_index_tit">
+				<div class="new_tit_box">近期售出：交易中的订单</div>
+			</div>
+			<div class="goods-prompt" style="border-radius: 6px !important; width:100% !important;">
+				<!--<div class="subtitle">-->
+					<!--<img src="/public/images/green_list.png" /><label>近期售出：<span>交易中的订单</span></label>-->
+				<!--</div>-->
+				<div class="goods-state a-line order" style="height: 135px;padding-top: 30px;">
+					<ul>
+						<li onclick="location.href='__CONF_SITE__admin/order/orderlist?status=0';" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon01.jpg"></div><div class="index_info_box"><h4 class="daifukuan" style="font-size:32px;margin-bottom:0 !important;">{$dzf|default=0}</h4>待支付</div></li>
+						<li onclick="location.href='__CONF_SITE__admin/order/orderlist?status=1';" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon02.jpg"></div><div class="index_info_box"><h4 class="daifahuo" style="font-size:32px;margin-bottom:0 !important;">{$dfh|default=0}</h4>待发货</div></li>
+						<li onclick="location.href='__CONF_SITE__admin/order/orderlist?status=2';" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon03.jpg"></div><div class="index_info_box"><h4 class="yifahuo" style="font-size:32px;margin-bottom:0 !important;">{$yfh|default=0}</h4>已发货</div></li>
+						<li onclick="location.href='__CONF_SITE__admin/order/orderlist?status=3';" style="border-right:1px solid #eee;"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon04.jpg"></div><div class="index_info_box"><h4 class="yishouhuo" style="font-size:32px;margin-bottom:0 !important;">{$yqs|default=0}</h4>已签收</div></li>
+						<li onclick="location.href='__CONF_SITE__admin/order/orderlist?status=-1';"><div class="index_icon_box"><img src="__CONF_URL__public/images/index_order_icon05.jpg"></div><div class="index_info_box"><h4 class="tuikuanzhong" style="font-size:32px;margin-bottom:0 !important;">{$yqx|default=0}</h4>已取消</div></li>
+					</ul>
+				</div>
+			</div>
+			{/if}
+			<br><br><br><br><br><br><br><br>
+			<div class="count-box">
+				<div class="main-content" id="mainContent" style="width: 1505px;border-left:0 !important;">
+					<div id="container" data-highcharts-chart="0">
+						<div class="highcharts-container" id="highcharts-0" style="position: relative; overflow: hidden; width: 100%; height: 400px; text-align: left; line-height: normal; z-index: 0; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); font-family: &amp; quot; Lucida Grande&amp;quot; , &amp; quot; Lucida Sans Unicode&amp;quot; , Verdana , Arial, Helvetica, sans-serif; font-size: 12px;"></div>
+					</div>
+				</div>
+			</div>
+		</article>
+	</div>
+<script src="/public/js/highcharts.js"></script>
+<script>
+    var time = [1+"日",2+"日",3+"日",4+"日",5+"日",6+"日",7+"日",8+"日",9+"日",10+"日",11+"日",12+"日",13+"日",14+"日",15+"日",16+"日",17+"日",18+"日",19+"日",20+"日",21+"日",22+"日",23+"日",24+"日",25+"日",26+"日",27+"日",28+"日",29+"日",30+"日"];
+    var data = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+    $(function(){
+        var widn = $('.goods-state').width();
+        $('#mainContent').css('width', widn + 10);
+        Chart = new Highcharts.Chart("container",{
+            "xAxis" : {
+                "categories" : time
+            },
+            "legend" : {
+                "enabled" : false
+            },
+            "series" : [ {
+                "name" : "下单量",
+                "data" : data
+            } ],
+            "title" : {
+                "text" : "<b>下单量<\/b>",
+                "x" : -20
+            },
+            "chart" : {
+                "type" : "line"
+            },
+            "colors" : [ "#058DC7", "#ED561B", "#8bbc21",
+                "#0d233a" ],
+            "credits" : {
+                "enabled" : false
+            },
+            "exporting" : {
+                "enabled" : false
+            },
+            "yAxis" : {
+                "title" : {
+                    "text" : "下单量"
+                }
+            }
+        });
+        $.ajax({
+            type : "post",
+            url : "__CONF_SITE__admin/count/OrderCount",
+            success : function(data) {
+                Chart.update({
+                    xAxis : {
+                        categories : data[0]
+                    },
+                    series : [ {
+                        name : "下单量",
+                        data : data[1]
+                    }]
+                });
+                $("#order_num").html(data[2]);
+                $("#order_money").html(data[3]+"元");
+            }
+        })
+    });
+</script>
+ <footer class="footer" style="background: #FFFFFF;height: 25px;margin-top: -5px;padding-top: 10px;line-height: 25px;">
+        <p>{$copyright.content}</p>
+    </footer>
+{/block}

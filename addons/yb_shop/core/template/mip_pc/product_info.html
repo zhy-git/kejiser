@@ -1,0 +1,62 @@
+{extend name="mip_pc/base"/}
+{block name="main"}
+<div class="submian f2f2f2">
+    <div class="w">
+        <div class="sobtitle">当前位置：<a href="/">首页</a> / 关于我们 / 公司介绍</div>
+
+        <div class="subleft fl">
+
+            <div class="lefta bor9">
+                <div class="title">栏目分类
+                </div>
+                <div class="comt">
+                    <ul>
+
+                        {volist name="product_class" id="item"}
+                        <li><a href="/product/{$item.id}_1.html" title="{$item.name}">{$item.name}</a>
+                        </li>
+                        {/volist}
+
+                    </ul>
+                </div>
+            </div>
+
+            {include file="mip_pc/left" /}
+        </div>
+        <!--right-->
+
+        <div class="subright fr ffffff">
+            <div class="m-title"><span>{$info.title}</span></div>
+            <div class="m-page2 ffffff">
+                <!-- 模板通用框架 -->
+                <div class="c-show">
+                    <div class="c-proBox">
+
+                        <h3>图片</h3>
+                        <mip-img src="{$info.image}">
+                        </mip-img>
+
+                        {if $info.video_url}
+                        <h3>视频</h3>
+                        <mip-video poster="https://www.mipengine.org/static/img/sample_04.jpg" controls
+                                   layout="responsive" width="640" height="360"
+                                   src="{$info.video_url}">
+                        </mip-video>
+                        {/if}
+
+                        <h3>内容</h3>
+                        <div class="c-cb">
+                            {$info.content}
+                        </div>
+
+                    </div>
+                </div>
+                <!-- 模板通用框架 -->
+            </div>
+            <div class="clear"></div>
+        </div>
+
+    </div>
+    <div class="clear"></div>
+</div>
+{/block}

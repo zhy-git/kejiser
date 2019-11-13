@@ -1,0 +1,29 @@
+{extend name="mip_pc/base"/}
+{block name="main"}
+<div class="submian f2f2f2">
+    <div class="w">
+        <div class="sobtitle">当前位置：<a href="/">首页</a> / 关于我们 / 公司介绍</div>
+
+        <div class="subleft fl">
+
+            {include file="mip_pc/left" /}
+        </div>
+        <!--right-->
+        <div class="subright fr ffffff">
+            <div class="m-title"><span>公司介绍</span></div>
+            <div class="m-page">
+                <!-- 模板通用框架 -->
+                <div class="c-page c-cb">
+
+                    {$desc}
+
+                </div>
+                <div class="c-pages"></div>
+                <!-- 模板通用框架 -->
+            </div>
+            <div class="clear"></div>
+        </div>
+    </div>
+    <div class="clear"></div>
+</div>
+{/block}
