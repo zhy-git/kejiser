@@ -17,9 +17,9 @@
 		</handles>
 		<rule embed="false" />
 		<card embed="false" />
-		<supports>
+		<!-- <supports>
 			<item type="wxapp" />
-		</supports>
+		</supports> -->
 	</platform>
 	<bindings>
 	</bindings>
