@@ -1,2 +1,0 @@
-<?php
- namespace app\admin\service; use app\common\model\BusMenu; class Menu extends Base { function __construct() { goto oQDQy; GUsk1: $this->menu = new \app\common\model\Menu(); goto y4e0a; y4e0a: $this->bus_menu = new BusMenu(); goto Q2g8O; oQDQy: parent::__construct(); goto GUsk1; Q2g8O: } public function getAllMenu($condition = '', $field = "\x2a", $order = '') { $list = $this->menu->getQuerys($condition, $field, $order); return $list; } }

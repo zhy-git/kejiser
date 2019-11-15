@@ -1,2 +1,0 @@
-<?php
- namespace app\admin\controller; class Poster extends Base { public function index() { goto OwmI3; aFQUD: $this->assign("\x6e\x61\x6d\x65", $search_text); goto toIaH; toIaH: return view(); goto KbhHS; OwmI3: $search_text = request()->param("\156\x61\155\x65", ''); goto aFQUD; KbhHS: } public function poster_add() { return view(); } public function poster_add1() { return view("\160\x6f\163\164\x65\162\x2f\141\x64\x64"); } }
