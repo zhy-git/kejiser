@@ -7,7 +7,7 @@
     $wwwUser = 'www';
     $wwwGroup = 'www';
  
-    //日志文件地址 
+    //日志文件地址
     $fs = fopen('../storage/logs/gitHubAuto_hook.log', 'a');
  
     //获取GitHub发送的内容 
