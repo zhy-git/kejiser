@@ -16,7 +16,7 @@
     //github发送过来的签名  
     $signature = $_SERVER['HTTP_X_HUB_SIGNATURE'];
  
-    if (!$signature) {
+    if (!$signature) { 
        fclose($fs);
        return http_response_code(404);
      }
