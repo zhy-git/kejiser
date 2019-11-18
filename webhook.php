@@ -1,11 +1,10 @@
 <?php
  
- 
     $target = '/www/wwwroot/jtr168.cn'; // 生产环境web目录
     //密钥
     $secret = "123456";
-    $wwwUser = 'root';
-    $wwwGroup = 'root';
+    $wwwUser = 'www';
+    $wwwGroup = 'www';
   
     //日志文件地址
     $fs = fopen('../storage/logs/gitHubAuto_hook.log', 'a');
