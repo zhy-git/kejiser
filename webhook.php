@@ -2,7 +2,7 @@
  
  
     $target = '/www/wwwroot/jtr168-kejiser'; // 生产环境web目录
-    //密钥
+    //密钥 
     $secret = "123456";
     $wwwUser = 'www';
     $wwwGroup = 'www';
