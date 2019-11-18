@@ -5,7 +5,7 @@
     //密钥
     $secret = "123456";
     $wwwUser = 'www';
-    $wwwGroup = 'www'; 
+    $wwwGroup = 'www';  
  
     //日志文件地址
     $fs = fopen('../storage/logs/gitHubAuto_hook.log', 'a');
