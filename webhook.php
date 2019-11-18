@@ -1,14 +1,14 @@
 <?php
  
  
-    $target = '/www/wwwroot/jtr168-kejiser'; // 生产环境web目录
+    $target = '/www/wwwroot/jtr168.cn'; // 生产环境web目录
     //密钥
     $secret = "123456";
     $wwwUser = 'www';
     $wwwGroup = 'www';
  
-    //日志文件地址 
-    $fs = fopen('../gitHubAuto_hook.log', 'a');
+    //日志文件地址
+    $fs = fopen('../storage/logs/gitHubAuto_hook.log', 'a');
  
     //获取GitHub发送的内容 
     $json = file_get_contents('php://input');
