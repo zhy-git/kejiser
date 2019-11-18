@@ -22,7 +22,7 @@
      }
  
     list($algo, $hash) = explode('=', $signature, 2);
-    //计算签名  
+    //计算签名   
     $payloadHash = hash_hmac($algo, $json, $secret);
  
     // 判断签名是否匹配  
