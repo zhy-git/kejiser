@@ -1062,8 +1062,10 @@
 		if( empty( $_GPC['name'] ) ) Util::echoResult(201,'请填写名称');
 
 		$data['number'] = $_GPC['number'];
+		$data['artid'] = $_GPC['artid'];
 		$data['uniacid'] = $_W['uniacid'];
 		$data['name'] = $_GPC['name'];
+		//var_dump($data);die();
 
 		if( $fid > 0 ){ 
 			$res = pdo_update('zofui_sitetemp_artsort',$data,array('id'=>$fid));

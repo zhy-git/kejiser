@@ -67,6 +67,11 @@
 	      			</div>
 	     		</td> 
 	     		<td class="table_cell price tl">
+	    			{if $item['level'] == 0}
+                                {else}
+                                     &nbsp;&nbsp;&nbsp;|---
+					            {/if}
+
 	    			{$item['name']}
 	     		</td>	     		
 	     		<td class="table_cell price tl">
@@ -131,6 +136,29 @@
 						<p class="frm_tips frm_tips_default">建议在4个字内</p>
 					</div>
 				</div>
+
+				<div class="frm_control_group">
+					<label for="" class="frm_label">所属分类</label>
+					<div class="frm_controls msg">
+
+						<span>
+							
+							<select style="width: 200px;padding-left: 10px;" name="artid">
+								{loop $artinfo $item}
+					            <option  class="frm_input"  value="{$item['id']}">
+					            {if $item['level'] == 0}
+                                {else}
+                                     &nbsp;&nbsp;&nbsp;|---
+					            {/if}
+					            {$item['name']}
+					             </option>
+					            {/loop}
+						    <select>
+						</span>
+						<p class="frm_tips frm_tips_default">建议在4个字内</p>
+					</div>
+				</div>
+				
 				<div class="frm_control_group">
 					<label for="" class="frm_label">排序序号</label>
 					<div class="frm_controls msg">
@@ -177,6 +205,7 @@
 		$('#confirm_addform').click(function(){
 			var postdata = {
 				fid : fid,
+				artid : $('select[name=artid]').val(),
 				name : $('input[name=name]').val(),
 				number : $('input[name=number]').val(),
 			};

@@ -33,6 +33,10 @@
 	if($op == 'list'){	
 		$info = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
 		$list = $info[0];
+		//$list = $list[0];
+	    $list = Util::artsort($list);
+	    //var_dump($list);die();
+
 		$pager = $info[1];
 	}
 	
@@ -46,6 +50,10 @@
 		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_artsort');
 		if($res) itoast('删除成功','','success');
 	}
-	
-	
+
+	//获取所有分类的类目
+	$artinfo = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+    $artinfo = $artinfo[0];
+	$artinfo = Util::artsort($artinfo);
+
 	include $this->pTemplate('artsort');

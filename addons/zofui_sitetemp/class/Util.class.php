@@ -5,6 +5,18 @@
 class Util 
 {	
 
+	//获取多级类目
+    static public function artsort($data,$artid=0,$level=0){
+        static $arr=array();
+        foreach ($data as $k => $v) {
+            if($v['artid'] == $artid){
+                $v['level'] = $level;
+                $arr[]=$v;
+                self::artsort($data,$v['id'],$level+1);
+            }
+        }
+        return $arr;
+    }
 
 	static function wxapp_code_path_convert($url,$size) {
 		load()->classs('image');
