@@ -58,4 +58,4 @@
 	}
 	
 	
-	include $this->pTemplate('product');
+	include $this->pTemplate('countryside');

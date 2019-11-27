@@ -57,22 +57,30 @@
 	  			'toplist' => array('list'),
 	  		),
 	  		'product' => array(
-	  			'name' => '产品管理',
+	  			'name' => '特派员管理',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
 	  			'list'=>array(
-	  				array('op'=>'add','name'=>'添加产品','url'=> self::pwUrl('site','product',array('op'=>'add')) ),
-	  				array('op'=>'list','name'=>'产品列表','url'=> self::pwUrl('site','product',array('op'=>'list')) ),
+	  				array('op'=>'add','name'=>'添加特派员','url'=> self::pwUrl('site','product',array('op'=>'add')) ),
+	  				array('op'=>'list','name'=>'特派员列表','url'=> self::pwUrl('site','product',array('op'=>'list')) ),
 	  			),
 	  			'toplist' => array('add','list'),
 	  		),
 	  		'prosort' => array(
-	  			'name' => '产品分类',
+	  			'name' => '特派员分类',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
 	  			'list'=>array(
 	  				array('op'=>'list','name'=>'分类列表','url'=> self::pwUrl('site','prosort',array('op'=>'list')) ),
 	  			),
 	  			'toplist' => array('list'),
-	  		),		
+	  		),	
+	  		'countryside' => array(
+                 'name' => '下乡管理',
+                 'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
+                 'list'=>array(
+	  				array('op'=>'list','name'=>'下乡列表','url'=> self::pwUrl('site','countryside',array('op'=>'list')) ),
+	  			),
+	  			'toplist' => array('list'),
+	  		),	
 	  		'form' => array(
 	  			'name'=>'表单数据',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
