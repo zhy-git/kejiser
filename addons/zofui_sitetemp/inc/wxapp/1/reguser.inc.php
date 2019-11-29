@@ -2,7 +2,7 @@
 	defined('IN_IA') or exit('Access Denied');
 	global $_W,$_GPC;
 
-    $hasuser = pdl_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
+    $hasuser = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
     if ($hasuser) {
     	$this->result(0, '服务器获取用户成功',$hasuser);
     }else{
