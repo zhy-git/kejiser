@@ -17,21 +17,8 @@
     //判断时间  一天只能签到一次
 	$getaddress = Util::getNew('zofui_sitetemp_address',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 	$getdate = date( "Y-m-d",$getaddress['createtime']); 
-	if(date("Y-m-d",time()) != $getdate) {
-		$result = pdo_insert('zofui_sitetemp_address',$data);
-		if($result) {
-			$this->result(0, '成功添加地址。',$data);
-			//message('导入失败', '','error');
-		}else{
-		    $this->result(0, '添加地址失败。',$data);
-		}
+	if(date("Y-m-d",time()) == $getdate) {
+		$this->result(0, '已签到');
+	}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
+	    $this->result(0, ''); 
 	}
-	$this->result(0, '今天已签到了。');
-		
-		
-	
-	
-	
-	
-	
-	
