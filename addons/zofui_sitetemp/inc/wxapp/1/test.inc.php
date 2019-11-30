@@ -20,7 +20,7 @@
 	$getaddress = Util::getNew('zofui_sitetemp_address',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 	$getdate = date( "Y-m-d",$getaddress['createtime']); 
 	if(date("Y-m-d",time()) == $getdate) {
-		$this->result(0, '已签到',$hasuser['istrue']);
+		$this->result(0, '已签到',array('istrue' => $hasuser['istrue']));
 	}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
-	    $this->result(0, '',$hasuser['istrue']); 
+	    $this->result(0, '',array('istrue' => $hasuser['istrue'])); 
 	}
