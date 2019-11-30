@@ -39,7 +39,7 @@
 	    $saveimgurl = file_upload($_FILES['imgfile'], 'image', '');
 	    $newimgurl = array();
 	    $newimgurl = $_W['attachurl'].$saveimgurl['path'];
-	    var_dump($newimgurl);
+	
 
 		$this->result(0, '处理完图片了',array('img' => $newimgurl));
    }
