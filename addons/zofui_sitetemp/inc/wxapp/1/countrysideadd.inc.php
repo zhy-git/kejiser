@@ -5,6 +5,7 @@
 
     if ($_GPC['op'] == 'add') {
     	//添加
+        $getcountryside = Util::getNew('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
     	//判断时间 是否已经签到了
 		$getaddress = Util::getNew('zofui_sitetemp_address',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 		$getdate = date( "Y-m-d",$getaddress['createtime']); 
@@ -25,11 +26,11 @@
 	    	}else{
 	    		$this->result(0, '操作失败');
 	    	}
-	    	
-			
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
 		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
+		}elseif ($getaddress['id'] == $getcountryside['aid'] && ) {
+			$this->result(0, '操作成功','明天再来吧。'); 
 		}
     	
     	
