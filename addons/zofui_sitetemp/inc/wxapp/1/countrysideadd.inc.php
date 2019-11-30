@@ -30,7 +30,7 @@
 			//还没签到
 		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
 		}elseif ($getaddress['id'] == $getcountryside['aid'] && ) {
-			$this->result(0, '操作成功','明天再来吧。'); 
+			$this->result("code":404, '操作失败','明天再来吧。'); 
 		}
     	
     	
