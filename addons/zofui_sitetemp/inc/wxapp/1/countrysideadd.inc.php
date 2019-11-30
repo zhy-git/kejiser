@@ -11,7 +11,7 @@
 		$getdate = date( "Y-m-d",$getaddress['createtime']); 
 
 		if ($getaddress['id'] == $getcountryside['aid']) {
-			$this->result("code":404, '操作失败','明天再来吧。'); 
+			$this->result(404, '操作失败','明天再来吧。'); 
 		}elseif(date("Y-m-d",time()) == $getdate) {
 			//已签到
 			$serdate = [
