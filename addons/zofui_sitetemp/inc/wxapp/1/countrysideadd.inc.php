@@ -18,7 +18,13 @@
 	            'createtime' => time(),
 	            'aid' => $getaddress['id'],
 	    	];
-	    	$this->result(0, '操作成功',$serdate);
+	    	$result = pdo_insert('zofui_sitetemp_countryside',$serdate);
+	    	if ($result) {
+	    		$this->result(0, '操作成功',$serdate);
+	    	}else{
+	    		$this->result(0, '操作失败');
+	    	}
+	    	
 			
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
