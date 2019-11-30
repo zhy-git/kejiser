@@ -18,11 +18,11 @@
 	            'createtime' => time(),
 	            'aid' => $getaddress['id'],
 	    	];
-	    	$this->result(0, '我来添加服务咯',$serdate);
+	    	$this->result(0, '操作成功',$serdate);
 			
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
-		    $this->result(0, '您还没签到，请先签到。'); 
+		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
 		}
     	
     	
