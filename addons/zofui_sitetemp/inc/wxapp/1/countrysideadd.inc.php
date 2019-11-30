@@ -17,6 +17,7 @@
 	            'content' => $_GPC['content'],
 	            'createtime' => time(),
 	            'aid' => $getaddress['id'],
+	            'uniacid' => $_W['uniacid'],
 	    	];
 	    	$result = pdo_insert('zofui_sitetemp_countryside',$serdate);
 	    	if ($result) {
