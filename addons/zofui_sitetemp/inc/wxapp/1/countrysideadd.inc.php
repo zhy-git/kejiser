@@ -29,7 +29,7 @@
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
 		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
-		}elseif ($getaddress['id'] == $getcountryside['aid'] && ) {
+		}elseif ($getaddress['id'] == $getcountryside['aid']) {
 			$this->result("code":404, '操作失败','明天再来吧。'); 
 		}
     	
