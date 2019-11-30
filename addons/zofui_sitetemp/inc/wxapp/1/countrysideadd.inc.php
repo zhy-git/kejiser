@@ -5,7 +5,13 @@
 
     if ($_GPC['op'] == 'add') {
     	//添加
-    	$this->result(0, '我来添加服务咯',$_GPC['op']);
+    	$serdate = [
+            'name' => $_GPC['name'],
+            'seraddress' => $_GPC['seraddress'],
+            'img' => $_GPC['img'],
+            'content' => $_GPC['content'],
+    	];
+    	$this->result(0, '我来添加服务咯',$serdate);
     	
     }else{
         //图片上传
