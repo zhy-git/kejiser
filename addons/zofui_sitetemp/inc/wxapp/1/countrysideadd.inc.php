@@ -9,7 +9,10 @@
     	//判断时间 是否已经签到了
 		$getaddress = Util::getNew('zofui_sitetemp_address',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 		$getdate = date( "Y-m-d",$getaddress['createtime']); 
-		if(date("Y-m-d",time()) == $getdate) {
+
+		if ($getaddress['id'] == $getcountryside['aid']) {
+			$this->result("code":404, '操作失败','明天再来吧。'); 
+		}elseif(date("Y-m-d",time()) == $getdate) {
 			//已签到
 			$serdate = [
 	            'name' => $_GPC['name'],
@@ -29,8 +32,6 @@
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
 		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
-		}elseif ($getaddress['id'] == $getcountryside['aid']) {
-			$this->result(0, '操作成功','明天再来吧。'); 
 		}
     	
     	
