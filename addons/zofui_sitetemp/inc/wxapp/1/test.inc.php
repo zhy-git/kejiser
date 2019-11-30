@@ -13,12 +13,14 @@
 		'tel'	  => $data['telNumber'], 	
 		'createtime' => time(),
 	);
+	//获取服务器用户的信息
+	$hasuser = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
 
     //判断时间  一天只能签到一次
 	$getaddress = Util::getNew('zofui_sitetemp_address',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 	$getdate = date( "Y-m-d",$getaddress['createtime']); 
 	if(date("Y-m-d",time()) == $getdate) {
-		$this->result(0, '已签到');
+		$this->result(0, '已签到',$hasuser['istrue']);
 	}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
-	    $this->result(0, ''); 
+	    $this->result(0, '',$hasuser['istrue']); 
 	}
