@@ -29,7 +29,7 @@
 	    	if ($result) {
 	    		$this->result(0, '操作成功',$serdate);
 	    	}else{
-	    		$this->result(0, '操作失败');
+	    		$this->result(1, '操作失败');
 	    	}
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
@@ -37,6 +37,14 @@
 		}
     	
     	
+    }elseif($_GPC['op'] == 'list'){
+    	$getcountryside = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
+    	if ($result) {
+	    		$this->result(0, '操作成功',$getcountryside);
+	    	}else{
+	    		$this->result(1, '操作失败');
+	    	}
+
     }else{
         //图片上传
 	    load()->func('file');
