@@ -7,7 +7,7 @@
     	//添加特派员个人信息的
 		$info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 		if ($info) {
-			$this->result(1, '你已添加过了。');
+			$this->result(1,'','你已添加过了。');
 		}else{
 			
 			$userinfo= [
