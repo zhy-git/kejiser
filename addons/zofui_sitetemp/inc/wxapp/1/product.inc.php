@@ -43,7 +43,7 @@
 		}
 		$this->result(0, '',$info);
 		
-	}else{
+	}elseif($_GPC['op'] == 'add'){
 		//添加特派员个人信息的
 		$info = pdo_get('zofui_sitetemp_product',array('uniacid'=>$_W['uniacid'],'openid'=>$_GPC['openid']));
 		if ($info) {
@@ -62,7 +62,7 @@
 	    	if ($result) {
 	    		$this->result(0, '操作成功',$result);
 	    	}else{
-	    		$this->result(1, '操作失败');
+	    		$this->result(1, '操作失败',$userinfodate);
 	    	}
 		}
 	}
