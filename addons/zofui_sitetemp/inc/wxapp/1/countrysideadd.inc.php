@@ -11,7 +11,7 @@
 		$getdate = date( "Y-m-d",$getaddress['createtime']); 
 
 		if ($getaddress['id'] == $getcountryside['aid']) {
-			$this->result(404, '操作失败','明天再来吧。'); 
+			$this->result(1, '操作失败','明天再来吧。'); 
 		}elseif(date("Y-m-d",time()) == $getdate) {
 			//已签到
 			$serdate = [
@@ -22,6 +22,8 @@
 	            'createtime' => time(),
 	            'aid' => $getaddress['id'],
 	            'uniacid' => $_W['uniacid'],
+	            'openid' => $_W['openid'],
+	            
 	    	];
 	    	$result = pdo_insert('zofui_sitetemp_countryside',$serdate);
 	    	if ($result) {
@@ -31,7 +33,7 @@
 	    	}
 		}elseif (empty($getaddress) || date("Y-m-d",time()) > $getdate) {
 			//还没签到
-		    $this->result(0, '操作成功','您还没签到，请先签到。'); 
+		    $this->result(1, '操作成功','您还没签到，请先签到。'); 
 		}
     	
     	
