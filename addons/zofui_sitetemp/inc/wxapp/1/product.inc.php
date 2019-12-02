@@ -62,7 +62,7 @@
 	    	if ($result) {
 	    		$this->result(0, '操作成功',$result);
 	    	}else{
-	    		$this->result(1, '操作失败',$userinfodate);
+	    		$this->result(1, '操作失败');
 	    	}
 		}
 	}
