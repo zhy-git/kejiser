@@ -43,6 +43,28 @@
 		}
 		$this->result(0, '',$info);
 		
+	}else{
+		//添加特派员个人信息的
+		$info = pdo_get('zofui_sitetemp_product',array('uniacid'=>$_W['uniacid'],'openid'=>$_GPC['openid']));
+		if ($info) {
+			$this->result(1, '你已添加过了。');
+		}else{
+			$userinfodate = [
+				'uniacid' => $_W['uniacid'],
+	            'openid' => $_W['openid'],
+	            'title' => $_GPC['name'],
+	            'phone' => $_GPC['phone'],
+	            'img' => $_GPC['img'],
+	            'content' => $_GPC['content'],
+	            'createtime' => time(),
+	    	];
+	    	$result = pdo_insert('zofui_sitetemp_product',$userinfodate);
+	    	if ($result) {
+	    		$this->result(0, '操作成功',$result);
+	    	}else{
+	    		$this->result(1, '操作失败');
+	    	}
+		}
 	}
 
 	
