@@ -40,15 +40,11 @@
        
    }else{
    	   $info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
-   	   $array= explode(",",$info['img']);
-   	   $info['img'] = !empty($array)?$array:null;
    	   if ($info) {
    	   	   $this->result(0, '操作成功',$info);
    	   }else{
            $this->result(1, '操作失败');
-   	   }
-
-       
+   	   } 
    }
 
 
