@@ -5,7 +5,7 @@
 
     if ($_GPC['op'] == 'add') {
     	//添加特派员个人信息的
-		$info = pdo_get('zofui_sitetemp_product', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
+		$info = pdo_get('zofui_sitetemp_usrinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
 		if ($info) {
 			$this->result(1, '你已添加过了。');
 		}else{
@@ -19,7 +19,7 @@
 	            'content' => $_GPC['content'],
 	            'createtime' => time(),
 	    	];
-	    	$result = pdo_insert('zofui_sitetemp_product',$userinfo);
+	    	$result = pdo_insert('zofui_sitetemp_usrinfo',$userinfo);
 	    	if ($result) {
 	    		$this->result(0, '操作成功',$result);
 	    	}else{
