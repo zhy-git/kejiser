@@ -38,8 +38,9 @@
     	
     	
     }elseif($_GPC['op'] == 'list'){
-    	$getcountryside = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
-    	if ($result) {
+    	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
+    	
+    	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
 	    	}else{
 	    		$this->result(1, '操作失败');
