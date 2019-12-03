@@ -40,9 +40,9 @@
     }elseif($_GPC['op'] == 'list'){
     	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
     	foreach ($getcountryside as $key => $value) {
-    		$getcountryside['createtime'] = date( "Y-m-d",$value['createtime'])
+    		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
+    		$getcountryside[$key]['img'] = strtok($value['img'],',');
     	}
-    	
     	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
 	    	}else{
