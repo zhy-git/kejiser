@@ -49,6 +49,13 @@
 	    		$this->result(1, '操作失败');
 	    	}
 
+    }elseif($_GPC == 'details'){
+       $info = pdo_get('zofui_sitetemp_countryside', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+   	   if ($info) {
+   	   	   $this->result(0, '操作成功',$info);
+   	   }else{
+           $this->result(1, '操作失败');
+   	   } 
     }else{
         //图片上传
 	    load()->func('file');
