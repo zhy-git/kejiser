@@ -64,8 +64,15 @@
 	            'img' => $_GPC['img'],
 	            'content' => $_GPC['content'],
 	    	];
+	    $this->result(0, '操作成功',$info);
+	    	
         $result = pdo_update('zofui_sitetemp_countryside',$info,array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
-		$this->result(0, '操作成功');
+        if ($result) {
+        	$this->result(0, '操作成功');
+        }else{
+        	$this->result(1, '操作失败');
+        }
+		
     }else{
         //图片上传
 	    load()->func('file');
