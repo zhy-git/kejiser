@@ -39,7 +39,7 @@
     	
     }elseif($_GPC['op'] == 'list'){
     	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
-    	$getcountryside['createtime'] = date['Y-m-d',$getcountryside['createtime']];
+    	$getcountryside['createtime'] = date( "Y-m-d",$getcountryside['createtime']);
     	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
 	    	}else{
