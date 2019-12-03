@@ -56,6 +56,16 @@
    	   }else{
            $this->result(1, '操作失败');
    	   } 
+    }elseif($_GPC['op'] == 'editor'){
+    	//编辑
+    	$info= [
+	            'name' => $_GPC['name'],
+	            'seraddress' => $_GPC['seraddress'],
+	            'img' => $_GPC['img'],
+	            'content' => $_GPC['content'],
+	    	];
+        $result = pdo_update('zofui_sitetemp_countryside',$info,array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+		$this->result(0, '操作成功');
     }else{
         //图片上传
 	    load()->func('file');
