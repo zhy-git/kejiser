@@ -26,6 +26,7 @@
 	            'aid' => $getaddress['id'],
 	            'uniacid' => $_W['uniacid'],
 	            'openid' => $_W['openid'],
+	            'uid' => $_GPC['userinfo_id'],
 	            
 	    	];
 	    	$result = pdo_insert('zofui_sitetemp_countryside',$serdate);
