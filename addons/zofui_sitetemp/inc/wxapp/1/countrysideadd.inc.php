@@ -64,7 +64,7 @@
 	            'img' => $_GPC['img'],
 	            'content' => $_GPC['content'],
 	    	];
-	    $this->result(0, '操作成功',$info);
+	   // $this->result(0, '操作成功',$info);
 	    	
         $result = pdo_update('zofui_sitetemp_countryside',$info,array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
         if ($result) {
