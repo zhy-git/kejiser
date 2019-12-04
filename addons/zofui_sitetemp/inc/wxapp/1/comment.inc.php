@@ -17,7 +17,6 @@
 				        'nickname' => $hasuser['nickname'],
                         'headimgurl' => $hasuser['headimgurl'],       
 			    	];
-			    	$this->result(0, '感谢您本次的评论',$date);
 			  $result = pdo_insert('zofui_sitetemp_comment', $date);
 			  if ($result) {
 			    	$this->result(0, '感谢您本次的评论',$date);
