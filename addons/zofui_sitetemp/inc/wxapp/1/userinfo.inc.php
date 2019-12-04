@@ -42,8 +42,13 @@
         //获取所有的特派员信息
    	    $where = array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']);
    	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,6,' `id` DESC ',false,false);
+   	    $list = $info[0];
+   	    foreach ($list as $key => $value) {
+    		$list[$key]['img'] = strtok($value['img'],',');
+    	}
+
    	    if ($info) {
-   	   	   $this->result(0, '操作成功',$info[0]);
+   	   	   $this->result(0, '操作成功',$list);
    	   }else{
            $this->result(1, '操作失败');
    	   } 
