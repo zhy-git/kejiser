@@ -28,6 +28,15 @@
 	    	$this->result(1, '服务器获取用户失败',$hasuser);
 	    }
     	
+    }elseif($_GPC['op'] == 'list'){
+    	$commentlist = pdo_get('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']));
+    	if ($commentlist) {
+    		$this->result(0, '操作成功',$commentlist);
+    	}else{
+			$this->result(1, '操作成功失败');
+		}
+
+
     }else{
     	$this->result(1, '提交失败');
     }
