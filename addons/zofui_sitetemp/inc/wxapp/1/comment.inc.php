@@ -10,7 +10,7 @@
 				        'uniacid' => $_W['uniacid'],
 				        'openid' => $_W['openid'],
 				        'name' => $_GPC['name'],
-				        'phone' => $_GPC['seraddress'],
+				        'phone' => $_GPC['phone'],
 				        'content' => $_GPC['content'],
 				        'createtime' => time(),
 				        'cid' => $_GPC['id'],  
