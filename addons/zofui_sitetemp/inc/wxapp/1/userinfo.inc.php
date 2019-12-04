@@ -38,6 +38,15 @@
 	    	}
 		}
        
+   }elseif($_GPC['op'] == 'list'){
+        //获取所有的特派员信息
+   	    $where = array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']);
+   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,6,' `id` DESC ',false,false);
+   	    if ($info) {
+   	   	   $this->result(0, '操作成功',$info);
+   	   }else{
+           $this->result(1, '操作失败');
+   	   } 
    }else{
    	   $info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
    	   if ($info) {
