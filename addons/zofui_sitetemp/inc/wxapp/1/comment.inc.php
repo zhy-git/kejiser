@@ -19,7 +19,7 @@
 			    	];
 			  $result = pdo_insert('zofui_sitetemp_comment', $date);
 			  if ($result) {
-			    	$this->result(0, '感谢您本次的评论',$result);
+			    	$this->result(0, '感谢您本次的评论',$date);
 			   }else{
 			    	$this->result(1, '本次的评论失败');
 			   }
