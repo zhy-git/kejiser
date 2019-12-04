@@ -43,7 +43,7 @@
    	    $where = array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']);
    	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,6,' `id` DESC ',false,false);
    	    if ($info) {
-   	   	   $this->result(0, '操作成功',$info);
+   	   	   $this->result(0, '操作成功',$info[0]);
    	   }else{
            $this->result(1, '操作失败');
    	   } 
