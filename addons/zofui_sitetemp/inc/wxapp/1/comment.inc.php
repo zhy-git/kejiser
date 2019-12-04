@@ -30,6 +30,7 @@
     	
     }elseif($_GPC['op'] == 'list'){
     	$commentlist = pdo_get('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']));
+    	$commentlist['createtime'] = date('Y-m-d',$commentlist['createtime']);
     	if ($commentlist) {
     		$this->result(0, '操作成功',$commentlist);
     	}else{
