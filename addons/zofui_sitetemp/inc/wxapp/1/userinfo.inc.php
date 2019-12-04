@@ -52,6 +52,16 @@
    	   }else{
            $this->result(1, '操作失败');
    	   } 
+   }elseif($_GPC['op'] == 'userinfo'){
+   	   $info = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+		if( !empty( $info ) ) {
+			$info['img'] = tomedia( $info['img'] );
+			$info['content'] = htmlspecialchars_decode( $info['content'] );
+		}else{
+			$this->result(1, '不存在');
+		}
+		$this->result(0, '',$info);
+
    }else{
    	   $info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
    	   if ($info) {
