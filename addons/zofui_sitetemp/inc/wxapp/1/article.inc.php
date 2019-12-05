@@ -53,6 +53,15 @@
 
 		$this->result(0, '',$info);
 		
+	}elseif ($_GPC['op'] == 'newest') {
+		//获取最新一个公告
+		$newinfo = Util::getNew('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid'],'sortid' => 42));
+		if( !empty( $newinfo ) ) {
+			$this->result(0, '',$newinfo['title']);
+		}else{
+			$this->result(1, '不存在');
+		}
+
 	}
 
 	
