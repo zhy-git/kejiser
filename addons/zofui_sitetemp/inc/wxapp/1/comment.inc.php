@@ -30,6 +30,8 @@
     	
     }elseif($_GPC['op'] == 'list'){
     	$commentlist = pdo_getall('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']));
+    	$commentlist['count'] = Util::countDataNumber('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']),'',);
+
     	foreach ($commentlist as $key => $value) {
     		 $commentlist[$key]['createtime'] = date('Y-m-d',$value['createtime']);
     	}
