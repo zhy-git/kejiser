@@ -30,11 +30,11 @@
     	
     }elseif($_GPC['op'] == 'list'){
     	$commentlist = pdo_getall('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']));
-    	$commentlist['count'] = Util::countDataNumber('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']),'',);
-
     	foreach ($commentlist as $key => $value) {
     		 $commentlist[$key]['createtime'] = date('Y-m-d',$value['createtime']);
     	}
+    	//查询总条数
+    	$commentlist['count'] = Util::countDataNumber('zofui_sitetemp_comment',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'cid' => $_GPC['id']));
     	if ($commentlist) {
     		$this->result(0, '操作成功',$commentlist);
     	}else{
