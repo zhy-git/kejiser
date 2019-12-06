@@ -38,7 +38,16 @@
 	  			),
 	  			'toplist' => array('design'),
 	  			'hide' => 1,
-	  		),			  		
+	  		),		
+            'usercenter' => array(
+                 'name' => '会员管理'
+                 'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
+                 'list'=>array(
+	  				array('op'=>'list','name'=>'个人中心','url'=> self::pwUrl('site','usercenter',array('op'=>'list')) ),
+	  			),
+                 'toplist' => array('list'),
+            ),
+
 	  		'article' => array(
 	  			'name' => '文章管理',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
