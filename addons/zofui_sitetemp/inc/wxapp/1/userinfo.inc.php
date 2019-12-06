@@ -40,7 +40,7 @@
        
    }elseif($_GPC['op'] == 'list'){
         //获取所有的特派员信息
-   	    $where = array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']);
+   	    $where = array('uniacid'=>$_W['uniacid']);
    	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,6,' `id` DESC ',false,false);
    	    $list = $info[0];
    	    foreach ($list as $key => $value) {
