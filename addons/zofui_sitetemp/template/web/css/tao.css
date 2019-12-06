@@ -1070,7 +1070,7 @@ p.notice_mini , span.notice_mini{
 
 .td_col_1{
     white-space: normal!important;
-    width: 10%;
+    /*width: 10%;*/
 }
 .td_col_2{
     white-space: normal!important;

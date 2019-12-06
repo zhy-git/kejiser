@@ -40,9 +40,20 @@
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_product',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `number` DESC ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
 		$list = $info[0];
 		$pager = $info[1];
+		$userinfo = pdo_get('zofui_sitetemp_userinfo',array('id'=>$list[0]['uid']),array('title'));
+		foreach ($list as $key => $value) {
+			$list[$key]['createtime'] = date('Y-m-d H:i:s',$value['createtime']);
+			$list[$key]['img'] = strtok($value['img'],',');
+			//获取特派员的名字
+			$list[$key]['title'] = $userinfo['title'];
+		
+		}
+		
+
+	
 	}
 	
 	if($_GPC['op'] == 'edit'){

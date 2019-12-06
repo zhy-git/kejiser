@@ -1,5 +1,12 @@
 {template '../../../addons/'.MODULE.'/template/web/common/myheader'}
-
+<style>
+	    th,td{border-right: 1px solid #e7e7e7;}
+	    .el-button--primary {
+    color: #fff;
+    background-color: #409eff;
+    border-color: #409eff;
+}
+</style>
 	{if $_GPC['op'] == 'add' || $_GPC['op'] == 'edit'}
 		<form method="post" action="" style="margin-left: 100px">
 			<div class="frm_control_group">
@@ -87,8 +94,9 @@
      		</th>
      		<th class="table_cell tl td_col_1">图片</th>		
      		<th class="table_cell tl td_col_2">名称</th>
-     		<th class="table_cell tl td_col_1">分类</th> 
-     		<th class="table_cell tl td_col_1">序号</th> 		
+     		<th class="table_cell tl td_col_1">电话</th> 
+     		<!-- <th class="table_cell tl td_col_1">分类</th>  -->
+     		<th class="table_cell tl td_col_1">时间</th> 		
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead> 
@@ -111,13 +119,15 @@
 	     		<td class="table_cell price tl td_col_2">
 	    			{$item['title']}
 	     		</td>
-	     		<td class="table_cell price tl td_col_1">
+
+	     		    <td class="table_cell price tl td_col_2">  {$item['phone']}</td>
+	     		<!-- <td class="table_cell price tl td_col_1">
 	    			{loop $artsort $in}
 	    				{if $in['id'] == $item['sortid']} {$in['name']} {/if}
 	    			{/loop}
-	     		</td>	     		
+	     		</td> -->	     		
 	     		<td class="table_cell price tl td_col_1">
-	    			{$item['number']}
+	    			{$item['createtime']}
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a>

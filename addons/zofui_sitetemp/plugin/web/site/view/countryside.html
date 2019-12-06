@@ -85,10 +85,10 @@
      				<input type="checkbox" class="frm_checkbox" id="selectAll" /> 
      			</label>
      		</th>
-     		<th class="table_cell tl td_col_1">图片</th>		
-     		<th class="table_cell tl td_col_2">名称</th>
-     		<th class="table_cell tl td_col_1">分类</th> 
-     		<th class="table_cell tl td_col_1">序号</th> 		
+     		<th class="table_cell tl td_col_1">特派员</th>		
+     		<th class="table_cell tl td_col_2">服务项目</th>
+     		<th class="table_cell tl td_col_1">服务地址</th> 
+     		<th class="table_cell tl td_col_1">下乡时间</th> 		
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead> 
@@ -106,18 +106,17 @@
 	      			</div>
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
-	    			<img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px">
+	     			{$item['title']}
+	    			<!-- <img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px"> -->
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_2">
-	    			{$item['title']}
+	    			{$item['name']}
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
-	    			{loop $artsort $in}
-	    				{if $in['id'] == $item['sortid']} {$in['name']} {/if}
-	    			{/loop}
+	    			{$item['seraddress']}
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_1">
-	    			{$item['number']}
+	    			{$item['createtime']}
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a>

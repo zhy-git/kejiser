@@ -40,8 +40,13 @@
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_product',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `number` DESC ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
 		$list = $info[0];
+		foreach ($list as $key => $value) {
+			$list[$key]['createtime'] = date('Y-m-d H:i:s',$value['createtime']);
+			$list[$key]['img'] = strtok($value['img'],',');
+		}
+
 		$pager = $info[1];
 	}
 	

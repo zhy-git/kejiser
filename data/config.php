@@ -3,7 +3,7 @@ defined('IN_IA') or exit('Access Denied');
 
 $config = array();
 
-$config['db']['master']['host'] = 'localhost';
+$config['db']['master']['host'] = '49.235.119.130';
 $config['db']['master']['username'] = 'jtr168';
 $config['db']['master']['password'] = 'jtr168';
 $config['db']['master']['port'] = '3306';

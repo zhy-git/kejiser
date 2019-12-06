@@ -39,11 +39,11 @@
 	  			'toplist' => array('design'),
 	  			'hide' => 1,
 	  		),		
-            'usercenter' => array(
+            'reguser' => array(
                  'name' => '会员管理',
                  'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
                  'list'=>array(
-	  				array('op'=>'list','name'=>'个人中心','url'=> self::pwUrl('site','usercenter',array('op'=>'list')) ),
+	  				array('op'=>'list','name'=>'个人中心','url'=> self::pwUrl('site','reguser',array('op'=>'list')) ),
 	  			),
                  'toplist' => array('list'),
             ),
@@ -69,7 +69,7 @@
 	  			'name' => '特派员管理',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
 	  			'list'=>array(
-	  				array('op'=>'add','name'=>'添加特派员','url'=> self::pwUrl('site','product',array('op'=>'add')) ),
+	  				// array('op'=>'add','name'=>'添加特派员','url'=> self::pwUrl('site','product',array('op'=>'add')) ),
 	  				array('op'=>'list','name'=>'特派员列表','url'=> self::pwUrl('site','product',array('op'=>'list')) ),
 	  			),
 	  			'toplist' => array('add','list'),
