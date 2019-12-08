@@ -39,7 +39,7 @@
     	
     	
     }elseif($_GPC['op'] == 'list'){
-    	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid']),'uid' => $_GPC['id']);
+    	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'uid' => $_GPC['id']));
     	foreach ($getcountryside as $key => $value) {
     		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
     		$getcountryside[$key]['img'] = strtok($value['img'],',');
