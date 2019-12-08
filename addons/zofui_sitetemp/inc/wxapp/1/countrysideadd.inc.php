@@ -48,8 +48,19 @@
 	    		$this->result(0, '操作成功',$getcountryside);
 	    	}else{
 	    		$this->result(1, '操作失败');
-	    	}
+	    }
 
+    }elseif($_GPC['op'] == 'gerenlist'){
+    	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'openid'=>$_GPC['openid']));
+    	foreach ($getcountryside as $key => $value) {
+    		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
+    		$getcountryside[$key]['img'] = strtok($value['img'],',');
+    	}
+    	if ($getcountryside) {
+	    		$this->result(0, '操作成功',$getcountryside);
+	    	}else{
+	    		$this->result(1, '操作失败');
+	    }
     }elseif($_GPC['op'] == 'details'){
        $info = pdo_get('zofui_sitetemp_countryside', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
    	   if ($info) {
