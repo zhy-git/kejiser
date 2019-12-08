@@ -53,7 +53,7 @@
            $this->result(1, '操作失败');
    	   } 
    }elseif($_GPC['op'] == 'userinfo'){
-   	   $info = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+   	   $info = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
 		if( !empty( $info ) ) {
 			$info['img'] = explode(',', tomedia( $info['img'] )); 
 			unset($info['img'][0]);
