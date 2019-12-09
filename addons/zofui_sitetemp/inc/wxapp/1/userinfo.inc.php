@@ -45,7 +45,7 @@
    	    $list = $info[0];
    	    foreach ($list as $key => $value) {
     		$list[$key]['img'] = strtok($value['img'],',');
-    		$list[$key]['createtime'] = date('Y-m-d',$v['createtime']);
+    		$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
     	}
 
    	    if ($info) {
