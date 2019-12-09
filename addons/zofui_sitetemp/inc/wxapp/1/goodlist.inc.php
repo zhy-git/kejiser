@@ -6,14 +6,19 @@
 
 
 		$where = array('uniacid' => $_W['uniacid'],'status'=>0);
-	
+	    $dataa = Util::structWhereStringOfAnd($where,'',false);
 
 		if( isset( $_GPC['for'] ) ) {
-			$where['title'] = $_GPC['for'];
+			$str = 'AND title LIKE'.'"'.$_GPC['for'].'%"'.'OR phone LIKE'.'"'.$_GPC['for'].'%"';
+		    // $where['title'] = $str;
 		}
+		$select = ' * ';
+		$commonstr = tablename('zofui_sitetemp_userinfo') ." WHERE ".$dataa[0].$str ;
+		$countStr = "SELECT COUNT(*) FROM ".$commonstr;
+		$selectStr =  "SELECT $select FROM ".$commonstr;
        
         
-         //$this->result(0, '',$where);
+        //$this->result(0, '',$where);
 		$order = ' `id` DESC ';
 		if( $_GPC['otype'] == 1 ) $order = ' `id` DESC ';
 		if( $_GPC['otype'] == 2 ) $order = ' `createtime` DESC ';
@@ -24,9 +29,9 @@
 		}
 		
 		
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,$_GPC['page'],10,$order,false,false,' id,title,phone,img,createtime ');
+		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,$order,true);
 		$list = $info[0];
-		// $this->result(0, '',$list);
+		//$this->result(0, '',$list);
 		if( !empty( $list ) ) {
 			foreach ($list as &$v) {
 				$v['url'] = '/zofui_sitetemp/pages/product/product?id='.$v['id'];
