@@ -4,20 +4,18 @@
 
 	if( $_GPC['op'] == 'getlist' ) {
 
-		
-		$where = array('uniacid' => $_W['uniacid'],'type'=>intval( $_GPC['plug'] ),'status'=>0);
-		if( !empty( $_GPC['sortid'] ) ){
 
-			if( $_GPC['sorttype'] == 1 ) $where['sortone'] = intval( $_GPC['sortid'] );
-			if( $_GPC['sorttype'] == 2 ) $where['sorttwo'] = intval( $_GPC['sortid'] );
-		} 
+		$where = array('uniacid' => $_W['uniacid'],'status'=>0);
+	
 
 		if( isset( $_GPC['for'] ) ) {
-			$where['title@'] = $_GPC['for'];
+			$where['title'] = $_GPC['for'];
 		}
-
-		$order = ' `number` DESC ';
-		if( $_GPC['otype'] == 1 ) $order = ' `sales` DESC ';
+       
+        
+         //$this->result(0, '',$where);
+		$order = ' `id` DESC ';
+		if( $_GPC['otype'] == 1 ) $order = ' `id` DESC ';
 		if( $_GPC['otype'] == 2 ) $order = ' `createtime` DESC ';
 		if( $_GPC['otype'] == 3 ) {
 
@@ -26,13 +24,15 @@
 		}
 		
 		
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_good',$where,$_GPC['page'],10,$order,false,false,' id,thumb,title,price,oldprice,sales ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,$_GPC['page'],10,$order,false,false,' id,title,phone,img,createtime ');
 		$list = $info[0];
-		
+		// $this->result(0, '',$list);
 		if( !empty( $list ) ) {
 			foreach ($list as &$v) {
-				$v['url'] = '/zofui_sitetemp/pages/good/good?gid='.$v['id'];
-				$v['thumb'] = tomedia( $v['thumb'] );
+				$v['url'] = '/zofui_sitetemp/pages/product/product?id='.$v['id'];
+				$v['img'] = strtok(tomedia( $v['img'] ),',');
+				$v['createtime'] = date('Y-m-d',$v['createtime']);
+				
 			}
 		}		
 		$data['list'] = $list;
