@@ -46,6 +46,11 @@
 		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_prosort');
 		if($res) itoast('删除成功','','success');
 	}
-	
+
+	//获取所有分类的类目
+	$proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+    $proinfo = $proinfo[0];
+	$proinfo = Util::prosort($proinfo);
+
 	
 	include $this->pTemplate('prosort');

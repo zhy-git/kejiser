@@ -5,6 +5,19 @@
 class Util 
 {	
 
+	//获取特派员多级类目
+    static public function prosort($data,$proid=0,$level=0){
+        static $arr=array();
+        foreach ($data as $k => $v) {
+            if($v['proid'] == $proid){
+                $v['level'] = $level;
+                $arr[]=$v;
+                self::prosort($data,$v['id'],$level+1);
+            }
+        }
+        return $arr;
+    }
+
 	//获取多级类目
     static public function artsort($data,$artid=0,$level=0){
         static $arr=array();
