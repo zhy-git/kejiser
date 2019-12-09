@@ -33,6 +33,7 @@
 	if($op == 'list'){	
 		$info = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
 		$list = $info[0];
+		$list = Util::prosort($list);
 		$pager = $info[1];
 	}
 	
