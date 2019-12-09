@@ -130,13 +130,21 @@
                 <a href="javascript:;" class="icon16_opr closed pop_closed model_close" >关闭</a>
             </div>
             <div class="dialog_bd info_box addform_item" >
+
+            	<div class="frm_control_group">
+					<label for="" class="frm_label">分类名称</label>
+					<div class="frm_controls msg">
+						<span class="frm_input_box">
+							<input type="text" class="frm_input"  name="name" value="{$info['name']}">
+						</span>
+						<p class="frm_tips frm_tips_default">建议在4个字内</p>
+					</div>
+				</div>
                 
 				<div class="frm_control_group">
 					<label for="" class="frm_label">所属分类</label>
 					<div class="frm_controls msg">
-
 						<span>
-							
 							<select style="width: 200px;padding-left: 10px;" name="proid">
 								{loop $proinfo $item}
 					            <option  class="frm_input"  value="{$item['id']}">
