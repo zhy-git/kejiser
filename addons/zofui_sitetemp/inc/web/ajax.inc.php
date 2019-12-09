@@ -1096,6 +1096,7 @@
 		if( empty( $_GPC['name'] ) ) Util::echoResult(201,'请填写名称');
 
 		$data['number'] = $_GPC['number'];
+		$data['proid'] = $_GPC['proid'];
 		$data['uniacid'] = $_W['uniacid'];
 		$data['name'] = $_GPC['name'];
 		$data['img'] = $_GPC['img'];

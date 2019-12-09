@@ -48,7 +48,7 @@
 	
 	if($op == 'delete'){
 		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_artsort');
-		if($res) itoast('删除成功','','success');
+		if($res) itoast('删除成功','referer()','success');
 	}
 
 	//获取所有分类的类目

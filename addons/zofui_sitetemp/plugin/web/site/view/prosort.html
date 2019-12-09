@@ -200,6 +200,7 @@
 					fid = nowfid; // 防止取消后再添加异常
 					$('input[name=name]').val(data.obj.name);
 					$('input[name=number]').val(data.obj.number);
+					$('select[name=proid]').val(data.obj.proid);
 					
 					if( data.obj.img ) {
 						$('input[name=img]').val(data.obj.img);
