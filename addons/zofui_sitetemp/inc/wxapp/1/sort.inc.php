@@ -76,6 +76,19 @@
 
 		$this->result(0, '',$info);
 		
+	}elseif($_GPC['op'] == 'prosort'){
+
+        $proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid'],'proid'=>0),1,999,' `number` DESC ');
+        $proinfo = $proinfo[0];
+        
+	    foreach ($proinfo as $key => $value) {
+	    	      $proinfo[$key]['id'] = $key;
+	    	      $proinfo[$key]['hiddens'] = true;
+	    	      $proinfo[$key]['title'] = $value['name'];
+                  $proinfo[$key]['txt'] = pdo_getall('zofui_sitetemp_prosort',array('proid'=>$value['id']),array('name'));
+	    }
+        $this->result(0, '',$proinfo);
+
 	}
 
 	
