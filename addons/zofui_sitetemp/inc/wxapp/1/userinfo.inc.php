@@ -73,6 +73,7 @@
 
    }else{
    	   $info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
+   	   $info['title'] = pdo_get('zofui_sitetemp_prosort', array('uniacid'=>$_W['uniacid'],'id'=>$info['prosortid']));
    	   if ($info) {
    	   	   $this->result(0, '操作成功',$info);
    	   }else{
