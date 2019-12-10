@@ -90,6 +90,17 @@
 	    }
         $this->result(0, '',$proinfo);
 
+	}elseif ($_GPC['op'] == 'menus') {
+		//获取所有分类的类目
+		$proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+	    $proinfo = $proinfo[0];
+		$proinfo = Util::prosort($proinfo);
+		if ($proinfo) {
+			$this->result(0, '操作成功',$proinfo);
+		}else{
+			$this->result(1, '操作失败');
+		}
+		
 	}
 
 	
