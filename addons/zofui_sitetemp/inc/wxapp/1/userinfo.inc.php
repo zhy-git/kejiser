@@ -73,10 +73,9 @@
 
    }else{
    	   $info = pdo_get('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
-   	   $userinfo = pdo_get('zofui_sitetemp_prosort', array('uniacid'=>$_W['uniacid'],'id'=>$info['prosortid']));
-   	   $info['title1']=$userinfo['name'];
-   	   
    	   if ($info) {
+	   	   $userinfo = pdo_get('zofui_sitetemp_prosort', array('uniacid'=>$_W['uniacid'],'id'=>$info['prosortid']));
+	   	   $info['title1']=$userinfo['name'];
    	   	   $this->result(0, '操作成功',$info);
    	   }else{
            $this->result(1, '操作失败');
