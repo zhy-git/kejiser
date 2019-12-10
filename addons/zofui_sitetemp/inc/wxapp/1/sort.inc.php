@@ -86,7 +86,7 @@
 	    	      $proinfo[$key]['uid'] = $value['id'];
 	    	      $proinfo[$key]['hiddens'] = true;
 	    	      $proinfo[$key]['title'] = $value['name'];
-                  $proinfo[$key]['txt'] = pdo_getall('zofui_sitetemp_prosort',array('proid'=>$value['id']),array('name'));
+                  $proinfo[$key]['txt'] = pdo_getall('zofui_sitetemp_prosort',array('proid'=>$value['id']),array('id,name'));
 	    }
         $this->result(0, '',$proinfo);
 
