@@ -101,6 +101,18 @@
 			$this->result(1, '操作失败');
 		}
 		
+	}elseif ($_GPC['op'] == 'sortlist') {
+
+		$data = pdo_getall('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid'],'proid'=>0,array('id'));
+          if ($data) {
+          	   foreach ($data as $key => &$v) {
+				   $datalist = pdo_getall('zofui_sitetemp_prosort',array('proid'=>$v['id']),array('id','name'));
+			   }
+          	   $this->result(0, '操作成功',$datalist);
+          }else{
+               $this->result(1, '操作失败');
+          }
+
 	}
 
 	
