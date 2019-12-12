@@ -8,7 +8,7 @@
          if ($user) {
              $updateinfo = pdo_update('zofui_sitetemp_reguser',array('istrue'=>3),array('id'=>$user['id']));
                  if ($updateinfo) {
-                     $this->result(0, '申请已发送，等待管理员审核。',$updateinfo);
+                     $this->result(0, '申请已发送。',$updateinfo);
                  }else{
                         $infou = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'id'=>$user['id']));
                         if ($infou['istrue'] == 3) {
