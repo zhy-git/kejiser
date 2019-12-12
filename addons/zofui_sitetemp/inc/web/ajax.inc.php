@@ -429,7 +429,12 @@
 		$prosort = model_prosort::getSort();
 		if( !empty( $prosort ) ) {
 			foreach ($prosort as &$v) {
-				$v['url'] = '/zofui_sitetemp/pages/product/userinfolist?sid='.$v['id'].'&tid='.$_GPC['tid'];
+				if ($v['proid']  == 0) {
+					$v['url'] = '/zofui_sitetemp/pages/product/userinfolist?sortid='.$v['id'];
+				}else{
+					$v['url'] = '/zofui_sitetemp/pages/product/userinfolist?sid='.$v['id'];
+				}
+				
 			}
 			unset( $v );
 		}
