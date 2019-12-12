@@ -10,7 +10,7 @@
                  if ($updateinfo) {
                      $this->result(0, '申请已发送，等待管理员审核。',$updateinfo);
                  }else{
-                    $this->result(1, '申请失败。');
+                    $this->result(1, '申请失败。'$updateinfo);
                  }
                  
          }else{
