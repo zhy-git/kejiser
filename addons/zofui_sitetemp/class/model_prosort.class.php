@@ -13,6 +13,8 @@ class model_prosort {
 			$data = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',$where,1,1010,' `number` DESC ',false,false);
 			
 			$cache =  $data[0];
+			$cache = Util::prosort($cache);
+			// var_dump($cache);die();
 			Util::setCache('prosort','all',$cache);
 		}
 		return $cache;

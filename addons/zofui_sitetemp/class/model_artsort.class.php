@@ -13,6 +13,7 @@ class model_artsort {
 			$data = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',$where,1,1010,' `number` DESC ',false,false);
 			
 			$cache =  $data[0];
+			$cache = Util::artsort($cache);
 			Util::setCache('artsort','all',$cache);
 		}
 		return $cache;

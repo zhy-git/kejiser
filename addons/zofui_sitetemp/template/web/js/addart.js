@@ -565,13 +565,20 @@ myyapp.controller('ctr',['$scope',function($scope){
 		key : 'artsort',
 		data : [],
 	});
+	// $scope.urlarr.push({
+	// 	name : '产品页面',
+	// 	key : 'product',
+	// 	data : [],
+	// });	
+
 	$scope.urlarr.push({
-		name : '产品页面',
-		key : 'product',
+		name : '特派员页面',
+		key : 'userinfo',
 		data : [],
-	});	
+	});
+
 	$scope.urlarr.push({
-		name : '产品分类',
+		name : '特派员分类',
 		key : 'prosort',
 		data : [],
 	});	
@@ -1146,14 +1153,14 @@ myyapp.controller('ctr',['$scope',function($scope){
 			},true);
 		}
 				
-		if( !$scope.allnews && type == 'article' ){
-			Http('post','json','getarticle',{},function(data){
-				if( data.obj.length > 0 ){
-					$scope.allnews = data.obj;
-				}
-				$scope.$apply();
-			},true);
-		}
+		// if( !$scope.allnews && type == 'article' ){
+		// 	Http('post','json','getarticle',{},function(data){
+		// 		if( data.obj.length > 0 ){
+		// 			$scope.allnews = data.obj;
+		// 		}
+		// 		$scope.$apply();
+		// 	},true);
+		// }
 		if( !$scope.allnews && type == 'appoint' ){
 			Http('post','json','getappoint',{},function(data){
 				if( data.obj.length > 0 ){

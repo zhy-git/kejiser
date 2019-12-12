@@ -124,8 +124,14 @@
 					                		</li>
 				                		</div>
 
-					                	<div ng-if="(item.key == 'news' || item.key == 'product' || item.key == 'other' || item.key == 'shop' || item.key == 'order' || item.key == 'appointp' || item.key == 'artsort' || item.key == 'appsort' || item.key == 'prosort' || item.key == 'sortone' || item.key == 'sorttwo' || item.key == 'ordersortone' || item.key == 'ordersorttwo' || item.key == 'cardurl') && item.key == seturltype" ng-repeat="in in item.data" class="item_cell_box setlink_r_item">
-					                		<li>{{in.title ? in.title : in.name}}</li>
+					                	<div ng-if="(item.key == 'news' || item.key == 'product' || item.key == 'userinfo' || item.key == 'other' || item.key == 'shop' || item.key == 'order' || item.key == 'appointp' || item.key == 'artsort' || item.key == 'appsort' || item.key == 'prosort' || item.key == 'sortone' || item.key == 'sorttwo' || item.key == 'ordersortone' || item.key == 'ordersorttwo' || item.key == 'cardurl') && item.key == seturltype" ng-repeat="in in item.data" class="item_cell_box setlink_r_item">
+					                		<li>
+                                              
+                                                {{item.key == 'prosort'? in.level==0?'':'&nbsp;&nbsp;&nbsp;|---':''}}
+                                                {{item.key == 'artsort'? in.level==0?'':'&nbsp;&nbsp;&nbsp;|---':''}}
+					                			{{in.title ? in.title : in.name}}
+
+					                		</li>
 					                		<li class="setlink_r_box item_cell_flex">
 					                			<span ng-click="setLink(in.url,in.title ? in.title : in.name)">选择</span>
 					                		</li>
@@ -319,6 +325,7 @@
 		var prosort = {php echo json_encode($prosort)};
 		var lawyer = {php echo intval( $this->module['config']['lawyer'] )};
 		var op = "{$_GPC['op']}";
+		console.log(prosort);
 	</script>
 	<script type="text/javascript" src="{php echo MODULE_URL}template/web/js/addart.js{php echo '?t='.TIMESTAMP}"></script>
 

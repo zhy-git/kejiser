@@ -425,11 +425,11 @@
 			unset( $v );
 		}
 
-		// 产品分类
+		// 产品分类（变为特派员分类了）
 		$prosort = model_prosort::getSort();
 		if( !empty( $prosort ) ) {
 			foreach ($prosort as &$v) {
-				$v['url'] = '/zofui_sitetemp/pages/product/list?sid='.$v['id'].'&tid='.$_GPC['tid'];
+				$v['url'] = '/zofui_sitetemp/pages/product/userinfolist?sid='.$v['id'].'&tid='.$_GPC['tid'];
 			}
 			unset( $v );
 		}
@@ -438,6 +438,14 @@
 		if( !empty( $product ) ){
 			foreach ( $product as &$v ) {
 				$v['url'] = '/zofui_sitetemp/pages/product/product?aid='.$v['id'].'&tid='.$_GPC['tid'];
+			}
+			unset( $v );
+		}
+
+		$userinfo = pdo_getall('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),array('id','title'));
+		if( !empty( $userinfo ) ){
+			foreach ( $userinfo as &$v ) {
+				$v['url'] = '/zofui_sitetemp/pages/product/product?id='.$v['id'];
 			}
 			unset( $v );
 		}
@@ -477,6 +485,7 @@
 			'ordersorttwo'=>$ordersorttwo,
 			'prosort'=>$prosort,
 			'product'=>$product,
+			'userinfo' => $userinfo,
 			'appsort' => $appsort,
 		));
 	
