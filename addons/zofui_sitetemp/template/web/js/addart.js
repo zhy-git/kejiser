@@ -1153,14 +1153,14 @@ myyapp.controller('ctr',['$scope',function($scope){
 			},true);
 		}
 				
-		// if( !$scope.allnews && type == 'article' ){
-		// 	Http('post','json','getarticle',{},function(data){
-		// 		if( data.obj.length > 0 ){
-		// 			$scope.allnews = data.obj;
-		// 		}
-		// 		$scope.$apply();
-		// 	},true);
-		// }
+		if( !$scope.allnews && type == 'article' ){
+			Http('post','json','getarticle',{},function(data){
+				if( data.obj.length > 0 ){
+					$scope.allnews = data.obj;
+				}
+				$scope.$apply();
+			},true);
+		}
 		if( !$scope.allnews && type == 'appoint' ){
 			Http('post','json','getappoint',{},function(data){
 				if( data.obj.length > 0 ){

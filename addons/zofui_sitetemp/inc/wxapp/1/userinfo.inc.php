@@ -47,7 +47,7 @@
    }elseif($_GPC['op'] == 'list'){
         //获取所有的特派员信息
    	    $where = array('uniacid'=>$_W['uniacid']);
-   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,6,' `id` DESC ',false,false);
+   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',false,false);
    	    $list = $info[0];
    	    foreach ($list as $key => $value) {
     		$list[$key]['img'] = strtok($value['img'],',');
