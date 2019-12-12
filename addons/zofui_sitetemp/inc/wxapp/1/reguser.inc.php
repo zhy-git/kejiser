@@ -6,7 +6,7 @@
     if ($hasuser) {
         $this->result(0, '服务器获取用户成功',$hasuser);
     }else{
-         if (empty($_W['openid']) && empty($_W['uniacid'])) {
+         if (empty($_W['openid']) || empty($_W['uniacid'])) {
                 $this->result(1, '服务器注册用户失败');
          } else {
               $user = [
