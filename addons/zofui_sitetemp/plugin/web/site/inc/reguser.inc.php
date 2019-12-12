@@ -12,8 +12,8 @@
         //openid 和 昵称查询
 	    $where = array('uniacid'=> $_W['uniacid']);
         $dataa = Util::structWhereStringOfAnd($where,'',false);
-        if ($_GPC['istrue'] == 2) {
-        	$str = ' AND nickname LIKE'.'"'.$_GPC['nickname'].'%"'.'AND istrue IN(0,1)';
+        if ($_GPC['istrue'] == 'all') {
+        	$str = ' AND nickname LIKE'.'"'.$_GPC['nickname'].'%"'.'AND istrue IN(0,1,2)';
         }else{
         	$str = ' AND nickname LIKE'.'"'.$_GPC['nickname'].'%"'.'AND istrue ='."'".$_GPC['istrue']."'";
         }

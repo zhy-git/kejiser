@@ -6,12 +6,12 @@
         //申请为特派员  
          $user = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
          if ($user) {
-             $updateinfo = pdo_update('zofui_sitetemp_reguser',array('istrue'=>3),array('id'=>$user['id']));
+             $updateinfo = pdo_update('zofui_sitetemp_reguser',array('istrue'=>2),array('id'=>$user['id']));
                  if ($updateinfo) {
                      $this->result(0, '申请已发送。',$updateinfo);
                  }else{
                         $infou = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'],'id'=>$user['id']));
-                        if ($infou['istrue'] == 3) {
+                        if ($infou['istrue'] == 2) {
                             $this->result(0, '您已申请过了。');
                         }else{
                             $this->result(1, '申请失败。'); 
@@ -25,6 +25,19 @@
 
 
         
+    }elseif($_GPC['op'] == 'isShow'){
+         $user = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
+        if ($user['istrue'] == 1) {
+             $this->result(0, '我是特派员',$user['istrue']);
+        }elseif($user['istrue'] == 2){
+             $this->result(0, '申请中',$user['istrue']);
+        }else{
+             $this->result(1, '普通会员',$user['istrue']);
+        }
+
+
+
+
     }else{
             $hasuser = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
             if ($hasuser) {

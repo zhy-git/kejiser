@@ -64,9 +64,11 @@
     	  			<input type="hidden" name="op" value="search" />
     	  			<!-- <input type="text" name="istrue"  placeholder="搜索会员类型" class="el-input__inner" style="margin-right:10px;"> -->
     	  			<select name="istrue" class="el-input__inner" style="height:41px!important;width:231px">
-    	  				<option value ="2">全部</option>
+    	  				<option value ="all">全部</option>
     	  				<option value ="0">普通会员</option>
-    	  				<option value ="1">特派员</option>
+    	  				<option value ="2">申请特派员</option>
+                        <option value ="1">特派员</option>
+
     	  			</select>
     	  			<input type="text" name="nickname" placeholder="搜索微信昵称" class="el-input__inner" style="margin-right:10px;">
     	  			<button  type="submit" class="el-button el-button--primary el-button--mini" ><i class="el-icon-search"></i><span>查询</span></button>
@@ -117,8 +119,9 @@
 	    			{$item['openid']}
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
-	    			{if $item['istrue'] == 0}普通
-	    			{elseif $item['istrue'] == 1}特派员
+	    			{if $item['istrue'] == 0}<p style="color: orange;">普通</p>
+	    			{elseif $item['istrue'] == 1}<p style="color: green;">特派员</p>
+                    {else}<p style="color: red;">申请中</p>
 	    			{/if}
 	     		</td>     		
 	     		<td class="table_cell price tl td_col_1">
@@ -129,10 +132,13 @@
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	{if $item['istrue'] == 0}
-			    	<a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a>
+			    	<!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a> -->
                     {elseif $item['istrue'] == 1}
-                    <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消特派员</a>
+                    <!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消特派员</a> -->
+                    {else}
+                    <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a>
                     {/if}
+
 			    	<!-- <a href="{php echo self::pwUrl('site','article',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
 			    </td>
 	    	</tr>
