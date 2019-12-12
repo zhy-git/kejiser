@@ -103,11 +103,31 @@
 		
 	}elseif ($_GPC['op'] == 'sortlist') {
 
-		$data = pdo_getall('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid'],'proid'=>0,array('id'));
-          if ($data) {
-          	   foreach ($data as $key => &$v) {
-				   $datalist = pdo_getall('zofui_sitetemp_prosort',array('proid'=>$v['id']),array('id','name'));
-			   }
+		    $where = array('uniacid' => $_W['uniacid']);
+		    $dataa = Util::structWhereStringOfAnd($where,'',false);
+		    if (!empty($_GPC['sortid']) && is_numeric($_GPC['sortid'])) {
+		    	 $str = 'AND proid ='.$_GPC['sortid'];
+		    }elseif(!empty($_GPC['id']) && is_numeric($_GPC['id'])){
+		    	 $str = 'AND proid <> 0 AND id ='.$_GPC['id'];
+		    }else{
+		    	 $str = 'AND proid <> 0';
+		    }
+	        $order = ' `id` ASC ';
+			$select = ' * ';
+			$commonstr = tablename('zofui_sitetemp_prosort') ." WHERE ".$dataa[0].$str ;
+			// $this->result(0, '操作成功111',$commonstr);
+			$countStr = "SELECT COUNT(*) FROM ".$commonstr;
+			$selectStr =  "SELECT $select FROM ".$commonstr;
+			$list = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],1,999,$order,true);
+		    $list = $list[0];
+		
+		   if($list){
+				   foreach ($list as $k =>$value){
+				   	       	   $datalist[$k]['c_name'] = $value['name'];
+				   	       	   $datalist[$k]['list'] = pdo_getall('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'prosortid'=>$value['id']),array('id','img','title'));
+				   	    
+				   }
+			
           	   $this->result(0, '操作成功',$datalist);
           }else{
                $this->result(1, '操作失败');
@@ -115,4 +135,3 @@
 
 	}
 
-	
