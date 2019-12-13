@@ -92,9 +92,9 @@
      	 //如果服务器查询到就删除收藏
      	$res = pdo_delete('zofui_sitetemp_collection',array('uid' => $_GPC['id']));
      	if ($res) {
-	     		 $this->result(0, '服务器删除收藏特派员成功');
+	     		 $this->result(0, '取消收藏');
 	     	}else{
-	     		 $this->result(1, '服务器删除收藏特派员失败');
+	     		 $this->result(1, '取消收藏失败');
 	     	}
      	
      }else{
@@ -108,9 +108,9 @@
 	     	];
 	     	$res =pdo_insert('zofui_sitetemp_collection',$date);
 	     	if ($res) {
-	     		$this->result(0, '服务器收藏特派员成功');
+	     		$this->result(0, '收藏成功');
 	     	}else{
-	     		$this->result(1, '服务器收藏特派员失败');
+	     		$this->result(1, '收藏失败');
 	     	}
 
      }
