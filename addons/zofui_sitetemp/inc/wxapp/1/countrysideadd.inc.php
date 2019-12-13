@@ -89,7 +89,7 @@
      //收藏
      $info = pdo_get('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$_GPC['uid']));
      if ($info) {
-     	 $this->result(0, '服务器收藏特派员成功');
+     	 $this->result(0, '服务器获取收藏特派员成功');
      }else{
      	$date =[
      		'openid' => $_W['openid'],
