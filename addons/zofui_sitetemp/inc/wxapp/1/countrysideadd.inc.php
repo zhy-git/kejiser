@@ -89,20 +89,29 @@
      //收藏
      $info = pdo_get('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$_GPC['id']));
      if ($info) {
-     	 $this->result(0, '服务器获取收藏特派员成功');
-     }else{
-     	$date =[
-     		'openid' => $_W['openid'],
-     		'uniacid' => $_W['uniacid'],
-     		'uid'   => $_GPC['id'],
-     		'createtime' => time(),
-     	];
-     	$res =pdo_insert('zofui_sitetemp_collection',$date);
+     	 //如果服务器查询到就删除收藏
+     	$res = pdo_delete('zofui_sitetemp_collection',array('uid' => $_GPC['id']));
      	if ($res) {
-     		$this->result(0, '服务器收藏特派员成功');
-     	}else{
-     		$this->result(1, '服务器收藏特派员失败');
-     	}
+	     		 $this->result(0, '服务器删除收藏特派员成功');
+	     	}else{
+	     		 $this->result(1, '服务器删除收藏特派员失败');
+	     	}
+     	
+     }else{
+
+         //如果服务器查询不到就收藏
+	     	$date =[
+	     		'openid' => $_W['openid'],
+	     		'uniacid' => $_W['uniacid'],
+	     		'uid'   => $_GPC['id'],
+	     		'createtime' => time(),
+	     	];
+	     	$res =pdo_insert('zofui_sitetemp_collection',$date);
+	     	if ($res) {
+	     		$this->result(0, '服务器收藏特派员成功');
+	     	}else{
+	     		$this->result(1, '服务器收藏特派员失败');
+	     	}
 
      }
 
