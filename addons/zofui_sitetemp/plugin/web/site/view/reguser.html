@@ -137,6 +137,8 @@
                     <!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消特派员</a> -->
                     {else}
                     <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a>
+                    <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消申请</a>
+
                     {/if}
 
 			    	<!-- <a href="{php echo self::pwUrl('site','article',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->

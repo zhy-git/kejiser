@@ -91,11 +91,11 @@
 	  			'toplist' => array('list'),
 	  		),	
 	  		'form' => array(
-	  			'name'=>'表单数据',
+	  			'name'=>'前端查看',
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
 	  			'list'=>array(
-	  				array('op'=>'wait','name'=>'审核数据','url'=> self::pwUrl('site','form',array('op'=>'wait')) ),
-	  				array('op'=>'scaned','name'=>'已审数据','url'=> self::pwUrl('site','form',array('op'=>'scaned')) ),
+	  				// array('op'=>'wait','name'=>'审核数据','url'=> self::pwUrl('site','form',array('op'=>'wait')) ),
+	  				// array('op'=>'scaned','name'=>'已审数据','url'=> self::pwUrl('site','form',array('op'=>'scaned')) ),
 	  				array('op'=>'admin','name'=>'前端查看','url'=> self::pwUrl('site','form',array('op'=>'admin')) ),
 	  			),
 	  			'toplist' => array('wait','scaned','admin')

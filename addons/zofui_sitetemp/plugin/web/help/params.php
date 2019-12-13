@@ -3,7 +3,7 @@
 
 	$menu = array(
 		'index' => 12,
-		'name' => '使用说明',
+		'name' => '',  //使用说明
 		'do' => 'help',
 		'p' => 'help',
 		'op' => 'wqa',

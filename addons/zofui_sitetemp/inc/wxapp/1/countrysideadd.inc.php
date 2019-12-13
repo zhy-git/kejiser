@@ -85,6 +85,28 @@
         	$this->result(1, '操作失败');
         }
 		
+    }elseif($_GPC['op'] == 'shoucang'){
+     //收藏
+     $info = pdo_get('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$_GPC['uid']));
+     if ($info) {
+     	 $this->result(0, '服务器收藏特派员成功');
+     }else{
+     	$date =[
+     		'openid' => $_W['openid'],
+     		'uniacid' => $_W['uniacid'],
+     		'uid'   => $_GPC['id'],
+     		'createtime' => time(),
+     	];
+     	$res =pdo_insert('zofui_sitetemp_collection',$date);
+     	if ($res) {
+     		$this->result(0, '服务器收藏特派员成功');
+     	}else{
+     		$this->result(1, '服务器收藏特派员失败');
+     	}
+
+     }
+
+
     }else{
         //图片上传
 	    load()->func('file');
