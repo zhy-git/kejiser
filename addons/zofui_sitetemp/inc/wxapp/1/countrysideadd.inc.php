@@ -87,7 +87,7 @@
 		
     }elseif($_GPC['op'] == 'shoucang'){
      //收藏
-     $info = pdo_get('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$_GPC['uid']));
+     $info = pdo_get('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$_GPC['id']));
      if ($info) {
      	 $this->result(0, '服务器获取收藏特派员成功');
      }else{
