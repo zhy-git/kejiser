@@ -3,7 +3,7 @@
 
 	$menu = array(
 		'index' => 2,
-		'name' => '官网系统',
+		'name' => '霍城科学大巴扎系统',
 		'do' => 'temp',
 		'p' => 'site',
 		'op' => 'my',
@@ -13,9 +13,9 @@
 	  			'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
 	  			'list'=>array(
 	  				array('op'=>'my','name'=>'我的模板','url' => self::pwUrl('site','temp',array('op'=>'my')) ),
-	  				array('op'=>'sys','name'=>'系统模板','url'=> self::pwUrl('site','temp',array('op'=>'sys')) ),
+	  				// array('op'=>'sys','name'=>'系统模板','url'=> self::pwUrl('site','temp',array('op'=>'sys')) ),
 	  			),
-	  			'toplist' => array('my','sys')
+	  			'toplist' => array('my')
 	  		),		  		
 	  		'page' => array(
 	  			'name' => '设计页面',
@@ -104,9 +104,9 @@
 		),
 	);
 
-	if( $_W['role'] == 'founder' ) {
-		$menu['leftbar']['temp']['list'][] = array('op'=>'module','name'=>'模块模板','url'=> self::pwUrl('site','temp',array('op'=>'module')) );
-		$menu['leftbar']['temp']['toplist'][] = 'module';
-	}
+	// if( $_W['role'] == 'founder' ) {
+	// 	$menu['leftbar']['temp']['list'][] = array('op'=>'module','name'=>'模块模板','url'=> self::pwUrl('site','temp',array('op'=>'module')) );
+	// 	$menu['leftbar']['temp']['toplist'][] = 'module';
+	// }
 
 	return $menu;

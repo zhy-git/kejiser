@@ -48,7 +48,9 @@
 							{/if}
 							{if $_W['role'] == 'founder'}
 							<div class="opclass" >
-								<a class="editsystem settemp_btnr tocloud" id="{$item['id']}" href="javascript:;">推至云端</a>
+								<!-- <a class="editsystem settemp_btnr tocloud" id="{$item['id']}" href="javascript:;">推至云端</a>
+								 -->
+								 <a href="{php echo self::pwUrl('site','page',array('op'=>'list','tid'=>$item['id']))}">点击编辑</a>
 							</div>
 							{/if}							
 						</div>
@@ -117,19 +119,19 @@
 						{/if}
 					{else}
 						<div class="item_cell_box temp_item_bot">
-							<li><a href="{php echo self::pwUrl('site','page',array('op'=>'list','tid'=>$item['id']))}">页面列表</a></li>
-							<li class="item_cell_flex tc"><a href="{php echo self::pwUrl('site','page',array('op'=>'add','tid'=>$item['id']))}">添加页面</a></li>
+							<li style="margin-right:10px;"><a href="{php echo self::pwUrl('site','page',array('op'=>'list','tid'=>$item['id']))}">页面列表</a></li>
+							<!-- <li class="item_cell_flex tc"><a href="{php echo self::pwUrl('site','page',array('op'=>'add','tid'=>$item['id']))}">添加页面</a></li> -->
 							<li><a href="{php echo self::pwUrl('site','page',array('op'=>'design','op'=>'bar','tid'=>$item['id']))}">设置导航</a></li>
 						</div>
-						<div class="item_cell_box temp_item_bot">
-							<li><a href="javascript:;" class="edit_listitem" id="{$item['id']}">编辑模板</a></li>
-							<li class="deletesystem item_cell_flex {if $_W['role'] == 'founder' | ( $_W['role'] == 'vice_founder' && $set['istoseys'] == 1 )}tc{else}tr{/if}" id="{$item['id']}" >
+						<div class="item_cell_box temp_item_bot" style="display: none;">
+							<!-- <li><a href="javascript:;" class="edit_listitem" id="{$item['id']}">编辑模板</a></li> -->
+							<!-- <li class="deletesystem item_cell_flex {if $_W['role'] == 'founder' | ( $_W['role'] == 'vice_founder' && $set['istoseys'] == 1 )}tc{else}tr{/if}" id="{$item['id']}" >
 								<a href="javascript:;" >删除模板</a>
-							</li>
+							</li> -->
 							{if $_W['role'] == 'founder' || ( $_W['role'] == 'vice_founder' && $set['istoseys'] == 1 )}
 								<!-- <li class="tosystem" id="{$item['id']}"><a href="javascript:;" >设为系统</a></li> -->
 								<li class=" opclass tr">
-			                        <a href="javascript:;" class="drop_down_editbtn" style="display: inherit;">设为系统</a>
+			                        <!-- <a href="javascript:;" class="drop_down_editbtn" style="display: inherit;">设为系统</a> -->
 			                        <div class="dropdown_menu_box dropdown_menu dropdown_checkbox has_goods_group" >
 			                            <div class="dropdown_data_container jsDropdownsList" style="display: none;right: 0;">
 			                                <div class="dropdown_data_list" style="">
