@@ -124,7 +124,18 @@
         	 $this->result(1, '',array('isshow'=>'flase'));
         }
 
-    }else{
+    }elseif($_GPC['op'] == 'shoucanglist'){
+    	//获取收藏列表
+    	$info = pdo_getall('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
+    	if ($info) {
+    		$this->result(0, '操作成功',$info['id']);
+    	}else{
+    		$this->result(1, '操作失败');
+    	}
+
+    }
+
+    else{
         //图片上传
 	    load()->func('file');
 	    $saveimgurl = file_upload($_FILES['imgfile'], 'image', '');
