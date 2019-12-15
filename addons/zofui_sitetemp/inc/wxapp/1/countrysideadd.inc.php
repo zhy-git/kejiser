@@ -128,14 +128,18 @@
     	//获取收藏列表的uid数组
     $shoucanginfo = pdo_getall('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']),array('uid'));
 
-    foreach ($shoucanginfo as $key => $value) {
-    	 $userinfo[$key] = pdo_getall('zofui_sitetemp_userinfo', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid'],'id'=>$value['uid']));
-
+    foreach ($shoucanginfo as $key=>$value) {
+    	$list1[$key] =  $value['uid'];
     }
-   
+    
+     $list['list'] = pdo_getall('zofui_sitetemp_userinfo', array('id IN' => $list1));
+     foreach ($list['list'] as &$value) {
+     	 $value['createtime'] = date('Y-m-d',$value['createtime']);
+     	 $value['img'] = strtok($value['img'],',');
+     }
 
-    	if ($shoucanginfo) {
-    		$this->result(0, '操作成功',$userinfo);
+    	if ($list) {
+    		$this->result(0, '操作成功',$list);
     	}else{
     		$this->result(1, '操作失败');
     	}
