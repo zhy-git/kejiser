@@ -1905,7 +1905,7 @@ body.scaled {
     display: inline-block;
     text-align: left;
     cursor: pointer;
-    margin-right: 1em
+    /*margin-right: 1em*/
 }
 
 .frm_radio_label.no_extra,.frm_checkbox_label.no_extra {

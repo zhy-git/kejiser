@@ -90,8 +90,10 @@
      		</th>
      		<th class="table_cell tl td_col_1">微信头像</th>		
      		<th class="table_cell tl td_col_2">微信昵称</th>
-     		<th class="table_cell tl td_col_1">openid</th>
      		<th class="table_cell tl td_col_1">会员类型</th>
+            <th class="table_cell tl td_col_1">特派员头像</th>
+            <th class="table_cell tl td_col_1">特派员名称</th>
+            <th class="table_cell tl td_col_1">电话</th>
      		<th class="table_cell tl td_col_1">状态</th>	
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
@@ -116,14 +118,19 @@
 	    			{$item['nickname']}
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
-	    			{$item['openid']}
-	     		</td>
-	     		<td class="table_cell price tl td_col_1">
 	    			{if $item['istrue'] == 0}<p style="color: orange;">普通</p>
 	    			{elseif $item['istrue'] == 1}<p style="color: green;">特派员</p>
                     {else}<p style="color: red;">申请中</p>
 	    			{/if}
-	     		</td>     		
+	     		</td>   
+                <td class="table_cell price tl td_col_1">
+                    {if !empty($item['userinfolist']['img'][0])}
+                          <img src="{$item['userinfolist']['img'][0]}" width="30px" height="30px">
+                     {else}
+                     {/if}
+                </td>
+                <td class="table_cell price tl td_col_1">{$item['userinfolist']['title']}</td> 
+                <td class="table_cell price tl td_col_1">{$item['userinfolist']['phone']}</td>   		
 	     		<td class="table_cell price tl td_col_1">
 	    			{if $item['status'] == 0} <p style="color:green">正常</p>
 	    			{elseif $item['status'] == 1}<p style="color:red">异常</p>p>
@@ -132,10 +139,13 @@
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	{if $item['istrue'] == 0}
+                    无操作
 			    	<!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a> -->
-                    {elseif $item['istrue'] == 1}
-                    <!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消特派员</a> -->
-                    {else}
+                    {elseif $item['istrue'] == 1 && !empty($item['userinfolist'][img][0])}
+
+                    <a  href="{php echo self::pwUrl('site','countryside',array('op'=>'list','openid'=>$item['userinfolist']['openid'],'id'=>$item['userinfolist']['id']))}" class="edit_listitem">我的下乡</a>
+
+                    {elseif $item['istrue'] == 2}
                     <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a>
                     <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'0'))}" class="edit_listitem" onclick="return confirm('取消特派员，确定要取消吗？');">取消申请</a>
 
@@ -211,14 +221,16 @@
      		</th>
      		<th class="table_cell tl td_col_1">微信头像</th>		
      		<th class="table_cell tl td_col_2">微信昵称</th>
-     		<th class="table_cell tl td_col_1">openid</th>
      		<th class="table_cell tl td_col_1">会员类型</th>
+            <th class="table_cell tl td_col_1">特派员头像</th>
+            <th class="table_cell tl td_col_1">特派员名称</th>
+            <th class="table_cell tl td_col_1">电话</th>
      		<th class="table_cell tl td_col_1">状态</th>	
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead>
        <tbody class="tbody" id="js_goods">
-    	  <tr ><td colspan = '7' ><div class="no_data" style="margin:20px 0px ">没有找到数据</div></td></tr> 
+    	  <tr ><td colspan = '9' ><div class="no_data" style="margin:20px 0px ">没有找到数据</div></td></tr> 
        </tbody>
     </table>
     {/if}

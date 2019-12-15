@@ -1,5 +1,14 @@
 {template '../../../addons/'.MODULE.'/template/web/common/myheader'}
-
+<style>
+	th,td{
+		border-right: 1px solid #e7e7e7;
+	}
+	.el-button--primary {
+	    color: #fff;
+	    background-color: #409eff;
+	    border-color: #409eff;
+	}
+</style>
 	{if $_GPC['op'] == 'edit'}
 		<form method="post" action="" style="margin-left: 100px">
 			<div class="frm_control_group">
@@ -80,15 +89,16 @@
     	<tr> 
      		<th class="table_cell title td_col_1"> 
      			<label class="frm_checkbox_label" for="selectAll"> 
-     				<i class="icon_checkbox"></i> 
+     				<!-- <i class="icon_checkbox"></i>  -->
      				<span class="lbl_content">id</span> 
      				<input type="checkbox" class="frm_checkbox" id="selectAll" /> 
      			</label>
      		</th>
-     		<th class="table_cell tl td_col_1">特派员</th>		
+     		<th class="table_cell tl td_col_1">特派员名称</th>		
      		<th class="table_cell tl td_col_2">服务项目</th>
      		<th class="table_cell tl td_col_1">服务地址</th> 
-     		<th class="table_cell tl td_col_1">下乡时间</th> 		
+     		<th class="table_cell tl td_col_1">下乡时间</th> 
+     		<th class="table_cell tl td_col_1">发挥作用</th>		
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead> 
@@ -99,8 +109,8 @@
 	     		<td class="table_cell title td_col_1"> 
 	      			<div class="goods_info">
 	      			 	<label class="frm_checkbox_label" > 
-	       					<i class="icon_checkbox"></i> 
-	       					<input type="checkbox" name="checkall[]" class="frm_checkbox" value="{$item['id']}" /> 
+	       					<!-- <i class="icon_checkbox"></i>  -->
+	       					<!-- <input type="checkbox" name="checkall[]" class="frm_checkbox" value="{$item['id']}" />  -->
 	       					{$item['id']}
 	       				</label>
 	      			</div>
@@ -117,11 +127,14 @@
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_1">
 	    			{$item['createtime']}
-	     		</td>	     		     		
+	     		</td>	 
+	     		<td>
+	     			发挥了令人意想不到的作用。
+	     		</td>    		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
-			    	<a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a>
-			    	<a  href="{php echo self::pwUrl('site','countryside',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >编辑</a>
-			    	<a href="{php echo self::pwUrl('site','countryside',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a>
+			    	<a  href="{php echo self::pwUrl('site','countryside',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
+
+			    	<!-- <a href="{php echo self::pwUrl('site','countryside',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
 			    </td>
 	    	</tr>
 	    {/loop}

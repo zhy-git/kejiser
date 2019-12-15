@@ -7,6 +7,10 @@
 	if($_GPC['op'] == 'list'){	
 		$info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
 		$list = $info[0];
+		foreach ($list as $key => $value) {
+			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
+			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+		}
 		$pager = $info[1];
 	}elseif($_GPC['op'] == 'search'){
         //openid 和 昵称查询
@@ -24,6 +28,10 @@
 		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true);
         $list = $info[0];
 		$pager = $info[1];
+		foreach ($list as $key => $value) {
+			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
+			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+		}
 		// var_dump('<pre>');
 		// var_dump($selectStr);
 		// var_dump($list);die();

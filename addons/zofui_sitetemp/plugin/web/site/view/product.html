@@ -39,7 +39,7 @@
 				    		<a href="javascript:;" class="btn dropdown_switch jsDropdownBt width_200">
 				    			<label class="jsBtLabel">
 				    				{loop $artsort $item}
-				    					{if $item['id'] == $info['sortid']}
+				    					{if $item['id'] == $info['prosortid']}
 				    						{$item['name']}
 				    					{/if}
 				    				{/loop}
@@ -49,11 +49,17 @@
 				    		<div class="dropdown_data_container jsDropdownList width_200" > 
 					     		<ul class="dropdown_data_list">
 					     			{loop $artsort $item}
-					      				<li class="dropdown_data_item "> <a href="javascript:;" id="{$item['id']}" class="select_item">{$item['name']}</a> </li> 
+					      				<li class="dropdown_data_item "> <a href="javascript:;" id="{$item['id']}" class="select_item">
+                                          {if $item['level'] == 0}
+                                          {else}
+					      					&nbsp;&nbsp;&nbsp;|---
+                                          {/if}
+                                          {$item['name']}
+					      				</a> </li> 
 					      			{/loop}
 					    		</ul>
 				    		</div> 
-				    		<input type="hidden" name="sortid" value="{$info['sortid']}">
+				    		<input type="hidden" name="sortid" value="{$info['prosortid']}">
 				   		</div>
 		  			</div>
 	   			</div>
@@ -61,8 +67,8 @@
 			<div class="frm_control_group single_img_upload">
 				<label for="" class="frm_label">封面图片</label>
 				<div class="frm_controls">
-					{php echo  WebCommon::tpl_form_field_image('img',$info['img'])}
-					<p class="frm_tips">建议设置正方形图片</p>
+					<!-- {php echo  WebCommon::tpl_form_field_image('img',$info['img'][0])} -->
+					<img src="{$info['img'][0]}" width="130px" height="174px">
 				</div>
 			</div>
 			<div class="frm_control_group textarea_item">
@@ -87,7 +93,7 @@
     	<tr> 
      		<th class="table_cell title td_col_1"> 
      			<label class="frm_checkbox_label" for="selectAll"> 
-     				<i class="icon_checkbox"></i> 
+     				<!-- <i class="icon_checkbox"></i>  -->
      				<span class="lbl_content">id</span> 
      				<input type="checkbox" class="frm_checkbox" id="selectAll" /> 
      			</label>
@@ -95,7 +101,7 @@
      		<th class="table_cell tl td_col_1">图片</th>		
      		<th class="table_cell tl td_col_2">名称</th>
      		<th class="table_cell tl td_col_1">电话</th> 
-     		<!-- <th class="table_cell tl td_col_1">分类</th>  -->
+     		<th class="table_cell tl td_col_1">所属分类</th> 
      		<th class="table_cell tl td_col_1">时间</th> 		
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
@@ -107,7 +113,7 @@
 	     		<td class="table_cell title td_col_1"> 
 	      			<div class="goods_info">
 	      			 	<label class="frm_checkbox_label" > 
-	       					<i class="icon_checkbox"></i> 
+	       					<!-- <i class="icon_checkbox"></i>  -->
 	       					<input type="checkbox" name="checkall[]" class="frm_checkbox" value="{$item['id']}" /> 
 	       					{$item['id']}
 	       				</label>
@@ -125,14 +131,18 @@
 	    			{loop $artsort $in}
 	    				{if $in['id'] == $item['sortid']} {$in['name']} {/if}
 	    			{/loop}
-	     		</td> -->	     		
+	     		</td>	 -->
+	     		<td class="table_cell price tl td_col_1">
+	     			{$item['proname']['name']}
+	     		</td>
+
 	     		<td class="table_cell price tl td_col_1">
 	    			{$item['createtime']}
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
-			    	<a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a>
+			    	<!-- <a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a> -->
 			    	<a  href="{php echo self::pwUrl('site','product',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >编辑</a>
-			    	<a href="{php echo self::pwUrl('site','product',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a>
+			    	<!-- <a href="{php echo self::pwUrl('site','product',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
 			    </td>
 	    	</tr>
 	    {/loop}
@@ -140,12 +150,12 @@
   	</table>
 	<div class="bottom_page item_cell_box">
 		<div class="dib tl">
-     			<label class="frm_checkbox_label" for="selectAll"> 
-     				<i class="icon_checkbox"></i> 
+     			<label class="frm_checkbox_label" for="selectAll"  style="display: none;"> 
+     				<!-- <i class="icon_checkbox"></i>  -->
      				<span class="lbl_content">全选</span> 
      				<input type="checkbox" class="frm_checkbox" id="selectAll" /> 
      			</label>
-  			<div class="filter_content dropdown_topbar"> 
+  			<div class="filter_content dropdown_topbar"  style="display: none;"> 
 		   		<div class="dropdown_menu ">
 		    		<a href="javascript:;" class="btn dropdown_switch jsDropdownBt">
 		    			<label class="jsBtLabel">批量操作</label>
