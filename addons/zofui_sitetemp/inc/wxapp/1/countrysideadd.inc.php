@@ -126,7 +126,7 @@
 
     }elseif($_GPC['op'] == 'shoucanglist'){
     	//获取收藏列表的uid数组
-    	$info = pdo_getall('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']),array('uid'));
+    	$info = pdo_getall('zofui_sitetemp_collection', array('openid'=>$_W['openid'],'uniacid'=>$_W['uniacid']));
     	if ($info) {
     		$this->result(0, '操作成功',$info);
     	}else{
