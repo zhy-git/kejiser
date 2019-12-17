@@ -36,6 +36,16 @@ class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
 			return $intro['ischeck'];
 
 		}
+  
+  	public function IsAgent()
+		{
+
+			global $_GPC, $_W;
+			$intro = pdo_fetch("SELECT isagent FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+			return $intro['isagent'];
+
+		}
+  
 
 
 public function IsCheck2()
@@ -138,6 +148,36 @@ public function responseMsg()
 			$id = $_GPC['id'];
 
 			pdo_delete('weixinmao_house_saleinfo', array('id' => $id));
+
+			return $this->result(0, 'success', $list);
+
+
+  }
+  
+  
+    public function doPagedelSaleinfo2(){
+
+  			global $_GPC, $_W;
+
+			$id = $_GPC['id'];
+      	$sessionid = $_GPC['sessionid'];
+		$ordertype = $_GPC['ordertype']? $_GPC['ordertype'] : 1;
+	
+
+		if($ordertype == 1)
+		//	$condition = " type = 1 AND  ";
+          $saletable = 'weixinmao_house_saleinfo';
+		elseif($ordertype == 2)
+			//$condition = " type = 2 AND ";
+          $saletable = 'weixinmao_house_carsaleinfo';
+		elseif($ordertype == 3)
+		//	$condition = " type = 3 AND ";
+          $saletable = 'weixinmao_house_shopsaleinfo';
+		elseif($ordertype == 4)
+			//$condition = " type = 4 AND ";
+          $saletable = 'weixinmao_house_buesaleinfo';
+
+			pdo_delete($saletable, array('id' => $id));
 
 			return $this->result(0, 'success', $list);
 
@@ -306,7 +346,7 @@ public function doPagedelLethouseinfo()
 				
 
 
-		$condition = ' WHERE `uniacid` = :uniacid AND isrecommand = 1 AND `cityid` = :cityid AND fxmoney>0   ORDER BY sort DESC ';
+		$condition = ' WHERE `uniacid` = :uniacid  AND `cityid` = :cityid AND fxmoney>0   ORDER BY sort DESC ';
 		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityinfo['id']);
 		
 		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_houseinfo') .$condition ;
@@ -337,7 +377,7 @@ public function doPagedelLethouseinfo()
 		
 		
 		/*二手房*/
-		$condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0   AND `cityid` = :cityid AND fxmoney>0    ORDER BY sort DESC ';
+		$condition = ' WHERE `uniacid` = :uniacid  AND status =0   AND `cityid` = :cityid AND fxmoney>0    ORDER BY sort DESC ';
 		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityinfo['id']);
 		
 		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_oldhouseinfo') .$condition ;
@@ -369,7 +409,7 @@ public function doPagedelLethouseinfo()
 
 
 
-     $condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0 AND fxmoney>0  ORDER BY sort DESC ';
+     $condition = ' WHERE `uniacid` = :uniacid  AND status =0 AND fxmoney>0  ORDER BY sort DESC ';
 		$params = array(':uniacid' => $_W['uniacid']);
 		
 		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_lethouseinfo') .$condition ;
@@ -440,6 +480,7 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 				global $_GPC, $_W;
 
 				$city = $_GPC['city'];
+                $uid = $_GPC['uid'];
 				
 				$cityinfo = pdo_get('weixinmao_house_city',array('name'=>$city,'uniacid'=>$_W['uniacid']));
 
@@ -451,7 +492,7 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 				}
 					
 
-				$banner = pdo_fetchall("SELECT * FROM " . tablename('weixinmao_house_adv') ."WHERE  enabled =1 AND weid=:weid ORDER BY displayorder ASC  ",array(":weid" => $_W['uniacid']));
+				$banner = pdo_fetchall("SELECT * FROM " . tablename('weixinmao_house_adv') ."WHERE  enabled =1 AND weid=:weid  AND type =0 ORDER BY displayorder ASC  ",array(":weid" => $_W['uniacid']));
 				if($banner)
 				{
 					foreach($banner as $k=>$v)
@@ -460,6 +501,40 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 						
 					}
 				}
+          
+          
+              	$midadv = pdo_fetchall("SELECT * FROM " . tablename('weixinmao_house_adv') ."WHERE  enabled =1 AND weid=:weid  AND type =1 ORDER BY displayorder ASC  ",array(":weid" => $_W['uniacid']));
+				if($midadv)
+				{
+					foreach($midadv as $k=>$v)
+					{
+						$midadv[$k]['thumb'] = tomedia($v['thumb']);
+						
+					}
+				}
+          
+             	$midadv2 = pdo_fetchall("SELECT * FROM " . tablename('weixinmao_house_adv') ."WHERE  enabled =1 AND weid=:weid  AND type =2 ORDER BY displayorder ASC  ",array(":weid" => $_W['uniacid']));
+				if($midadv2)
+				{
+					foreach($midadv2 as $k=>$v)
+					{
+						$midadv2[$k]['thumb'] = tomedia($v['thumb']);
+						
+					}
+				}
+              
+          
+           	$bottomadv = pdo_fetchall("SELECT * FROM " . tablename('weixinmao_house_adv') ."WHERE  enabled =1 AND weid=:weid  AND type =3 ORDER BY displayorder ASC  ",array(":weid" => $_W['uniacid']));
+				if($bottomadv)
+				{
+					foreach($bottomadv as $k=>$v)
+					{
+						$bottomadv[$k]['thumb'] = tomedia($v['thumb']);
+						
+					}
+				}
+          
+          
 
 
 				$intro = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
@@ -468,7 +543,22 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 				//$intro['description']=html_entity_decode($intro['content']);
 				$intro['description'] = $intro['content'];
 	 			$intro['content'] = trim(html_entity_decode(strip_tags($intro['content'])),chr(0xc2).chr(0xa0));  
+          if($uid >0)
+          {
+            if($intro['isgetuser'] == 1)
+            {
+                $userinfo = pdo_get('weixinmao_house_userinfo',array('uniacid'=>$_W['uniacid'],'uid'=>$uid));
+                if($userinfo['tel']!='')
+                {
+                    $intro['isgetuser'] = 0 ;
+                }
+            }
+          }else{
+          
+                $intro['isgetuser'] = 0 ;
+          }
 				
+     
 				
 
 
@@ -503,7 +593,7 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 		
 		
 		/*二手房*/
-		$condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0   AND `cityid` = :cityid   ORDER BY sort DESC LIMIT  '.$intro['oldlimit'];
+		$condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0   AND `cityid` = :cityid    ORDER BY sort DESC LIMIT  '.$intro['oldlimit'];
 		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityinfo['id']);
 		
 		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_oldhouseinfo') .$condition ;
@@ -526,6 +616,7 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 		{
 			foreach($oldhouselist as $k=>$v)
 				{
+                    $oldhouselist[$k]['title'] = mb_substr($v['title'],0,10,'utf8');
 					$oldhouselist[$k]['thumb'] = tomedia($v['thumb']);
 					$oldhouselist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
 					$oldhouselist[$k]['housetypename'] =  $housetypeinfo[$v['housetype']];
@@ -581,7 +672,7 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 		}
 
 
-	$condition = ' WHERE `weid` = :uniacid AND enabled = 1  ORDER BY displayorder DESC LIMIT 8 ';
+	$condition = ' WHERE `weid` = :uniacid AND enabled = 1  ORDER BY displayorder DESC LIMIT 16 ';
 	$params = array(':uniacid' => $_W['uniacid']);
 	$sql = 'SELECT * FROM ' . tablename('weixinmao_house_nav') .$condition ;
 	$navlist = pdo_fetchall($sql, $params);
@@ -593,15 +684,158 @@ if($navlist)
 					$navlist[$k]['thumb'] = tomedia($v['thumb']);
 				}
 		}
+          
 
-return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'newhouselist'=>$newhouselist,'oldhouselist'=>$oldhouselist,'agentlist'=>$agentlist,'lethouselist'=>$lethouselist,'navlist'=>$navlist,'cityinfo'=>$cityinfo));
+          
+      	$article  = pdo_fetchall("SELECT id,title,createtime,thumb FROM " . tablename('weixinmao_house_content') ." WHERE  uniacid=:uniacid   ORDER BY createtime DESC LIMIT 5",array(":uniacid" => $_W['uniacid']));
+			if($article)
+			{
+				foreach($article as $k=>$v)
+				{
+					$article[$k]['createtime'] = date('Y-m-d',$v['createtime']);
+					$article[$k]['thumb'] = tomedia($v['thumb']);
+					
+				}
+			}
+
+return $this->result(0, 'success', array('banner'=>$banner,'midadv'=>$midadv,'midadv2'=>$midadv2,'bottomadv'=>$bottomadv, 'intro'=>$intro,'newhouselist'=>$newhouselist,'oldhouselist'=>$oldhouselist,'agentlist'=>$agentlist,'lethouselist'=>$lethouselist,'navlist'=>$navlist,'cityinfo'=>$cityinfo,'article'=>$article));
 
 
 
 
 }
 
+  
+  
+  
+  
+ 		public function doPageGetSysAgentInit()
+			{
 
+				global $_GPC, $_W;
+
+				$city = $_GPC['city'];
+				$uid = $_GPC['uid'];
+				$cityinfo = pdo_get('weixinmao_house_city',array('name'=>$city,'uniacid'=>$_W['uniacid']));
+
+				if(!$cityinfo)
+				{
+
+					$cityinfo = pdo_get('weixinmao_house_city',array('uniacid'=>$_W['uniacid'],'ison'=>1));
+
+				}
+					
+
+		
+
+
+				$intro = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+			
+				
+		
+		
+		/*二手房*/
+		$condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0   AND `cityid` = :cityid   ORDER BY sort DESC LIMIT  '.$intro['oldlimit'];
+		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityinfo['id']);
+		
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_oldhouseinfo') .$condition ;
+
+		$oldhouselist = pdo_fetchall($sql, $params);
+
+
+	
+
+
+
+
+     $condition = ' WHERE `uniacid` = :uniacid  AND isrecommand = 1 AND status =0  ORDER BY sort DESC LIMIT  '.$intro['letlimit'];
+		$params = array(':uniacid' => $_W['uniacid']);
+		
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_lethouseinfo') .$condition ;
+
+		$lethouselist = pdo_fetchall($sql, $params);
+		
+
+
+		if($lethouselist)
+		{
+			
+		}
+
+
+			
+      $condition = ' WHERE `uniacid` = :uniacid AND uid = :uid AND enabled = 1  ORDER BY sort DESC ';
+
+      $params = array(':uniacid' => $_W['uniacid'],':uid'=>$uid);
+		
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_agent') .$condition ;
+
+		$agentinfo = pdo_fetch($sql, $params);
+
+		$agentinfo['thumb'] = tomedia($agentinfo['thumb']);
+        
+        $agentinfo['endtime'] = date('Y-m-d',$agentinfo['endtime']);
+          
+        $agentrole = pdo_get('weixinmao_house_agentrole',array('uniacid' => $_W['uniacid'],'id'=>$agentinfo['roleid']));
+
+
+          
+          // $housemsg = pdo_getcolumn('weixinmao_house_housemsg', array('uid' => $uid, 'uniacid' => $_W['uniacid']), array('count(*)'));
+
+
+
+return $this->result(0, 'success', array( 'agentrole'=>$agentrole,'intro'=>$intro,'newhouselist'=>$newhouselist,'oldhouselist'=>$oldhouselist,'agentinfo'=>$agentinfo,'lethouselist'=>$lethouselist,'cityinfo'=>$cityinfo));
+
+
+
+
+}
+
+  
+  
+  public function doPageGetAgentrole()
+		{
+
+			global $_GPC, $_W;
+			$uid = $_GPC['uid'];
+
+			$agentinfo = pdo_get('weixinmao_house_agent',array('id'=>$uid,'uniacid'=>$_W['uniacid']));
+
+			$agentyrole = pdo_get('weixinmao_house_agentrole',array('id'=>$agentinfo['roleid'],'uniacid'=>$_W['uniacid']));
+
+			if($agentinfo['endtime']>time())
+					{
+
+						$condition = ' AND sort > '.$agentyrole['sort'];
+					}else{
+
+						$condition = ' ';
+					}
+
+			$sql = 'SELECT *  FROM ' . tablename('weixinmao_house_agentrole') . ' WHERE `uniacid` = :uniacid AND isinit = 0 '.$condition.' ORDER BY `sort` ASC';
+
+		$moneylist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
+   
+if($moneylist)
+		{
+			foreach($moneylist as $k=>$v)
+				{
+					$moneylist[$k]['chongzhi'] ='￥'.$v['money'];
+					$moneylist[$k]['song'] =$v['title'];
+
+					//$houselist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					//$houselist[$k]['housetypename'] =  $housetypeinfo[$v['housetype']];
+				}
+			}
+    
+    				$intro = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+		$data = array('moneylist'=>$moneylist,'intro'=>$intro);
+
+		return $this->result(0, 'success', $data);
+
+		
+		}
 
 	public function doPageGetstorelist()
 	{
@@ -808,6 +1042,46 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 			return $this->result(0, 'success', $data);
 			
 		}
+  
+  
+  
+  	public function doPageGetagenthousedetail()
+		{
+			global $_GPC, $_W;
+			//$siteurl = $this->GetSiteUrl();
+			$uid = $_GPC['uid'];
+			
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_agent') ." WHERE uniacid=:uniacid AND uid=".$uid,array(":uniacid" => $_W['uniacid']));
+		//	$list['content'] = html_entity_decode($list['content']);
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['thumb'] = tomedia($list['thumb']);
+			$view = $list['view'] + 1;
+			pdo_update('weixinmao_house_agent',array('view'=>$view),array('uniacid'=>$_W['uniacid'],'id'=>$id));
+			
+			
+			$condition = " WHERE  tel=:tel  AND  uniacid=:uniacid  ORDER BY createtime DESC ";
+			$sql = 'SELECT * FROM ' . tablename('weixinmao_house_oldhouseinfo') . $condition ;
+			$oldhouselist = pdo_fetchall($sql,array(":uniacid" => $_W['uniacid'],':tel'=>$list['tel']));
+			if($oldhouselist)
+			{
+					foreach($oldhouselist as $k=>$v)
+					{
+						$oldhouselist[$k]['thumb'] = tomedia($v['thumb']);
+						$oldhouselist[$k]['money'] = $v['saleprice'];
+					}
+			}
+
+			 $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+			$data = array('list'=>$list,'oldhouselist'=>$oldhouselist,'intro'=>$intro);
+
+			return $this->result(0, 'success', $data);
+			
+		}
+  
+  
+  
 	public function doPageGetagenthouse()
 	{
 		global $_GPC, $_W;
@@ -840,6 +1114,537 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 		return $this->result(0, 'success', $data);
 	}
 	
+  
+  
+  
+  	public function doPageGetshopsalelist()
+	{
+		global $_GPC, $_W;
+		//$siteurl = $this->GetSiteUrl();
+			$cityid = $_GPC['cityid'];
+
+			$condition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND (toplistid =0 OR endtime < '.time().')';
+			$topcondition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND toplistid>0 AND endtime > '.time();
+		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid);
+		if($_GPC['page']) 
+			$page = $_GPC['page'];
+		else 
+			$page =1;
+		$limit  = ' LIMIT 0,'.$page*10;
+		
+		if ($_GPC['houseareaid']>0) {
+				$condition .= ' AND `houseareaid` = :houseareaid';
+				$topcondition .= ' AND `houseareaid` = :houseareaid';
+				$params[':houseareaid'] = $_GPC['houseareaid'] ;
+			}
+		if ($_GPC['housetype']>0) {
+				$condition .= ' AND `type` = :housetype';
+				$topcondition .= ' AND `type` = :housetype';
+				$params[':housetype'] = $_GPC['housetype'] ;
+			}
+		
+		$sort =' ORDER BY createtime DESC  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_shopsaleinfo') .$condition. $limit ;
+		
+	
+		$salelist = pdo_fetchall($sql, $params);
+
+        $topsql =  'SELECT * FROM ' . tablename('weixinmao_house_shopsaleinfo') .$topcondition. $limit ;
+	    $topsalelist = pdo_fetchall($topsql, $params);
+
+	
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_area') . ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid  ORDER BY `sort` DESC';
+		
+
+		$arealist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid));
+		
+	
+
+
+		if($salelist)
+		{
+			foreach($salelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					//$salelist[$k]['name'] =  $userinfo['name'];
+					//$salelist[$k]['tel'] =  $userinfo['tel'];
+					$salelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$salelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$salelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$salelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$salelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$salelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$salelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$salelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$salelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		//置顶信息
+		
+		if($topsalelist)
+		{
+			foreach($topsalelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					$topsalelist[$k]['name'] =  $userinfo['name'];
+					$topsalelist[$k]['tel'] =  $userinfo['tel'];
+					$topsalelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$topsalelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$topsalelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$topsalelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$topsalelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$topsalelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$topsalelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$topsalelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$topsalelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		$data = array('salelist'=>$salelist, 'topsalelist'=>$topsalelist);
+		return $this->result(0, 'success', $data);
+
+	}
+  
+  
+  
+  
+    	
+  
+  
+    	public function doPageGetbuesalelist()
+	{
+		global $_GPC, $_W;
+		//$siteurl = $this->GetSiteUrl();
+			$cityid = $_GPC['cityid'];
+
+			$condition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND (toplistid =0 OR endtime < '.time().')';
+			$topcondition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND toplistid>0 AND endtime > '.time();
+		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid);
+		if($_GPC['page']) 
+			$page = $_GPC['page'];
+		else 
+			$page =1;
+		$limit  = ' LIMIT 0,'.$page*10;
+		
+		if ($_GPC['houseareaid']>0) {
+				$condition .= ' AND `houseareaid` = :houseareaid';
+				$topcondition .= ' AND `houseareaid` = :houseareaid';
+				$params[':houseareaid'] = $_GPC['houseareaid'] ;
+			}
+		if ($_GPC['housetype']>0) {
+				$condition .= ' AND `type` = :housetype';
+				$topcondition .= ' AND `type` = :housetype';
+				$params[':housetype'] = $_GPC['housetype'] ;
+			}
+		
+		$sort =' ORDER BY createtime DESC  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_buesaleinfo') .$condition. $limit ;
+		
+	
+		$salelist = pdo_fetchall($sql, $params);
+
+        $topsql =  'SELECT * FROM ' . tablename('weixinmao_house_buesaleinfo') .$topcondition. $limit ;
+	    $topsalelist = pdo_fetchall($topsql, $params);
+
+	
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_area') . ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid  ORDER BY `sort` DESC';
+		
+
+		$arealist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid));
+		
+	
+
+
+		if($salelist)
+		{
+			foreach($salelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					//$salelist[$k]['name'] =  $userinfo['name'];
+					//$salelist[$k]['tel'] =  $userinfo['tel'];
+					$salelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$salelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$salelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$salelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$salelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$salelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$salelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$salelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$salelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		//置顶信息
+		
+		if($topsalelist)
+		{
+			foreach($topsalelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					$topsalelist[$k]['name'] =  $userinfo['name'];
+					$topsalelist[$k]['tel'] =  $userinfo['tel'];
+					$topsalelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$topsalelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$topsalelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$topsalelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$topsalelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$topsalelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$topsalelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$topsalelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$topsalelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		$data = array('salelist'=>$salelist, 'topsalelist'=>$topsalelist);
+		return $this->result(0, 'success', $data);
+
+	}
+  
+  
+  
+    
+    	public function doPageGetcarsalelist()
+	{
+		global $_GPC, $_W;
+		//$siteurl = $this->GetSiteUrl();
+			$cityid = $_GPC['cityid'];
+
+			$condition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND (toplistid =0 OR endtime < '.time().')';
+			$topcondition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND ischeck = 1 AND toplistid>0 AND endtime > '.time();
+		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid);
+		if($_GPC['page']) 
+			$page = $_GPC['page'];
+		else 
+			$page =1;
+		$limit  = ' LIMIT 0,'.$page*10;
+		
+		if ($_GPC['houseareaid']>0) {
+				$condition .= ' AND `houseareaid` = :houseareaid';
+				$topcondition .= ' AND `houseareaid` = :houseareaid';
+				$params[':houseareaid'] = $_GPC['houseareaid'] ;
+			}
+		if ($_GPC['housetype']>0) {
+				$condition .= ' AND `type` = :housetype';
+				$topcondition .= ' AND `type` = :housetype';
+				$params[':housetype'] = $_GPC['housetype'] ;
+			}
+		
+		$sort =' ORDER BY createtime DESC  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_carsaleinfo') .$condition. $limit ;
+		
+         // echo $sql;
+        // exit;
+	
+		$salelist = pdo_fetchall($sql, $params);
+
+        $topsql =  'SELECT * FROM ' . tablename('weixinmao_house_carsaleinfo') .$topcondition. $limit ;
+	    $topsalelist = pdo_fetchall($topsql, $params);
+
+	
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_area') . ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid  ORDER BY `sort` DESC';
+		
+
+		$arealist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid));
+		
+	
+
+
+		if($salelist)
+		{
+			foreach($salelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					//$salelist[$k]['name'] =  $userinfo['name'];
+					//$salelist[$k]['tel'] =  $userinfo['tel'];
+					$salelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$salelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$salelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$salelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$salelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$salelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$salelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$salelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$salelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		//置顶信息
+		
+		if($topsalelist)
+		{
+			foreach($topsalelist as $k=>$v)
+				{
+					
+					$sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$v['uid']));
+					$topsalelist[$k]['name'] =  $userinfo['name'];
+					$topsalelist[$k]['tel'] =  $userinfo['tel'];
+					$topsalelist[$k]['avatarUrl'] =  $userinfo['avatarUrl'];
+					$topsalelist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$topsalelist[$k]['createtime'] = date('Y-m-d H:m:s',$v['createtime']);
+					if($v['type'] ==1)
+					{
+						$topsalelist[$k]['type'] = '出售';
+					}elseif($v['type'] == 2){
+						
+						$topsalelist[$k]['type'] = '出租';
+
+					}elseif($v['type'] == 3){
+						
+						$topsalelist[$k]['type'] = '求购';
+
+					}elseif($v['type'] == 4){
+						
+						$topsalelist[$k]['type'] = '求租';
+
+					}
+
+
+					if($v['thumb_url'])
+					{
+						$piclist1 = unserialize($v['thumb_url']);
+						$piclist = array();
+					
+						if(is_array($piclist1)){
+							foreach($piclist1 as $p)
+									{
+										if($p)
+										{
+												$piclist[] = tomedia($p);
+										}
+									}
+							}
+
+						$topsalelist[$k]['piclist'] = $piclist;
+
+					}
+
+					if($v['special']){
+				 	$topsalelist[$k]['special']  = explode(',',$v['special']);
+				 	}
+
+
+
+					
+				}
+			}
+
+		$data = array('salelist'=>$salelist, 'topsalelist'=>$topsalelist);
+		return $this->result(0, 'success', $data);
+
+	}
+  
+  
 	
 	
 	public function doPageGetsalelist()
@@ -1067,7 +1872,160 @@ return $this->result(0, 'success', array('banner'=>$banner, 'intro'=>$intro,'new
 	}
 	
 	
+  
+ 
+  	public function doPageGetbuesaledetail()
+	{
+		
+			global $_GPC, $_W;
+			$id = $_GPC['id'];
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_buesaleinfo') ." WHERE uniacid=:uniacid AND id=".$id,array(":uniacid" => $_W['uniacid']));
+			//$list['content'] = html_entity_decode($list['content']);
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['speciallist'] = $list['specialliststr'] = explode(',',$list['productspecial']);
+			$list['specialliststr'] = implode('、',$list['specialliststr']);
+			$salestatus=array(1=>'出售',2=>'出租',3=>'求购',4=>'求租');
+			$list['type'] = $salestatus[$list['type']];
+			 $sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$list['uid']));
+					//$list['name'] =  $userinfo['name'];
+					//$list['tel'] =  $userinfo['tel'];
+					$list['avatarUrl'] =  $userinfo['avatarUrl'];
+			
+		if($list['special']){
+				 	$list['special']  = explode(',',$list['special']);
+				 	}
+
+			$piclist1 = unserialize($list['thumb_url']);
+			$piclist = array();
+		
+			if(is_array($piclist1)){
+				foreach($piclist1 as $p)
+						{
+							if($p)
+							{
+									$piclist[] = tomedia($p);
+							}
+						}
+				}
+			$hits = $list['hits'] +1;
+			
+			pdo_update('weixinmao_house_buesaleinfo', array('hits'=>$hits), array('id' => $id));
+
+		 $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+			
+			$data = array('list'=>$list,'piclist'=>$piclist,'intro'=>$intro);
+
+			return $this->result(0, 'success', $data);
+			
+		
+	}
+  
+  
+    	public function doPageGetshopsaledetail()
+	{
+		
+			global $_GPC, $_W;
+			$id = $_GPC['id'];
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_shopsaleinfo') ." WHERE uniacid=:uniacid AND id=".$id,array(":uniacid" => $_W['uniacid']));
+			//$list['content'] = html_entity_decode($list['content']);
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['speciallist'] = $list['specialliststr'] = explode(',',$list['productspecial']);
+			$list['specialliststr'] = implode('、',$list['specialliststr']);
+			$salestatus=array(1=>'出售',2=>'出租',3=>'求购',4=>'求租');
+			$list['type'] = $salestatus[$list['type']];
+			 $sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$list['uid']));
+					//$list['name'] =  $userinfo['name'];
+					//$list['tel'] =  $userinfo['tel'];
+					$list['avatarUrl'] =  $userinfo['avatarUrl'];
+			
+		if($list['special']){
+				 	$list['special']  = explode(',',$list['special']);
+				 	}
+
+			$piclist1 = unserialize($list['thumb_url']);
+			$piclist = array();
+		
+			if(is_array($piclist1)){
+				foreach($piclist1 as $p)
+						{
+							if($p)
+							{
+									$piclist[] = tomedia($p);
+							}
+						}
+				}
+			$hits = $list['hits'] +1;
+			
+			pdo_update('weixinmao_house_shopsaleinfo', array('hits'=>$hits), array('id' => $id));
+
+		 $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+			
+			$data = array('list'=>$list,'piclist'=>$piclist,'intro'=>$intro);
+
+			return $this->result(0, 'success', $data);
+			
+		
+	}
 	
+  
+    
+    	public function doPageGetcarsaledetail()
+	{
+		
+			global $_GPC, $_W;
+			$id = $_GPC['id'];
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_carsaleinfo') ." WHERE uniacid=:uniacid AND id=".$id,array(":uniacid" => $_W['uniacid']));
+			//$list['content'] = html_entity_decode($list['content']);
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['speciallist'] = $list['specialliststr'] = explode(',',$list['productspecial']);
+			$list['specialliststr'] = implode('、',$list['specialliststr']);
+			$salestatus=array(1=>'出售',2=>'出租',3=>'求购',4=>'求租');
+			$list['type'] = $salestatus[$list['type']];
+			 $sql = 'SELECT name,tel,avatarUrl FROM ' . tablename('weixinmao_house_userinfo') . ' WHERE `uniacid` = :uniacid AND `uid` = :uid ';
+		
+					$userinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$list['uid']));
+					//$list['name'] =  $userinfo['name'];
+					//$list['tel'] =  $userinfo['tel'];
+					$list['avatarUrl'] =  $userinfo['avatarUrl'];
+			
+		if($list['special']){
+				 	$list['special']  = explode(',',$list['special']);
+				 	}
+
+			$piclist1 = unserialize($list['thumb_url']);
+			$piclist = array();
+		
+			if(is_array($piclist1)){
+				foreach($piclist1 as $p)
+						{
+							if($p)
+							{
+									$piclist[] = tomedia($p);
+							}
+						}
+				}
+			$hits = $list['hits'] +1;
+			
+			pdo_update('weixinmao_house_carsaleinfo', array('hits'=>$hits), array('id' => $id));
+
+		 $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+			
+			$data = array('list'=>$list,'piclist'=>$piclist,'intro'=>$intro);
+
+			return $this->result(0, 'success', $data);
+			
+		
+	}
 	
 	public function doPageGetnewhouselist()
 	{
@@ -1186,6 +2144,75 @@ public function doPageGetoldhouselist()
 		$sort =' ORDER BY  sort DESC , createtime DESC  ';
 		$condition .= $sort;
 		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_oldhouseinfo') .$condition. $limit ;
+		
+		$houselist = pdo_fetchall($sql, $params);
+		
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_area') . ' WHERE `uniacid` = :uniacid ORDER BY `sort` DESC';
+		
+		$arealist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
+		if($arealist){
+			foreach($arealist as $k=>$v)
+			{
+					$areainfo[$v['id']] = $v['name'];			
+			}
+		}
+		$housetypeinfo= array(1=>'住宅',2=>'别墅',3=>'公寓',4=>'商铺',5=>'写字楼',6=>'酒店',7=>'厂房');
+		if($houselist)
+		{
+			foreach($houselist as $k=>$v)
+				{
+					$houselist[$k]['thumb'] =tomedia($v['thumb']);
+					$houselist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$houselist[$k]['housetypename'] =  $housetypeinfo[$v['housetype']];
+				}
+		}
+		
+		return $this->result(0, 'success', $houselist);
+
+	}
+  
+  
+public function doPageGetshophouselist()
+	{
+		global $_GPC, $_W;
+
+		
+			$cityid = $_GPC['cityid'];
+		
+
+		$condition = ' WHERE `uniacid` = :uniacid AND `cityid` = :cityid AND status = 0 AND (ispub = 1 AND ischeck =1 OR ispub = 0)  ';
+		$params = array(':uniacid' => $_W['uniacid'] ,':cityid'=>$cityid);
+		if($_GPC['page']) 
+			$page = $_GPC['page'];
+		else 
+			$page =1;
+		$limit  = ' LIMIT 0,'.$page*10;
+		if ($_GPC['houseareaid']>0) {
+				$condition .= ' AND `houseareaid` = :houseareaid';
+				$params[':houseareaid'] = $_GPC['houseareaid'] ;
+			}
+		if ($_GPC['housetype']>0) {
+				$condition .= ' AND `housetype` = :housetype';
+				$params[':housetype'] = $_GPC['housetype'] ;
+			}
+
+		if ($_GPC['bid']>0) {
+				$condition .= ' AND `bid` = :bid';
+				$params[':bid'] = $_GPC['bid'] ;
+			}
+		if($_GPC['housepriceid']>0)
+		{	$housepriceid = $_GPC['housepriceid'];
+			$priceinfo = pdo_fetch("SELECT beginprice,endprice FROM " . tablename('weixinmao_house_oldhouseprice')." WHERE   uniacid=:uniacid AND id=:id",array(":uniacid" => $_W['uniacid'],":id"=>$housepriceid));
+			if($priceinfo)
+			{
+				$condition .= ' AND `saleprice` >  '.$priceinfo['beginprice'].'  AND `saleprice` <= '.$priceinfo['endprice'];
+			}
+		
+			
+		}
+		$sort =' ORDER BY  sort DESC , createtime DESC  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_shophouseinfo') .$condition. $limit ;
 		
 		$houselist = pdo_fetchall($sql, $params);
 		
@@ -1419,7 +2446,81 @@ public function doPageGetoldsalehouselist()
 
 	}
 	
-	public function doPageGetlethouselist()
+	public function doPageGetshoplethouselist()
+	{
+		global $_GPC, $_W;
+
+		//$siteurl = $this->GetSiteUrl();
+		//
+		$cityid = $_GPC['cityid'];
+		$condition = ' WHERE `uniacid` = :uniacid AND `cityid`=:cityid AND status =0 AND (ispub = 1 AND ischeck =1 OR ispub = 0)  ';
+
+		$params = array(':uniacid' => $_W['uniacid'],':cityid'=>$cityid);
+		if($_GPC['page']) 
+			$page = $_GPC['page'];
+		else 
+			$page =1;
+		$limit  = ' LIMIT 0,'.$page*10;
+		if ($_GPC['houseareaid']>0) {
+				$condition .= ' AND `houseareaid` = :houseareaid';
+				$params[':houseareaid'] = $_GPC['houseareaid'] ;
+			}
+		if ($_GPC['housetype']>0) {
+				$condition .= ' AND `roomid` = :roomid';
+				$params[':roomid'] = $_GPC['housetype'] ;
+			}
+		if ($_GPC['bid']>0) {
+				$condition .= ' AND `bid` = :bid';
+				$params[':bid'] = $_GPC['bid'] ;
+			}
+		if($_GPC['housepriceid']>0)
+		{	$housepriceid = $_GPC['housepriceid'];
+			$priceinfo = pdo_fetch("SELECT beginprice,endprice FROM " . tablename('weixinmao_house_lethouseprice')." WHERE   uniacid=:uniacid AND id=:id",array(":uniacid" => $_W['uniacid'],":id"=>$housepriceid));
+			if($priceinfo)
+			{
+				$condition .= ' AND `money` >  '.$priceinfo['beginprice'].'  AND `money` <= '.$priceinfo['endprice'];
+			}		
+		}
+		if ($_GPC['letway']>0) {
+				$condition .= ' AND `letway` = :letway';
+				$params[':letway'] = $_GPC['letway'] ;
+			}
+		
+		$sort =' ORDER BY  sort DESC , createtime DESC  ';
+
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_shoplethouseinfo') .$condition. $limit ;
+		
+		$houselist = pdo_fetchall($sql, $params);
+		
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_area') . ' WHERE `uniacid` = :uniacid ORDER BY `sort` DESC';
+		
+		$arealist = pdo_fetchall($sql, array(':uniacid' => $_W['uniacid']));
+		if($arealist)
+		{
+			foreach($arealist as $k=>$v)
+			{
+					$areainfo[$v['id']] = $v['name'];			
+			}
+		}
+	
+		$housetypeinfo= array(1=>'住宅',2=>'别墅',3=>'公寓',4=>'商铺',5=>'写字楼',6=>'酒店',7=>'厂房');
+		if($houselist)
+		{
+			foreach($houselist as $k=>$v)
+				{
+					$houselist[$k]['thumb'] = tomedia($v['thumb']);
+					$houselist[$k]['areaname'] =  $areainfo[$v['houseareaid']];
+					$houselist[$k]['housetypename'] =  $housetypeinfo[$v['housetype']];
+				}
+		}
+		
+		return $this->result(0, 'success', $houselist);
+
+	}
+	
+    
+    	public function doPageGetlethouselist()
 	{
 		global $_GPC, $_W;
 
@@ -1491,8 +2592,9 @@ public function doPageGetoldsalehouselist()
 		return $this->result(0, 'success', $houselist);
 
 	}
-	
-
+  
+  
+  
 	public function doPageGetletbusinesshouselist()
 	{
 		global $_GPC, $_W;
@@ -1680,6 +2782,7 @@ if($moneylist)
 			//$list['content'] = html_entity_decode($list['content']);
 			//$list['content'] = $list['content'];
 			$list['createtime'] = date('Y-m-d',$list['createtime']);
+      $list['video'] = tomedia($list['video']);
 			$list['speciallist'] = $list['specialliststr'] = explode(',',$list['productspecial']);
 			$list['specialliststr'] = implode('、',$list['specialliststr']);
 			$salestatus=array(1=>'在售',2=>'待售',3=>'售完',4=>'打折');
@@ -1893,6 +2996,87 @@ $saveinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_save') ." WH
 	}
 	
 
+  
+  
+     public function doPageGetshophousedetail()
+	{
+		
+			global $_GPC, $_W;
+			//$siteurl = $this->GetSiteUrl();
+			$id = $_GPC['id'];
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_shophouseinfo') ." WHERE uniacid=:uniacid AND id=".$id,array(":uniacid" => $_W['uniacid']));
+			//$list['content'] = html_entity_decode($list['content']);
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['speciallist'] = explode(',',$list['special']);
+			$piclist1 = unserialize($list['thumb_url']);
+			$piclist = array();
+		  //  $map = $this->Convert_BD09_To_GCJ02($list['lat'],$list['lng']);
+		//	$list['lat'] = $map['lat'];
+		//	$list['lng'] = $map['lng'];
+			$list['video'] = tomedia(	$list['video']);
+
+			if(is_array($piclist1)){
+				foreach($piclist1 as $p)
+						{
+									$piclist[] = tomedia($p);
+						}
+				}
+
+            $intro = pdo_fetch("SELECT maincolor,name,tel,logo FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+            $agentinfo = pdo_get('weixinmao_house_agent',array('uniacid'=>$_W['uniacid'],'tel'=>$list['tel']));
+            if(!$agentinfo)
+            	{
+            		$agentinfo['tel'] = $intro['tel'];
+            		$agentinfo['thumb'] = $intro['logo'];
+            		$agentinfo['id'] = 0 ; 
+            		$agentinfo['name'] = $intro['name'];
+
+
+            	}
+			$agentinfo['thumb'] = tomedia($agentinfo['thumb']);
+$saveinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_save') ." WHERE uniacid=:uniacid AND housetype=:housetype AND pid=".$id,array(":uniacid" => $_W['uniacid'],":housetype"=>'oldhouse'));
+
+
+
+			if($saveinfo)
+
+					$issave = 1;
+
+			else
+
+					$issave = 0;
+
+
+
+			$condition = ' WHERE id<> '.$id.'  AND houseareaid = '.$list['houseareaid'].' AND  `uniacid` = :uniacid AND status = 0 AND (ispub = 1 AND ischeck =1 OR ispub = 0)  ';
+		$params = array(':uniacid' => $_W['uniacid']);
+		
+		
+		$sort =' ORDER BY createtime DESC LIMIT 10  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_shophouseinfo') .$condition ;
+		
+		$houselist = pdo_fetchall($sql, $params);
+
+			if($houselist)
+			{
+
+				foreach ($houselist as $k => $v) {
+					# code...
+					$houselist[$k]['thumb'] = tomedia($v['thumb']);
+				}
+			}
+
+
+			$data = array('list'=>$list,'piclist'=>$piclist,'intro'=>$intro,'agentinfo'=>$agentinfo,'issave'=>$issave,'houselist'=>$houselist);
+			
+			
+			return $this->result(0, 'success', $data);
+			
+		
+	}
 
 	   public function doPageGetoldpayhousedetail()
 	{
@@ -2316,7 +3500,100 @@ $saveinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_save') ." WH
 		
 	}
 	
+   
+     public function doPageGetshoplethousedetail()
+	{
+		
+			global $_GPC, $_W;
+			//$siteurl = $this->GetSiteUrl();
+			$id = $_GPC['id'];
+			$uid = $_GPC['uid'];
+			$list = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_shoplethouseinfo') ." WHERE uniacid=:uniacid AND id=".$id,array(":uniacid" => $_W['uniacid']));
+		//	$list['content'] = html_entity_decode(stripslashes($list['content']));
+			$list['content'] = $list['content'];
+			$list['createtime'] = date('Y-m-d',$list['createtime']);
+			$list['speciallist'] = explode(',',$list['special']);
+			$list['houselabel'] = explode(',',$list['houselabel']);
+		
+			$list['video'] = tomedia($list['video']);
+			$piclist1 = unserialize($list['thumb_url']);
+			$piclist = array();
+			
+			$orderinfo = pdo_fetch("SELECT id FROM " . tablename('weixinmao_house_order') ." WHERE uniacid=:uniacid AND uid=:uid AND status =1 AND pid=".$id,array(":uniacid" => $_W['uniacid'],":uid"=>$uid));
+		
+			if($orderinfo)
+			{
+				$ispay = 1;
+			}else{
+				
+				$ispay = 0;
+			}
+
+			if(is_array($piclist1)){
+				foreach($piclist1 as $p)
+						{
+									$piclist[] = tomedia($p);
+						}
+				}
+			 $intro = pdo_fetch("SELECT maincolor,name,tel,logo FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+
+
+			 $agentinfo = pdo_get('weixinmao_house_agent',array('uniacid'=>$_W['uniacid'],'tel'=>$list['tel']));
+            if(!$agentinfo)
+            	{
+            		$agentinfo['tel'] = $intro['tel'];
+            		$agentinfo['thumb'] = $intro['logo'];
+            		$agentinfo['id'] = 0 ; 
+            		$agentinfo['name'] = $intro['name'];
+
+
+            	}
+			$agentinfo['thumb'] = tomedia($agentinfo['thumb']);
+$saveinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_save') ." WHERE uniacid=:uniacid AND housetype=:housetype AND pid=".$id,array(":uniacid" => $_W['uniacid'],":housetype"=>'oldhouse'));
+
+
+
+			if($saveinfo)
+
+					$issave = 1;
+
+			else
+
+					$issave = 0;
+
+
+
+		$condition = ' WHERE id<> '.$id.'  AND houseareaid = '.$list['houseareaid'].' AND  `uniacid` = :uniacid AND status =0 AND (ispub = 1 AND ischeck =1 OR ispub = 0) ';
+		$params = array(':uniacid' => $_W['uniacid']);
+		
+		
+		$sort =' ORDER BY createtime DESC LIMIT 10  ';
+		$condition .= $sort;
+		$sql = 'SELECT * FROM ' . tablename('weixinmao_house_shoplethouseinfo') .$condition ;
+		
+		$houselist = pdo_fetchall($sql, $params);
+
+			if($houselist)
+			{
+
+				foreach ($houselist as $k => $v) {
+					# code...
+					$houselist[$k]['thumb'] = tomedia($v['thumb']);
+				}
+			}
+
+			
+
+			$data = array('list'=>$list,'piclist'=>$piclist,'ispay'=>$ispay,'intro'=>$intro,'agentinfo'=>$agentinfo,'issave'=>$issave,'lethouselist'=>$houselist);
+			return $this->result(0, 'success', $data);
+			
+		
+	}
 	
+  
+  
+  
 	public function doPageSearch()
 	{
 		global $_GPC, $_W;
@@ -3681,6 +4958,12 @@ public function doPageGetactivedetail()
 		$id = pdo_insertid();
 	    if($id)
 		{
+          
+           $agentinfo = pdo_get('weixinmao_house_agent',array('uniacid' => $_W['uniacid'],'uid'=>$uid));
+           
+           $lethousenum = $agentinfo['lethousenum'] - 1;
+          
+           pdo_update('weixinmao_house_agent',array('lethousenum'=>$lethousenum),array('uniacid' => $_W['uniacid'],'uid'=>$uid));
 
 			
 			$list = array('msg'=>'发布成功','error'=>0,'totalnum'=>$totalnum);
@@ -3781,7 +5064,267 @@ public function doPageSavesaleinfo()
 		
 	}
 	
+  
+ 
+  
+  public function doPageSaveshopsaleinfo()
+	{
+		global $_GPC, $_W;
+		$uploadimagelist_str = $_GPC['uploadimagelist_str'];
+		$imagelist = explode('@',$uploadimagelist_str);
+		$uid = $_GPC['uid'];
+		$ischeck = $this->IsCheck2();
+		if($ischeck == 1)
+				{
+
+					$ischeck = 0;
+				}else{
+
+					$ischeck = 1;
+				}
+
+		if(intval($_GPC['toplistid'])>0)
+				{
+					$toplistinfo = pdo_fetch("SELECT days  FROM " . tablename('weixinmao_house_toplist') . " WHERE id = :id", array(':id' => $_GPC['toplistid']));
+					$endtime = $toplistinfo['days'] * 60*60*24+time();
+
+				}else{
+					$endtime = 0 ;
+
+				}
+		$data = array(
+					'uniacid' => $_W['uniacid'],
+					'content'=>$_GPC['content'],
+					'special'=>$_GPC['special'],
+					'thumb_url'=>serialize($imagelist),
+					'ispub'=>1,
+					'ischeck'=>$ischeck,
+					'type'=>$_GPC['saletype'],
+					'uid'=>$_GPC['uid'],
+					'name'=>$_GPC['name'],
+					'tel'=>$_GPC['tel'],
+					'houseareaid'=>$_GPC['houseareaid'],
+					'cityid'=>$_GPC['cityid'],
+					'toplistid'=>$_GPC['toplistid'],
+                   'createtime' => TIMESTAMP,
+                   'endtime'=>$endtime
+					);
+		
+	    pdo_insert('weixinmao_house_shopsaleinfo', $data);
+		$saleinfoid = pdo_insertid();
+	    if($saleinfoid)
+		{
+			
+				$userinfodata = array(
+					'uniacid' => $_W['uniacid'],
+					'uid'=>$uid,
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					'createtime' => TIMESTAMP
+					);
+		
+		$userinfo = pdo_fetch("SELECT id  FROM " . tablename('weixinmao_house_userinfo') . " WHERE uid = :id", array(':id' => $uid));
+		if($userinfo)
+		{
+			  pdo_update('weixinmao_house_userinfo', array('uniacid' => $_W['uniacid'],
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					), array('uid' => $uid));
+
+			
+		}else{
+
+	    pdo_insert('weixinmao_house_userinfo', $userinfodata);
+		$id = pdo_insertid();
+		}
+		
+       $list = array('msg'=>'发布成功','error'=>0,'totalnum'=>$totalnum,'saleinfoid'=>$saleinfoid);
+		
+		}else{
+			
+			$list = array('msg'=>'发布失败','error'=>1);
+		}
+		return $this->result(0, 'success', $list);
+		
+	}
+  
+  
+  
+  
+    public function doPageSavebuesaleinfo()
+	{
+		global $_GPC, $_W;
+		$uploadimagelist_str = $_GPC['uploadimagelist_str'];
+		$imagelist = explode('@',$uploadimagelist_str);
+		$uid = $_GPC['uid'];
+		$ischeck = $this->IsCheck2();
+		if($ischeck == 1)
+				{
+
+					$ischeck = 0;
+				}else{
+
+					$ischeck = 1;
+				}
+
+		if(intval($_GPC['toplistid'])>0)
+				{
+					$toplistinfo = pdo_fetch("SELECT days  FROM " . tablename('weixinmao_house_toplist') . " WHERE id = :id", array(':id' => $_GPC['toplistid']));
+					$endtime = $toplistinfo['days'] * 60*60*24+time();
+
+				}else{
+					$endtime = 0 ;
+
+				}
+		$data = array(
+					'uniacid' => $_W['uniacid'],
+					'content'=>$_GPC['content'],
+					'special'=>$_GPC['special'],
+					'thumb_url'=>serialize($imagelist),
+					'ispub'=>1,
+					'ischeck'=>$ischeck,
+					'type'=>$_GPC['saletype'],
+					'uid'=>$_GPC['uid'],
+					'name'=>$_GPC['name'],
+					'tel'=>$_GPC['tel'],
+					'houseareaid'=>$_GPC['houseareaid'],
+					'cityid'=>$_GPC['cityid'],
+					'toplistid'=>$_GPC['toplistid'],
+                   'createtime' => TIMESTAMP,
+                   'endtime'=>$endtime
+					);
+		
+	    pdo_insert('weixinmao_house_buesaleinfo', $data);
+		$saleinfoid = pdo_insertid();
+	    if($saleinfoid)
+		{
+			
+				$userinfodata = array(
+					'uniacid' => $_W['uniacid'],
+					'uid'=>$uid,
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					'createtime' => TIMESTAMP
+					);
+		
+		$userinfo = pdo_fetch("SELECT id  FROM " . tablename('weixinmao_house_userinfo') . " WHERE uid = :id", array(':id' => $uid));
+		if($userinfo)
+		{
+			  pdo_update('weixinmao_house_userinfo', array('uniacid' => $_W['uniacid'],
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					), array('uid' => $uid));
+
+			
+		}else{
+
+	    pdo_insert('weixinmao_house_userinfo', $userinfodata);
+		$id = pdo_insertid();
+		}
+		
+       $list = array('msg'=>'发布成功','error'=>0,'totalnum'=>$totalnum,'saleinfoid'=>$saleinfoid);
+		
+		}else{
+			
+			$list = array('msg'=>'发布失败','error'=>1);
+		}
+		return $this->result(0, 'success', $list);
+		
+	}
+
 	
+  
+  
+      public function doPageSavecarsaleinfo()
+	{
+		global $_GPC, $_W;
+		$uploadimagelist_str = $_GPC['uploadimagelist_str'];
+		$imagelist = explode('@',$uploadimagelist_str);
+		$uid = $_GPC['uid'];
+		$ischeck = $this->IsCheck2();
+		if($ischeck == 1)
+				{
+
+					$ischeck = 0;
+				}else{
+
+					$ischeck = 1;
+				}
+
+		if(intval($_GPC['toplistid'])>0)
+				{
+					$toplistinfo = pdo_fetch("SELECT days  FROM " . tablename('weixinmao_house_toplist') . " WHERE id = :id", array(':id' => $_GPC['toplistid']));
+					$endtime = $toplistinfo['days'] * 60*60*24+time();
+
+				}else{
+					$endtime = 0 ;
+
+				}
+		$data = array(
+					'uniacid' => $_W['uniacid'],
+					'content'=>$_GPC['content'],
+					'special'=>$_GPC['special'],
+					'thumb_url'=>serialize($imagelist),
+					'ispub'=>1,
+					'ischeck'=>$ischeck,
+					'type'=>$_GPC['saletype'],
+					'uid'=>$_GPC['uid'],
+					'name'=>$_GPC['name'],
+					'tel'=>$_GPC['tel'],
+					'houseareaid'=>$_GPC['houseareaid'],
+					'cityid'=>$_GPC['cityid'],
+					'toplistid'=>$_GPC['toplistid'],
+                   'createtime' => TIMESTAMP,
+                   'endtime'=>$endtime
+					);
+		
+	    pdo_insert('weixinmao_house_carsaleinfo', $data);
+		$saleinfoid = pdo_insertid();
+	    if($saleinfoid)
+		{
+			
+				$userinfodata = array(
+					'uniacid' => $_W['uniacid'],
+					'uid'=>$uid,
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					'createtime' => TIMESTAMP
+					);
+		
+		$userinfo = pdo_fetch("SELECT id  FROM " . tablename('weixinmao_house_userinfo') . " WHERE uid = :id", array(':id' => $uid));
+		if($userinfo)
+		{
+			  pdo_update('weixinmao_house_userinfo', array('uniacid' => $_W['uniacid'],
+					'name' => $_GPC['name'],
+					'tel' => $_GPC['tel'],
+					'avatarUrl'=>$_GPC['avatarUrl'],
+					), array('uid' => $uid));
+
+			
+		}else{
+
+	    pdo_insert('weixinmao_house_userinfo', $userinfodata);
+		$id = pdo_insertid();
+		}
+		
+       $list = array('msg'=>'发布成功','error'=>0,'totalnum'=>$totalnum,'saleinfoid'=>$saleinfoid);
+		
+		}else{
+			
+			$list = array('msg'=>'发布失败','error'=>1);
+		}
+		return $this->result(0, 'success', $list);
+		
+	}
+  
+  
+  
+    
 
 
 	public function doPageSavehouse(){
@@ -3880,8 +5423,10 @@ public function doPageSavesaleinfo()
 				}
 
 		$uid = $_GPC['uid'];
-		$sql = 'SELECT id,name,tel FROM ' . tablename('weixinmao_house_agent') . ' WHERE `uniacid` = :uniacid AND `uid` =:uid';
+		$sql = 'SELECT id,name,tel,oldhousenum FROM ' . tablename('weixinmao_house_agent') . ' WHERE `uniacid` = :uniacid AND `uid` =:uid';
 		$masterinfo = pdo_fetch($sql, array(':uniacid' => $_W['uniacid'],':uid'=>$uid));
+        if($masterinfo['oldhousenum']>0)
+        {
 		$data = array(
 					'uniacid' => $_W['uniacid'],
 					'cityid'=>$_GPC['cityid'],
@@ -3918,7 +5463,12 @@ public function doPageSavesaleinfo()
 		$id = pdo_insertid();
 	    if($id)
 		{
-
+           
+          // $agentinfo = pdo_get('weixinmao_house_agent',array('uniacid' => $_W['uniacid'],'uid'=>$uid));
+           
+           $oldhousenum = $masterinfo['oldhousenum'] - 1;
+          
+           pdo_update('weixinmao_house_agent',array('oldhousenum'=>$oldhousenum),array('uniacid' => $_W['uniacid'],'uid'=>$uid));
 			
 			$list = array('msg'=>'发布成功','error'=>0,'totalnum'=>$totalnum);
 		
@@ -3926,6 +5476,11 @@ public function doPageSavesaleinfo()
 			
 			$list = array('msg'=>'发布失败','error'=>1);
 		}
+          
+        }else{
+        			$list = array('msg'=>'发布失败,发布数量不足','error'=>1);
+
+        }
 		return $this->result(0, 'success', $list);
 		
 	}
@@ -4505,7 +6060,8 @@ public function doPageMyhousemsg()
 					$houseinfo = pdo_get('weixinmao_house_houseinfo',array('id'=>$v['houseid']));
 					$list[$k]['title'] = $houseinfo['housename'];
 					$houseplan = pdo_get('weixinmao_house_house',array('id'=>$v['toplistid']));
-
+				
+                  $list[$k]['dmoney'] = $houseplan['dmoney'];
 					$list[$k]['houseplan'] = $houseplan['title'];
 
 				}elseif($v['type'] == 'oldhouse'){
@@ -4891,7 +6447,68 @@ public function doPageMysalelist()
 
 
 
-	
+public function doPageMysalelist2()
+	{
+		global $_GPC, $_W;
+		$uid = $_GPC['uid'];
+		$sessionid = $_GPC['sessionid'];
+		$ordertype = $_GPC['ordertype']? $_GPC['ordertype'] : 1;
+		if($sessionid !=$_W['session_id'])
+		{
+			return $this->result(0, 'success',  array('msg'=>'用户未授权','error'=>1));
+
+			
+		}
+
+		if($ordertype == 1)
+		//	$condition = " type = 1 AND  ";
+          $saletable = 'weixinmao_house_saleinfo';
+		elseif($ordertype == 2)
+			//$condition = " type = 2 AND ";
+          $saletable = 'weixinmao_house_carsaleinfo';
+		elseif($ordertype == 3)
+		//	$condition = " type = 3 AND ";
+          $saletable = 'weixinmao_house_shopsaleinfo';
+		elseif($ordertype == 4)
+			//$condition = " type = 4 AND ";
+          $saletable = 'weixinmao_house_buesaleinfo';
+
+			
+		//echo $condition;
+		
+		//echo "SELECT * FROM " . tablename('weixinmao_house_saleinfo') ." WHERE  " .$condition. "  uniacid=:weid AND uid=".$uid." ORDER BY createtime DESC";
+		//exit;
+
+
+
+	    $list  = pdo_fetchall("SELECT * FROM " . tablename($saletable) ." WHERE    uniacid=:weid AND uid=".$uid." ORDER BY createtime DESC",array(":weid" => $_W['uniacid']));
+
+		foreach($list  as $k=>$v)
+			{
+				
+				
+				$list[$k]['createtime'] = date('Y-m-d',$v['createtime']);
+				
+				if($v['ischeck']==0){
+				
+						$list[$k]['statusStr'] = '审核中';
+				
+					
+				}else{
+				
+						$list[$k]['statusStr'] = '已上架';
+
+				}
+				
+			}
+		 $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+
+		 $data = array('list'=>$list, 'intro'=>$intro);
+		return $this->result(0, 'success', $data);
+		
+	}
+  
+  
 	
 	
 public function doPageMypublist()
@@ -5201,31 +6818,45 @@ public function doPagePaylookhouse() {
 	 //  $uid = $_SESSION['uid'];
 	  $uid = $_GPC['uid'];
 	   $pid = $_GPC['pid'];
+      $agentid =0;
        $ordertype = $_GPC['ordertype'];
-	   $activeinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_lethouseinfo') ." WHERE  uniacid=:weid AND id=".$pid,array(":weid" => $_W['uniacid']));
-	   if(!$activeinfo)
-	   {
-		   return $this->result(1, '支付失败，请重试');
-	   }
-	   
-	   
-	  $isorder = pdo_fetch("SELECT id FROM " . tablename('weixinmao_house_order') ." WHERE  pid = :pid AND uniacid=:weid AND status =1 AND uid=".$uid,array(":weid" => $_W['uniacid'],":pid" => $pid));
-	if($isorder)
-	{
-		return $this->result(1, '支付失败，请重试');
-	}
-	   
+       	  $isorder = pdo_fetch("SELECT id FROM " . tablename('weixinmao_house_order') ." WHERE  pid = :pid AND uniacid=:weid AND status =1 AND uid=".$uid,array(":weid" => $_W['uniacid'],":pid" => $pid));
+        if($isorder)
+        {
+            return $this->result(1, '支付失败，请重试');
+        }
+      
+      if($ordertype == 'payagentrole')
+      { 
+        
+         $agentrole = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_agentrole') ." WHERE  uniacid=:weid AND id=".$pid,array(":weid" => $_W['uniacid']));
+				   if(!$agentrole)
+				   {
+					   return $this->result(1, '支付失败，请重试aa');
+				   }
+				   $money = $agentrole['money'];
+				   
+				   $title = $agentrole['title'];
+        
+        $agentinfo =  pdo_get('weixinmao_house_agent',array('uid'=>$uid));
+        $agentid = $agentinfo['id'];
+      
+      
+      
+      }else{
+           $activeinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_lethouseinfo') ." WHERE  uniacid=:weid AND id=".$pid,array(":weid" => $_W['uniacid']));
+           if(!$activeinfo)
+           {
+               return $this->result(1, '支付失败，请重试');
+           }
 
-
-
-
-	   $money = $activeinfo['dmoney'];
-	   
-	
-
-	  
+           $money = $activeinfo['dmoney'];
+           $title = $activeinfo['title'];
+      }
+      
+      
 	   $orderid = date("YmdHis"). rand(100000, 999999);
-	   $title = $activeinfo['title'];
+	  
 	   
 	   $userinfo = pdo_fetch("SELECT openid FROM " . tablename('mc_mapping_fans') ." WHERE  uniacid=:weid AND uid=".$uid,array(":weid" => $_W['uniacid']));
 
@@ -5252,11 +6883,12 @@ public function doPagePaylookhouse() {
 			'pid' => $pid,
 		    'type'=> $ordertype,
 			'title' => $title,
+             'agentid'=>$agentid,
 			'createtime'=>TIMESTAMP
 		);
 		//print_r($myorder);
 		 pdo_insert('weixinmao_house_order', $myorder);
-		//var_dump($pay_params); 
+	//	var_dump($pay_params); 
 		if (is_error($pay_params)) {
 			return $this->result(1, '支付失败，请重试');
 		}
@@ -5618,7 +7250,7 @@ public function doPageSaveagent()
 		$uploadimagelist_str = $_GPC['uploadimagelist_str'];
 	//	$imagelist = explode('@',$uploadimagelist_str);
 		$uid = $_GPC['uid'];
-		$ischeck = $this->IsCheck();
+		$ischeck = $this->IsAgent();
 		if($ischeck == 1)
 				{
 
@@ -5627,6 +7259,10 @@ public function doPageSaveagent()
 
 					$enabled = 1;
 				}
+        
+        $agentrole = pdo_get('weixinmao_house_agentrole',array('uniacid'=>$_W['uniacid'],'isinit'=>1));
+		$endtime = time()+60*60*24*$agentrole['days'];
+  
 		$data = array(
 					'uniacid' => $_W['uniacid'],
 					'uid'=>$_GPC['uid'],
@@ -5642,7 +7278,12 @@ public function doPageSaveagent()
 					'intro'=>$_GPC['content'],
 					'enabled'=>$enabled,
                   'thumb'=>$uploadimagelist_str,
-                  'createtime'=>TIMESTAMP
+                  'createtime'=>TIMESTAMP,
+                  'lethousenum'=>$agentrole['lethousenum'],
+				  'oldhousenum' =>$agentrole['oldhousenum'],
+          		 'companyname' =>$_GPC['companyname'],
+				  'roleid'=>$agentrole['id'],
+				  'endtime'=>$endtime
 					);
 		
 	
@@ -5653,7 +7294,10 @@ public function doPageSaveagent()
 					$id = pdo_insertid();
 				    if($id)
 					{
-
+                       
+                      	
+                      
+                      
 						
 						$list = array('msg'=>'提交成功','error'=>0,'totalnum'=>$totalnum);
 					
@@ -5698,7 +7342,7 @@ public function doPageSaveagent()
 		);
 	
 		$pay_params = $this->pay($order);
-		
+		//var_dump($pay_params);
 		if (is_error($pay_params)) {
 			return $this->result(1, '支付失败，请重试');
 		}
@@ -5721,7 +7365,7 @@ public function doPageSaveagent()
 			
 			$tid = $pay_result['tid'];
 		
-		    $orderinfo =  pdo_fetch("SELECT pid ,type,uid FROM " . tablename('weixinmao_house_order') ." WHERE  uniacid=:weid AND orderid=".$tid,array(":weid" => $_W['uniacid']));
+		    $orderinfo =  pdo_fetch("SELECT pid ,type,uid,agentid FROM " . tablename('weixinmao_house_order') ." WHERE  uniacid=:weid AND orderid=".$tid,array(":weid" => $_W['uniacid']));
 
 
 			
@@ -5732,7 +7376,33 @@ public function doPageSaveagent()
 
 						pdo_update('weixinmao_house_saleinfo',array('paid' => 1,'status' => 1), array('id'=>$orderinfo['pid']));
 
-					}elseif($orderinfo['type'] == 'puboldhouse'){
+					}elseif($orderinfo['type'] == 'payagentrole'){
+              
+              			$agentrole = pdo_get('weixinmao_house_agentrole',array('uniacid'=>$_W['uniacid'],'id'=>$orderinfo['pid']));
+                        $agentinfo = pdo_get('weixinmao_house_agent',array('uniacid'=>$_W['uniacid'],'id'=>$orderinfo['agentid']));
+                        $lethousenum = $agentrole['lethousenum'] + $agentinfo['lethousenum'];
+                        $oldhousenum = $agentrole['oldhousenum'] + $agentinfo['oldhousenum'];
+
+                        $time = 60*60*24*$agentrole['days'];
+
+                       if($agentinfo['endtime']>time())
+                       		{
+                       				$endtime = $agentinfo['endtime'] + $time;
+                        	}else{
+
+                       				$endtime = $time + time();
+
+                        	}
+                       $roleid = $agentrole['id'];
+
+                       pdo_update('weixinmao_house_agent',array('lethousenum'=>$lethousenum,'oldhousenum'=>$oldhousenum,'endtime'=>$endtime,'roleid'=>$roleid), array('id'=>$orderinfo['agentid']));
+
+                      // pdo_update('weixinmao_zp_job',array('endtime'=>$endtime), array('companyid'=>$orderinfo['companyid']));
+              
+              
+              
+                 
+                    }elseif($orderinfo['type'] == 'puboldhouse'){
 
 
 
@@ -5777,6 +7447,7 @@ public function doPageSaveagent()
 				load()->func('file');
  					
 				$id = $_GPC['id'];
+     			$uid = $_GPC['uid'];
 				$appid = $_W['uniaccount']['key'];
 				$secret = $_W['uniaccount']['secret'];
 				$tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$secret;
@@ -5807,7 +7478,12 @@ public function doPageSaveagent()
 				     $houseinfo['thumb'] =  tomedia($houseinfo['thumb']);
 
 				      $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
-
+      				$agentinfo = pdo_get('weixinmao_house_agent',array('uid'=>$uid,'uniacid'=> $_W['uniacid']));
+                    if($agentinfo)
+                    {
+                    	$houseinfo['tel'] = $agentinfo['tel'];
+                    }
+      
 				    $data =  array('myqrcode'=>tomedia($filepath),'houseinfo'=>$houseinfo,'intro'=>$intro);
 				    return $this->result(0, 'success', $data);
 
@@ -5849,6 +7525,12 @@ public function doPageSaveagent()
 				    file_put_contents('../attachment/'.$filepath, $result);
 				     $houseinfo = pdo_fetch("SELECT * FROM " . tablename('weixinmao_house_lethouseinfo') ." WHERE  uniacid=:weid AND id=".$id,array(":weid" => $_W['uniacid']));
 				     $houseinfo['thumb'] =  tomedia($houseinfo['thumb']);
+      
+      $agentinfo = pdo_get('weixinmao_house_agent',array('uid'=>$uid,'uniacid'=> $_W['uniacid']));
+                    if($agentinfo)
+                    {
+                    	$houseinfo['tel'] = $agentinfo['tel'];
+                    }
 				      $intro = pdo_fetch("SELECT maincolor FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
 				    $data =  array('myqrcode'=>tomedia($filepath),'houseinfo'=>$houseinfo,'intro'=>$intro);
 				    return $this->result(0, 'success', $data);
@@ -6108,7 +7790,53 @@ public function doPagemyspread()
 
 
 
+public function doPagemyagentspread()
+		{
 
+			global $_GPC, $_W;
+			
+				load()->func('file');
+ 					
+				$uid =$_GPC['uid'];
+          
+                $path_url="weixinmao_house/pages/agenthouse/index";
+
+				$appid = $_W['uniaccount']['key'];
+				$secret = $_W['uniaccount']['secret'];
+				$tokenUrl="https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".$appid."&secret=".$secret;
+				$result=$this->api_notice_increment($tokenUrl);
+				$tokenArr = json_decode($result);  				
+   				$access_token=$tokenArr->access_token;
+
+				$width=430;
+				$data = array();
+       			$data['scene'] = "uid=" . $uid;
+        		$data['page'] = "weixinmao_house/pages/agenthouse/index";
+        	   
+        		$post_data = json_encode($data);
+
+			    $url = "https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token=".$access_token;
+				$result=$this->api_notice_increment($url,$post_data,'POST');
+
+
+				$uniacid = intval($_W['uniacid']);
+				$path = "images/{$uniacid}/" . date('Y/m/');
+				mkdirs(ATTACHMENT_ROOT . '/' . $path);
+					$filename = file_random_name(ATTACHMENT_ROOT . '/' . $path, 'jpg');
+					$filepath = $path . $filename;
+					
+				    file_put_contents('../attachment/'.$filepath, $result);
+				    $intro = pdo_fetch("SELECT maincolor,agentbanner FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+				     $houseinfo['thumb'] =  tomedia($intro['agentbanner']);
+				     $houseinfo['housename'] = $path_url;
+
+				   
+
+				    $data =  array('myqrcode'=>tomedia($filepath),'houseinfo'=>$houseinfo,'intro'=>$intro);
+				    return $this->result(0, 'success', $data);
+
+
+		}
 
 
 

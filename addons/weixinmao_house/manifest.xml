@@ -1,37 +1,51 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns="http://www.we7.cc" versionCode="0.8,1.0">
 	<application setting="false">
 		<name><![CDATA[房产中介小程序]]></name>
 		<identifie><![CDATA[weixinmao_house]]></identifie>
-		<version><![CDATA[8.0.70]]></version>
+		<version><![CDATA[8.0.72]]></version>
 		<type><![CDATA[enterprise]]></type>
 		<ability><![CDATA[一款房产中介小程序]]></ability>
 		<description><![CDATA[一款房产中介小程序]]></description>
 		<author><![CDATA[懒人源码]]></author>
 		<url><![CDATA[https://www.lanrenzhijia.com]]></url>
 	</application>
+
 	<platform>
 		<subscribes>
 		</subscribes>
+
 		<handles>
 			<message type="text" />
 		</handles>
+
 		<rule embed="true" />
 		<card embed="false" />
+		
 		<supports>
 			<item type="wxapp" />
 		</supports>
+        <plugins></plugins> 
+        <plugin-main name="" />
+
 	</platform>
+
 	<bindings>
 		<menu>
-			<entry title="置顶支付管理" do="toplist" state="" direct="false"/>
-			<entry title="房屋买卖管理" do="salelist" state="" direct="false"/>
+			<entry title="急售房管理" do="oldsalehouse" state="" direct="false"/>
+			<entry title="拍卖房管理" do="oldpayhouse" state="" direct="false"/>
+			<entry title="商业出租管理" do="letbusinesshouse" state="" direct="false"/>
+			<entry title="门店行业管理" do="storecate" state="" direct="false"/>
+			<entry title="门店管理" do="store" state="" direct="false"/>
 			<entry title="系统设置" do="intro" state="" direct="false"/>
+			<entry title="导航自定义管理" do="nav" state="" direct="false"/>
 			<entry title="新闻分类" do="cate" state="" direct="false"/>
 			<entry title="新闻管理" do="content" state="" direct="false"/>
 			<entry title="楼盘管理" do="newhouse" state="" direct="false"/>
 			<entry title="二手房管理" do="oldhouse" state="" direct="false"/>
 			<entry title="房屋出租管理" do="lethouse" state="" direct="false"/>
+			<entry title="房屋买卖管理" do="salelist" state="" direct="false"/>
+			<entry title="置顶支付管理" do="toplist" state="" direct="false"/>
 			<entry title="楼盘相册管理" do="case" state="" direct="false"/>
 			<entry title="户型图管理" do="house" state="" direct="false"/>
 			<entry title="幻灯片管理" do="adv" state="" direct="false"/>
@@ -39,13 +53,10 @@
 			<entry title="楼盘售价管理" do="houseprice" state="" direct="false"/>
 			<entry title="二手房售价管理" do="oldhouseprice" state="" direct="false"/>
 			<entry title="出租房租金管理" do="lethouseprice" state="" direct="false"/>
+			<entry title="经纪人入驻管理" do="agent" state="" direct="false"/>
 			<entry title="购房活动管理" do="active" state="" direct="false"/>
 			<entry title="订单管理" do="order" state="" direct="false"/>
-			<entry title="经纪人入驻管理" do="agent" state="" direct="false"/>
 			<entry title="分销申请入驻" do="coupon" state="" direct="false"/>
-			<entry title="导航自定义管理" do="nav" state="" direct="false"/>
-			<entry title="门店管理" do="store" state="" direct="false"/>
-			<entry title="门店行业管理" do="storecate" state="" direct="false"/>
 			<entry title="房源预约管理" do="housemsg" state="" direct="false"/>
 			<entry title="房源评论管理" do="comment" state="" direct="false"/>
 			<entry title="投诉经纪人管理" do="complain" state="" direct="false"/>
@@ -53,12 +64,10 @@
 			<entry title="用户管理" do="userinfo" state="" direct="false"/>
 			<entry title="充值标签管理" do="paylist" state="" direct="false"/>
 			<entry title="商业地产管理" do="businesshouse" state="" direct="false"/>
-			<entry title="急售房管理" do="oldsalehouse" state="" direct="false"/>
-			<entry title="拍卖房管理" do="oldpayhouse" state="" direct="false"/>
-			<entry title="商业出租管理" do="letbusinesshouse" state="" direct="false"/>
+			<entry title="经纪人套餐管理" do="agentrole" state="" direct="false"/>
+			<entry title="商铺门面管理" do="shophouse" state="" direct="false"/>
 		</menu>
 		<page>
-			<entry title="房屋买卖" do="/weixinmao_house/pages/salelist/index" state="" direct="false"/>
 			<entry title="首页" do="/weixinmao_house/pages/index/index" state="" direct="false"/>
 			<entry title="楼盘列表" do="/weixinmao_house/pages/newhouselist/index" state="" direct="false"/>
 			<entry title="楼盘详情" do="/weixinmao_house/pages/newhousedetail/index" state="" direct="false"/>
@@ -67,7 +76,9 @@
 			<entry title="房产资讯" do="/weixinmao_house/pages/article/index" state="" direct="false"/>
 			<entry title="资讯详情" do="/weixinmao_house/pages/newsdetail/index" state="" direct="false"/>
 			<entry title="申请入驻" do="/weixinmao_house/pages/message/index" state="" direct="false"/>
+			<entry title="房屋买卖" do="/weixinmao_house/pages/salelist/index" state="" direct="false"/>
 		</page>
+
 	</bindings>
 
 	<permissions>
@@ -86,7 +97,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_active` (
   `status` tinyint(10) DEFAULT '0',
   `thumb` varchar(200) DEFAULT NULL,
   `money` float(10,2) DEFAULT '0.00',
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
@@ -101,11 +112,12 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_adv` (
   `enabled` int(11) DEFAULT '0',
   `toway` varchar(30) DEFAULT NULL,
   `appid` varchar(50) DEFAULT NULL,
+  `type` tinyint(10) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indx_weid` (`weid`),
   KEY `indx_enabled` (`enabled`),
   KEY `indx_displayorder` (`displayorder`)
-) ENGINE=MyISAM AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_agent` (
@@ -123,12 +135,31 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_agent` (
   `content` text,
   `sort` int(10) DEFAULT '0',
   `intro` varchar(200) DEFAULT NULL,
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   `card` varchar(100) DEFAULT NULL,
   `bank` varchar(100) DEFAULT NULL,
   `bankaddress` varchar(100) DEFAULT NULL,
+  `lethousenum` int(10) DEFAULT '0',
+  `oldhousenum` int(10) DEFAULT '0',
+  `endtime` int(10) DEFAULT '0',
+  `roleid` int(10) DEFAULT '0',
+  `companyname` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=32 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_agentrole` (
+  `id` int(11) NOT NULL,
+  `uniacid` int(11) DEFAULT '0',
+  `title` varchar(30) DEFAULT NULL,
+  `money` float(10,2) DEFAULT '0.00',
+  `days` mediumint(10) DEFAULT '0',
+  `sort` int(11) DEFAULT '0',
+  `enabled` int(11) DEFAULT '0',
+  `lethousenum` int(10) DEFAULT '0',
+  `oldhousenum` int(10) DEFAULT '0',
+  `isinit` tinyint(10) DEFAULT '0'
+) ENGINE=MyISAM AUTO_INCREMENT=31 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_area` (
@@ -137,12 +168,12 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_area` (
   `name` varchar(50) DEFAULT '',
   `sort` int(11) DEFAULT '0',
   `enabled` int(11) DEFAULT '0',
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   PRIMARY KEY (`id`),
   KEY `indx_weid` (`uniacid`),
   KEY `indx_enabled` (`enabled`),
   KEY `indx_displayorder` (`sort`)
-) ENGINE=MyISAM AUTO_INCREMENT=54 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_baoming` (
@@ -239,7 +270,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_category` (
   `enabled` tinyint(1) unsigned NOT NULL DEFAULT '1' COMMENT '是否开启',
   `model` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_city` (
@@ -300,7 +331,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_content` (
   `status` tinyint(10) DEFAULT '0',
   `thumb` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_coupon` (
@@ -402,11 +433,11 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_houseinfo` (
   `lng` decimal(10,6) DEFAULT '0.000000',
   `lat` decimal(10,6) DEFAULT '0.000000',
   `fxmoney` float(10,2) DEFAULT '0.00',
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   `bid` int(10) DEFAULT '0',
   `video` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=36 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_housemsg` (
@@ -423,7 +454,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_housemsg` (
   `type` varchar(30) DEFAULT NULL,
   `content` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=212 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_houseprice` (
@@ -448,6 +479,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_intro` (
   `content` text NOT NULL COMMENT '文章内容',
   `name` varchar(100) DEFAULT NULL,
   `logo` varchar(150) DEFAULT NULL,
+  `fxbanner` varchar(150) DEFAULT NULL,
   `address` varchar(200) DEFAULT NULL,
   `tel` varchar(50) DEFAULT NULL,
   `opentime` varchar(30) DEFAULT NULL,
@@ -456,11 +488,10 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_intro` (
   `qq` varchar(50) DEFAULT NULL,
   `email` varchar(50) DEFAULT NULL,
   `city` varchar(30) DEFAULT NULL,
-  `ischeck` tinyint(10) DEFAULT '1',
-  `fxbanner` varchar(150) DEFAULT NULL,
   `maincolor` varchar(30) DEFAULT NULL,
-  `moban` tinyint(10) DEFAULT '0',
+  `ischeck` tinyint(10) DEFAULT '1',
   `ispay` tinyint(10) DEFAULT '0',
+  `moban` tinyint(10) DEFAULT '0',
   `rate1` float(10,2) DEFAULT '0.00',
   `rate2` float(10,2) DEFAULT '0.00',
   `isoldhouse` tinyint(10) DEFAULT '0',
@@ -476,8 +507,9 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_intro` (
   `ischeck2` tinyint(10) DEFAULT '1',
   `isagent` tinyint(10) DEFAULT '1',
   `indexadv` varchar(150) DEFAULT NULL,
+  `agentbanner` varchar(150) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_letbusinesshouseinfo` (
@@ -551,6 +583,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_lethouseinfo` (
   `lat` decimal(10,6) DEFAULT '0.000000',
   `thumb` varchar(200) DEFAULT NULL,
   `thumb_url` text,
+  `video` varchar(200) DEFAULT NULL,
   `isrecommand` tinyint(10) DEFAULT '0',
   `sort` int(10) DEFAULT '0',
   `createtime` int(10) DEFAULT '0',
@@ -562,13 +595,12 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_lethouseinfo` (
   `ispub` tinyint(10) DEFAULT '0',
   `ischeck` tinyint(10) DEFAULT '0',
   `uid` int(10) DEFAULT '0',
-  `video` varchar(200) DEFAULT NULL,
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   `price` int(10) DEFAULT '0',
   `bid` int(10) DEFAULT '0',
   `fxmoney` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_lethouseprice` (
@@ -596,7 +628,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_message` (
   `status` tinyint(10) DEFAULT '0',
   `uid` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=38 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_nav` (
@@ -639,6 +671,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseinfo` (
   `lat` decimal(10,6) DEFAULT '0.000000',
   `thumb` varchar(200) DEFAULT NULL,
   `thumb_url` text,
+  `video` varchar(200) DEFAULT NULL,
   `isrecommand` tinyint(10) DEFAULT '0',
   `sort` int(10) DEFAULT '0',
   `createtime` int(10) DEFAULT '0',
@@ -650,14 +683,13 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseinfo` (
   `ispub` tinyint(10) DEFAULT '0',
   `ischeck` tinyint(10) DEFAULT '0',
   `uid` int(10) DEFAULT '0',
-  `video` varchar(200) DEFAULT NULL,
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   `money` float(10,2) DEFAULT '0.00',
   `dmoney` float(10,2) DEFAULT '0.00',
   `bid` int(10) DEFAULT '0',
   `fxmoney` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=46 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=40 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseprice` (
@@ -672,7 +704,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldhouseprice` (
   KEY `indx_weid` (`uniacid`),
   KEY `indx_enabled` (`enabled`),
   KEY `indx_displayorder` (`sort`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_oldpayhouseinfo` (
@@ -776,8 +808,9 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_order` (
   `status` tinyint(10) DEFAULT '0',
   `title` varchar(50) DEFAULT NULL,
   `type` varchar(30) DEFAULT NULL,
+  `agentid` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=148 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_paylist` (
@@ -816,9 +849,9 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_saleinfo` (
   `toplistid` mediumint(10) DEFAULT '0',
   `endtime` int(10) DEFAULT '0',
   `paid` tinyint(10) DEFAULT '0',
-  `cityid` int(10) DEFAULT NULL,
+  `cityid` tinyint(10) DEFAULT '0',
   PRIMARY KEY (`id`,`status`,`uid`)
-) ENGINE=MyISAM AUTO_INCREMENT=66 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=62 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_save` (
@@ -829,7 +862,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_save` (
   `housetype` varchar(30) DEFAULT NULL,
   `createtime` int(10) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=12 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_scorerecord` (
@@ -846,6 +879,98 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_scorerecord` (
   KEY `indx_enabled` (`createtime`),
   KEY `indx_displayorder` (`totalscore`)
 ) ENGINE=MyISAM AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_shophouseinfo` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+  `title` varchar(200) DEFAULT NULL,
+  `dmoney` float(10,2) DEFAULT '0.00',
+  `saleprice` int(10) DEFAULT '0',
+  `perprice` int(10) DEFAULT '0',
+  `housestyle` varchar(30) DEFAULT NULL,
+  `housetype` int(10) DEFAULT '0',
+  `houseareaid` int(10) DEFAULT '10',
+  `area` varchar(30) DEFAULT NULL,
+  `floor` varchar(30) DEFAULT NULL,
+  `direction` varchar(30) DEFAULT NULL,
+  `decorate` varchar(50) DEFAULT NULL,
+  `year` varchar(50) DEFAULT NULL,
+  `source` tinyint(10) DEFAULT '0',
+  `housearea` varchar(60) DEFAULT NULL,
+  `address` varchar(60) DEFAULT NULL,
+  `special` varchar(60) DEFAULT NULL,
+  `lng` decimal(10,6) DEFAULT '0.000000',
+  `lat` decimal(10,6) DEFAULT '0.000000',
+  `thumb` varchar(200) DEFAULT NULL,
+  `thumb_url` text,
+  `isrecommand` tinyint(10) DEFAULT '0',
+  `sort` int(10) DEFAULT '0',
+  `createtime` int(10) DEFAULT '0',
+  `content` text,
+  `name` varchar(50) DEFAULT NULL,
+  `tel` varchar(30) DEFAULT NULL,
+  `salestatus` tinyint(10) DEFAULT '0',
+  `status` tinyint(10) DEFAULT '0',
+  `ispub` tinyint(10) DEFAULT '0',
+  `ischeck` tinyint(10) DEFAULT '0',
+  `uid` int(10) DEFAULT '0',
+  `video` varchar(200) DEFAULT NULL,
+  `cityid` int(10) DEFAULT NULL,
+  `money` float(10,2) DEFAULT '0.00',
+  `bid` int(10) DEFAULT '0',
+  `fxmoney` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_shoplethouseinfo` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '主键',
+  `uniacid` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '公众号id',
+  `title` varchar(200) DEFAULT NULL,
+  `money` int(10) DEFAULT '0',
+  `dmoney` float(10,2) DEFAULT '0.00',
+  `roomid` int(10) DEFAULT '0',
+  `roomtype` varchar(30) DEFAULT NULL,
+  `housetype` int(10) DEFAULT '0',
+  `houselabel` varchar(200) DEFAULT NULL,
+  `letway` tinyint(10) DEFAULT '1',
+  `payway` varchar(30) DEFAULT NULL,
+  `houseareaid` int(10) DEFAULT '10',
+  `area` varchar(30) DEFAULT NULL,
+  `floor` varchar(30) DEFAULT NULL,
+  `direction` varchar(30) DEFAULT NULL,
+  `decorate` varchar(50) DEFAULT NULL,
+  `year` varchar(50) DEFAULT NULL,
+  `source` tinyint(10) DEFAULT '0',
+  `housearea` varchar(60) DEFAULT NULL,
+  `address` varchar(60) DEFAULT NULL,
+  `special` varchar(60) DEFAULT NULL,
+  `lng` decimal(10,6) DEFAULT '0.000000',
+  `lat` decimal(10,6) DEFAULT '0.000000',
+  `thumb` varchar(200) DEFAULT NULL,
+  `thumb_url` text,
+  `isrecommand` tinyint(10) DEFAULT '0',
+  `sort` int(10) DEFAULT '0',
+  `createtime` int(10) DEFAULT '0',
+  `content` text,
+  `name` varchar(50) DEFAULT NULL,
+  `tel` varchar(30) DEFAULT NULL,
+  `weixin` varchar(30) DEFAULT NULL,
+  `salestatus` tinyint(10) DEFAULT '0',
+  `status` tinyint(10) DEFAULT '0',
+  `ispub` tinyint(10) DEFAULT '0',
+  `ischeck` tinyint(10) DEFAULT '0',
+  `uid` int(10) DEFAULT '0',
+  `housenum` varchar(30) DEFAULT NULL,
+  `agentid` int(10) DEFAULT '0',
+  `video` varchar(200) DEFAULT NULL,
+  `cityid` int(10) DEFAULT NULL,
+  `price` int(10) DEFAULT '0',
+  `bid` int(10) DEFAULT '0',
+  `fxmoney` int(10) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM AUTO_INCREMENT=52 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_store` (
@@ -895,7 +1020,7 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_toplist` (
   KEY `indx_weid` (`uniacid`),
   KEY `indx_enabled` (`enabled`),
   KEY `indx_displayorder` (`sort`)
-) ENGINE=MyISAM AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_userinfo` (
@@ -911,12 +1036,13 @@ CREATE TABLE IF NOT EXISTS `ims_weixinmao_house_userinfo` (
   `openid` varchar(100) DEFAULT NULL,
   `score` float(10,2) DEFAULT '0.00',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=109 DEFAULT CHARSET=utf8;
 
 ]]></install>
 	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_weixinmao_house_active`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_adv`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_agent`;
+DROP TABLE IF EXISTS `ims_weixinmao_house_agentrole`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_area`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_baoming`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_buildarea`;
@@ -949,6 +1075,8 @@ DROP TABLE IF EXISTS `ims_weixinmao_house_paylist`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_saleinfo`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_save`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_scorerecord`;
+DROP TABLE IF EXISTS `ims_weixinmao_house_shophouseinfo`;
+DROP TABLE IF EXISTS `ims_weixinmao_house_shoplethouseinfo`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_store`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_storecate`;
 DROP TABLE IF EXISTS `ims_weixinmao_house_toplist`;

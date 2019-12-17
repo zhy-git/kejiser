@@ -16,6 +16,7 @@
 					<th>显示顺序</th>					
 					<th>标题</th>
 					<th>连接</th>
+                  <th>是否显示</th>
 					<th >操作</th>
 				</tr>
 			</thead>
@@ -24,8 +25,13 @@
 				<tr>
 					<td>{$adv['id']}</td>
 					<td>{$adv['displayorder']}</td>
-					<td>{$adv['advname']}</td>
+					<td>{$adv['advname']}enabled</td>
 					<td>{$adv['link']}</td>
+                  <td>{if $adv['enabled']==1}
+								<span class='label label-success'>是</span>
+								{else}
+								<span class='label label-danger'>否</span>
+								{/if}</td>
 					<td style="text-align:left;">
 						<a href="{php echo $this->createWebUrl('nav', array('op' => 'post', 'id' => $adv['id']))}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="修改"><i class="fa fa-edit"></i></a>
 						<a href="{php echo $this->createWebUrl('nav', array('op' => 'delete', 'id' => $adv['id']))}"class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="删除"><i class="fa fa-times"></i></a>
@@ -86,6 +92,11 @@
 				<option value="toOldHouse" {if $adv['link'] == 'toOldHouse'} selected{/if}>二手房模型</option>
 				<option value="toLethouse" {if $adv['link'] == 'toLethouse'} selected{/if}>房屋出租模型</option>
 				<option value="toArticle" {if $adv['link'] == 'toArticle'} selected{/if}>房屋买卖模型</option>
+              	<option value="toShopsalelist" {if $adv['link'] == 'toShopsalelist'} selected{/if}>商铺买卖模型</option>
+                 <option value="toBuesalelist" {if $adv['link'] == 'toBuesalelist'} selected{/if}>商业买卖模型</option>
+                <option value="toCarsalelist" {if $adv['link'] == 'toCarsalelist'} selected{/if}>车库买卖模型</option>
+
+
 				<option value="toMessage" {if $adv['link'] == 'toMessage'} selected{/if}>申请入驻模型</option>
 				<option value="toAgentlist" {if $adv['link'] == 'toAgentlist'} selected{/if}>经纪人模型</option>
 				<option value="toActive" {if $adv['link'] == 'toActive'} selected{/if}>购房活动模型</option>
@@ -96,7 +107,12 @@
                	<option value="toOldSaleHouse" {if $adv['link'] == 'toOldSaleHouse'} selected{/if}>急售房源模型</option>
                	<option value="toOldPayHouse" {if $adv['link'] == 'toOldPayHouse'} selected{/if}>拍卖房源模型</option>
                	<option value="toLetBusinessHouse" {if $adv['link'] == 'toLetBusinessHouse'} selected{/if}>商业出租模型</option>
-
+                
+                     <option value="toShopHouse" {if $adv['link'] == 'toShopHouse'} selected{/if}>商铺门面出售模型</option>
+					<option value="toShopLetHouse" {if $adv['link'] == 'toShopLetHouse'} selected{/if}>商铺门面出租模型</option>
+              <option value="toMyhousemsg" {if $adv['link'] == 'toMyhousemsg'} selected{/if}>我的预约模型</option>
+              <option value="toFxuser" {if $adv['link'] == 'toFxuser'} selected{/if}>分销中心模型</option>
+              <option value="toNewslist" {if $adv['link'] == 'toNewslist'} selected{/if}>房产资讯模型</option>
                	<option value="toInnerUrl" {if $adv['link'] == 'toInnerUrl'} selected{/if}>内连接模型</option>
 				<option value="toMenuUrl" {if $adv['link'] == 'toMenuUrl'} selected{/if}>菜单连接模型</option>
 		<option value="toWxapp" {if $adv['link'] == 'toWxapp'} selected{/if}>小程序跳转模型</option>
