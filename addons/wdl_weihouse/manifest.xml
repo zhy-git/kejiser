@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns="http://www.we7.cc" versionCode="0.6">
+	<application setting="true">
+		<name><![CDATA[微乐居房产中介小程序]]></name>
+		<identifie><![CDATA[wdl_weihouse]]></identifie>
+		<version><![CDATA[3.0.9]]></version>
+		<type><![CDATA[business]]></type>
+		<ability><![CDATA[提供给中介公司发布推广新房楼盘、二手房在小程序里面每天分享房源]]></ability>
+		<description><![CDATA[微乐居房产中介小程序专注做新房楼盘售楼部、中介二手房、租房，经济人业务推广。]]></description>
+		<author><![CDATA[新源代]]></author>
+		<url><![CDATA[http://www.xydai.cn]]></url>
+	</application>
+	<platform>
+		<subscribes>
+		</subscribes>
+		<handles>
+			<message type="location" />
+			<message type="text" />
+		</handles>
+		<rule embed="true" />
+		<card embed="false" />
+		<supports><item type="wxapp" /></supports>
+		<plugin-main name="0" />
+	</platform>
+	<bindings>
+		<menu>
+			<entry title="发布二手房" do="house" state="" direct="false" />
+			<entry title="房源管理" do="houselist" state="" direct="false" />
+			<entry title="预约看房" do="feed" state="" direct="false" />
+			<entry title="公司经纪人" do="broker" state="" direct="false" />
+			<entry title="门店管理" do="secshop" state="" direct="false" />
+			<entry title="新房管理" do="newhouse" state="" direct="false" />
+			<entry title="商圈管理" do="area" state="" direct="false" />
+			<entry title="房产资讯" do="article" state="" direct="false" />
+			<entry title="前端设置" do="enset" state="" direct="false" />
+		</menu>
+		<page>
+			<entry title="首页" do="/wdl_weihouse/pages/index/welcome" state="" direct="false" />
+		</page>
+	</bindings>
+	<permissions>
+	</permissions>
+	<install><![CDATA[m_install.php]]></install>
+	<uninstall><![CDATA[DROP TABLE IF EXISTS `ims_house_banner_img`;
+DROP TABLE IF EXISTS `ims_house_class`;
+DROP TABLE IF EXISTS `ims_house_company`;
+DROP TABLE IF EXISTS `ims_house_item`;
+DROP TABLE IF EXISTS `ims_house_yue`;
+DROP TABLE IF EXISTS `ims_kb_house`;
+DROP TABLE IF EXISTS `ims_kb_house_album`;
+DROP TABLE IF EXISTS `ims_kb_house_attach`;
+DROP TABLE IF EXISTS `ims_kb_house_info`;
+DROP TABLE IF EXISTS `ims_kb_house_price`;
+DROP TABLE IF EXISTS `ims_kb_house_room`;
+DROP TABLE IF EXISTS `ims_kb_house_saleinfo`;
+DROP TABLE IF EXISTS `ims_kb_sechouse`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_actlog`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_area`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_broker`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_favorite`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_param`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_replay`;
+DROP TABLE IF EXISTS `ims_kb_sechouse_shop`;
+]]></uninstall>
+	<upgrade><![CDATA[m_upgrade.php]]></upgrade>
+</manifest>
