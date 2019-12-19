@@ -1,2 +1,0 @@
-<?php
- goto QFpY2; AY6tx: global $_GPC, $_W; goto todP7; tVfMA: $sec = $this->module_setting(); goto nazoA; QFpY2: defined("\111\x4e\x5f\111\x41") or exit("\101\x63\143\x65\x73\163\40\x44\x65\x6e\x69\145\144"); goto AY6tx; todP7: load()->func("\x74\160\154"); goto c9OZN; nazoA: $uniacid = $_W["\165\x6e\x69\x61\x63\x69\144"]; goto ChqKj; c9OZN: $operation = !empty($_GPC["\157\x70"]) ? $_GPC["\157\x70"] : "\144\x69\x73\160\154\x61\x79"; goto es02M; es02M: $selects = $this->_forms; goto tVfMA; ChqKj: $openid = $_W["\157\160\145\156\x69\x64"];
