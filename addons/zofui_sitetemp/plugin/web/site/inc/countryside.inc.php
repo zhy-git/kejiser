@@ -55,8 +55,9 @@
 				$list[$key]['img'] = strtok($value['img'],',');
 				//获取特派员的名字
 				$list[$key]['title'] = $userinfo['title'];
-			}
-		
+			} 
+			// var_dump('<pre>');
+			// var_dump($list);die();
 		
 
 	
@@ -65,9 +66,10 @@
 	if($_GPC['op'] == 'edit'){
 		$id = intval($_GPC['id']);
 		$info = pdo_get('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'id'=>$id));
-		
-
-
+		$info['userinfo'] = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$info['uid']));
+		$info['userinfo']['img'] = explode(',', $info['userinfo']['img']);
+		// var_dump('<pre>');
+		// var_dump($info);die();
 	}
 	
 	if($_GPC['op'] == 'delete'){

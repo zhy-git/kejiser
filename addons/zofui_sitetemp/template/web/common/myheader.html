@@ -24,8 +24,8 @@
         </div>
         <div class="nav">
             <ul>
-                {loop $menu $item}
-                	<li {if $_GPC['p'] == $item['p'] }class="selected"{/if}><a href="{$item['url']}">{$item['name']}</a></li>
+                {loop $menu $index $item}
+                	<li  id="menu{$index}" {if $_GPC['p'] == $item['p'] }class="selected"{/if}><a href="{$item['url']}">{$item['name']}</a></li>
                 {/loop}
             </ul>
         </div>

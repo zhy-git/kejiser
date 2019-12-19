@@ -11238,3 +11238,4 @@ li.step_item {
 .index .notice li .name{display:inline-block;max-width:240px;vertical-align:top;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
 .index .notice .more{line-height:39px;text-align:right;}
 .index .sidebar .data-box .data-bd{padding:7px 30px 10px;border-top:1px solid #e7e7eb;}
+#menu6{display: none;}

@@ -1,0 +1,27 @@
+<table class='table table-form '>
+        <tr>
+                <th width="100">发布设置：</th>
+                <td colspan="3">
+                    <p>  
+                        <input type="checkbox" name="confmenu[sd_nav_disabled]" {if $confmenu['sd_nav_disabled']==1}checked{/if} value="1"/>启用</span>
+                        <span style="margin-left:20px; color:#ff0000"> 勾选启用 下面配置才有效;</span>
+                    </p>
+                    <p>
+                     <input type="checkbox" name="confmenu[sd_nav_qiu]" {if $confmenu['sd_nav_qiu']==1}checked{/if} value="1"/>启用 发布求租  &nbsp; &nbsp;  
+                   <input type="checkbox" name="confmenu[sd_nav_sec]" {if $confmenu['sd_nav_sec']==1}checked{/if} value="1"/>启用 发布二手房源  &nbsp; &nbsp; 
+                   <input type="checkbox" name="confmenu[sd_nav_zhu]" {if $confmenu['sd_nav_zhu']==1}checked{/if} value="1"/>启用 发布租房  &nbsp; &nbsp;
+                  <input type="checkbox" name="confmenu[sd_nav_xie_zhu]" {if $confmenu['sd_nav_xie_zhu']==1}checked{/if} value="1"/>启用 发布写字楼出租 &nbsp; &nbsp;  
+                  </p>
+                   <p> 
+                   <input type="checkbox" name="confmenu[sd_nav_gou]" {if $confmenu['sd_nav_gou']==1}checked{/if} value="1"/>启用 发布求购 &nbsp; &nbsp; 
+                   <input type="checkbox" name="confmenu[sd_nav_xie_sale]" {if $confmenu['sd_nav_xie_sale']==1}checked{/if} value="1"/>启用 发布写字楼出售 &nbsp; &nbsp;  
+                   <input type="checkbox" name="confmenu[sd_nav_sp_zhu]" {if $confmenu['sd_nav_sp_zhu']==1}checked{/if} value="1"/>启用 发布商铺出租  &nbsp; &nbsp;
+                  <input type="checkbox" name="confmenu[sd_nav_sp_sale]" {if $confmenu['sd_nav_sp_sale']==1}checked{/if} value="1"/>启用 发布商铺出售  &nbsp; &nbsp; 
+                  <input type="checkbox" name="confmenu[sd_nav_syi_sale]" {if $confmenu['sd_nav_syi_sale']==1}checked{/if} value="1"/>启用 发布生意转让 &nbsp; &nbsp;
+                   </p>
+                  
+                   <p> <span style=" color:#ff0000">这个是控制 小程序 前端可以发布的房源类型.</span></p>
+                </td>
+        </tr>
+        
+</table>

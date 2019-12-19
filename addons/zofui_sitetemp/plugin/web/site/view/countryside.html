@@ -8,6 +8,10 @@
 	    background-color: #409eff;
 	    border-color: #409eff;
 	}
+	#pic{
+		width: 130px;
+		height: 174px;
+	}
 </style>
 	{if $_GPC['op'] == 'edit'}
 		<form method="post" action="" style="margin-left: 100px">
@@ -19,16 +23,16 @@
 			<div class="frm_control_group">
 				<label for="" class="frm_label">特派员名称</label>
 				<div class="frm_controls msg">
-					<span class="frm_textarea_box textarea_60px">
-						<textarea  name="title" class="frm_textarea" rows="6" placeholder="">{$info['title']}</textarea>
+					<span class="frm_textarea_box textarea_60px" style="height:auto;">
+						<textarea disabled="disabled"  name="title" class="frm_textarea" rows="1" placeholder="" style="height:auto;">{$info['userinfo']['title']}</textarea>
 					</span>
 				</div>
 			</div>
 			<div class="frm_control_group">
-				<label for="" class="frm_label">排序序号</label>
+				<label for="" class="frm_label" >排序序号</label>
 				<div class="frm_controls msg">
 					<span class="frm_input_box">
-						<input type="text" class="frm_input"  name="number" value="{$info['number']}">
+						<input type="text" class="frm_input" disabled="disabled"   name="number" value="{$info['number']}">
 					</span>
 					<p class="frm_tips">填入数字，越大越前</p>
 				</div>
@@ -38,17 +42,17 @@
 	   			<div class="frm_controls">
 		  			<div class="filter_content dropdown_topbar"> 
 				   		<div class="dropdown_menu ">
-				    		<a href="javascript:;" class="btn dropdown_switch jsDropdownBt width_200">
-				    			<label class="jsBtLabel">
+				    		<a href="javascript:;" class="btn dropdown_switch jsDropdownBt width_200" disabled="disabled" >
+				    			<label class="jsBtLabel" >
 				    				{loop $artsort $item}
-				    					{if $item['id'] == $info['sortid']}
+				    					{if $item['id'] == $info['userinfo']['prosortid']}
 				    						{$item['name']}
 				    					{/if}
 				    				{/loop}
 				    			</label>
 				    			<i class="arrow"></i>
 				    		</a> 
-				    		<div class="dropdown_data_container jsDropdownList width_200" > 
+				    		<div class="dropdown_data_container jsDropdownList width_200" style="display: none;"> 
 					     		<ul class="dropdown_data_list">
 					     			{loop $artsort $item}
 					      				<li class="dropdown_data_item "> <a href="javascript:;" id="{$item['id']}" class="select_item">{$item['name']}</a> </li> 
@@ -61,20 +65,22 @@
 	   			</div>
 	  		</div>		
 			<div class="frm_control_group single_img_upload">
-				<label for="" class="frm_label">封面图片</label>
+				<label for="" class="frm_label">特派员简历</label>
 				<div class="frm_controls">
-					{php echo  WebCommon::tpl_form_field_image('img',$info['img'])}
-					<p class="frm_tips">建议设置正方形图片</p>
+					<!-- {php echo  WebCommon::tpl_form_field_image('img',$info['img'])}
+					<p class="frm_tips">建议设置正方形图片</p> -->
+					<img src="{$info['userinfo']['img'][1]}" width="130px" height="174px" id='pic'>
 				</div>
 			</div>
 			<div class="frm_control_group textarea_item">
-				<label for="" class="frm_label">特派员详情</label>
+				<label for="" class="frm_label">特派员其他备注</label>
 				<div class="frm_controls">
 					{php echo Util::tpl_ueditor('content', htmlspecialchars_decode($info['content']));}
 					<span class="frm_tips">提示：请不要设置视频、超链接、表情等特殊内容，因为小程序无法解析特殊内容。</span>
 				</div>
-
 			</div>
+
+
 			<div class="tool_bar">
 				<input type="submit"  name="create" class="btn btn_primary"  value="确定" />
 				<input name="token" type="hidden" value="{$_W['token']}" />
@@ -174,4 +180,16 @@
     {/if}
 
 {/if}
+<script type="text/javascript">
+	let pic = document.getElementById('pic');
+	pic.onmouseover = function () {
+		this.style.width = 600+ 'px';
+		this.style.height = 1000+ 'px';
+	}
+	pic.onmouseout = function () {
+		this.style.width = 130+ 'px';
+		this.style.height = 174+ 'px';
+	}
+
+</script>
 {template '../../../addons/'.MODULE.'/template/web/common/myfooter'}

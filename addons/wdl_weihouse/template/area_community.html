@@ -1,0 +1,114 @@
+<style>
+  .form-horizontal .form-group{margin-left:0px;}
+  .we7-form .form-group, form .form-group{margin-bottom: 10px;}
+</style>
+<form action="{php echo $this->createWebUrl('area', array('op'=>'addcommunity'))}"  method="post" class="form-horizontal form" enctype="multipart/form-data" id="form1">
+ <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>所属区域 </label>
+	<div class="col-sm-9 col-xs-12">
+           <?php  echo
+ form_element::select($sec['areas'],'data[area]','area',$item['area']);
+ ?>
+            </div>
+    </div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>公寓名称 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[name]" id="name" class="form-control"
+                        placeholder="必填项 "  value="{$item['name']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>联系电话 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[telephone]" id="telephone" class="form-control"
+                        placeholder="请输入业务联系电话 "  value="{$item['telephone']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">封面图</label>
+
+	<div class="col-sm-9 col-xs-12">
+
+		{php echo tpl_form_field_image('thumb', $item['thumb'], '', array('extras' => array('text' => 'readonly')))}
+
+	</div>
+
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>标签 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[mainhouse]" id="mainhouse" class="form-control"
+                        placeholder="可以按标签分类管理 "  value="{$item['mainhouse']}" />
+                
+	</div>
+</div>
+        <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>均价 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[avaprice]" id="avaprice" class="form-control"
+                        placeholder="均价 "  value="{$item['avaprice']}" />
+                
+	</div>
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span> 地址 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="text" name="data[address]" id="address" class="form-control"
+                        placeholder="社区公寓地址 "  value="{$item['address']}" />
+                
+	</div>
+</div>
+<div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span> 介绍 </label>
+	<div class="col-sm-9 col-xs-12">
+		<textarea type="text" name="data[smalltext]"
+                          id="smalltext" class="form-control"
+                          placeholder="  ">{$item['smalltext']}</textarea>
+                
+	</div>
+</div>
+   
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">推荐位置</label>
+	<div class="col-sm-9 col-xs-12" >
+            <label for="isrecommand" class="checkbox-inline">
+		<input type="checkbox" name="data[istop]" value="1"
+                       id="istop" {if $item['istop'] == 1}checked="true"{/if} /> 置顶
+            </label>
+              
+             
+        </div>
+</div>
+    <div class="form-group">
+	<label class="col-xs-12 col-sm-3 col-md-2 control-label">
+            <span style='color:red'>*</span>状态 </label>
+	<div class="col-sm-9 col-xs-12">
+		<input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==0}checked{/if}  value="0" />启用
+                
+                <input type="radio" name="data[disabled]"  class=" "
+                     {if $item['disabled']==1}checked{/if}   value="1" />禁用
+                
+	</div>
+</div>
+<div class="form-group ">
+    <label class="col-xs-12 col-sm-3 col-md-2 control-label">操作</label>
+    <div class="col-sm-9 col-xs-12">
+                <input type="submit" name="submit" value="提交" class="btn btn-primary col-lg-1" />
+                <input type="hidden" name="id" value="{$item['id']}" />
+                <input type="hidden" name="token" value="{$_W['token']}" />
+
+        </div>
+</div>
+ </form>
