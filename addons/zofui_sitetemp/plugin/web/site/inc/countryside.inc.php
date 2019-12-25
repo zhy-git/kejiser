@@ -66,8 +66,10 @@
 	if($_GPC['op'] == 'edit'){
 		$id = intval($_GPC['id']);
 		$info = pdo_get('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'id'=>$id));
+		$info['img'] =  explode(',', $info['img']);
 		$info['userinfo'] = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$info['uid']));
 		$info['userinfo']['img'] = explode(',', $info['userinfo']['img']);
+        $info['comment'] = pdo_getall('zofui_sitetemp_comment',array('uniacid'=>$_W['uniacid'],'cid'=>$info['id']));
 		// var_dump('<pre>');
 		// var_dump($info);die();
 	}
