@@ -9,7 +9,12 @@ defined('IN_IA') or exit('Access Denied');
 
 class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
 	
-	
+	//获取访问数量和房源数量
+	public function doPageGettraffic(){
+       global $_W,$_GPC;
+       $numbercount = pdo_get('weixinmao_house_intro',array('uniacid'=>$_W['uniacid']),array('traffic'));
+       return $this->result(0, 'success', $numbercount);
+	}
 	
 	public function GetSiteUrl()
 	{
