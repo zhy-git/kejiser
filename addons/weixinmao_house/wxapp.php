@@ -13,7 +13,13 @@ class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
 	public function doPageGettraffic(){
        global $_W,$_GPC;
        $numbercount = pdo_get('weixinmao_house_intro',array('uniacid'=>$_W['uniacid']),array('traffic'));
-       return $this->result(0, 'success', $numbercount);
+       $introcount = pdo_fetch("SELECT count(*) FROM " . tablename('weixinmao_house_intro')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
+       $count = $numbercount + $introcount;
+
+
+
+
+       return $this->result(0, 'success', $count);
 	}
 	
 	public function GetSiteUrl()
