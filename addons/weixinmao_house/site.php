@@ -54,6 +54,7 @@ class Weixinmao_houseModuleSite extends WeModuleSite {
                     'oldlimit'=>$_GPC['oldlimit'],
                     'letlimit'=>$_GPC['letlimit'],
                     'createtime' => TIMESTAMP,
+                    'traffic'=>$_GPC['traffic'],
                 );
         
                 if (!empty($id)) {
