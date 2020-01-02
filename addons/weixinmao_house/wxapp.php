@@ -23,7 +23,7 @@ class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
        /*二手楼盘*/
        $house_oldhouseconunt = pdo_fetchcolumn("SELECT count(*) FROM " . tablename('weixinmao_house_oldhouseinfo')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
        $number = bcadd($houseconunt,$house_oldhouseconunt,0);
-       $traffic['fys'] = (int)$numbercount['housenumber'] + $number;
+       $traffic['fys'] = (int)$housenumber['housenumber'] + (int)$number;
 
        return $this->result(0, 'success', $traffic);
 	}
