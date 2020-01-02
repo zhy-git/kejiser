@@ -28,6 +28,20 @@ class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
        return $this->result(0, 'success', $traffic);
 	}
 	
+	//浏览量自己加1
+	public function doPageGetviewed(){
+	   global $_W,$_GPC;
+	   if($_GPC['op'] == 'toNewHouseing'){
+	   	   $data = pdo_query("update " . tablename('weixinmao_house_houseinfo')." set viewednum = viewednum + '1' WHERE id=:id",array(":id" => $_GPC['id']));
+	   	   return $this->result(0, 'success', $data);
+	   	   
+	   }elseif($_GPC['op'] == 'toOldHouseing'){
+	   	   $data = pdo_query("update " . tablename('weixinmao_house_oldhouseinfo')." set viewednum = viewednum + '1' WHERE id=:id",array(":id" => $_GPC['id']));
+	   	   return $this->result(0, 'success', $data);
+	   }
+	   
+	}
+	
 	public function GetSiteUrl()
 	{
 		
