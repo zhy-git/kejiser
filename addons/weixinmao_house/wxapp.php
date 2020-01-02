@@ -17,10 +17,14 @@ class Weixinmao_houseModuleWxapp extends WeModuleWxapp {
        $traffic['fwls'] = (int)$numbercount['traffic'] + (int)$introcount;  //获取到后台设置的访问数量与实际的数量相加。
        //房源的 将新楼盘，二手楼盘以及出租的相加起来
        /*新楼盘*/
+
+       $housenumber = pdo_get('weixinmao_house_intro',array('uniacid'=>$_W['uniacid']),array('housenumber'));
        $houseconunt = pdo_fetchcolumn("SELECT count(*)  FROM " . tablename('weixinmao_house_houseinfo')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
        /*二手楼盘*/
        $house_oldhouseconunt = pdo_fetchcolumn("SELECT count(*) FROM " . tablename('weixinmao_house_oldhouseinfo')." WHERE   uniacid=:uniacid",array(":uniacid" => $_W['uniacid']));
-       $traffic['fys'] = bcadd($houseconunt,$house_oldhouseconunt,0);
+       $number = bcadd($houseconunt,$house_oldhouseconunt,0);
+       $traffic['fys'] = (int)$numbercount['housenumber'] + $number;
+
        return $this->result(0, 'success', $traffic);
 	}
 	
