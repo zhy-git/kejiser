@@ -72,6 +72,21 @@
 	   	</div>
 	</div>
 	<div class="frm_control_group">
+		<label for="" class="frm_label">视频标题</label>
+		<div class="frm_controls">
+			<span class="frm_input_box frm_input_400">
+				<input type="text" class="frm_input" ng-model="item.params.videotitle">
+			</span>
+		</div>
+	</div>
+	<div class="frm_control_group">
+		<label for="" class="frm_label">标题尺寸</label>
+		<div class="frm_controls ">
+			<li class="frm_input_box_200 my_slider_line slider" my-slider min="0" max="50" value="{{item.params.titlesize}}" name="titlesize"></li>
+			<span class="my_slider_notice">{{item.params.titlesize}} 像素</span>
+		</div>
+	</div>
+	<div class="frm_control_group">
 		<label for="" class="frm_label">封面图片</label>
 		<div class="frm_controls">
 			<div class="edit_image_upload" ng-click="uploadImage(item.id,'thumb')">

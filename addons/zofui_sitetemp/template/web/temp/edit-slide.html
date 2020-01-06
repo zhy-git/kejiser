@@ -88,6 +88,21 @@
 			<div class="design_single_box item_cell_box">
 				<div class="item_cell_flex">
 					<div class="frm_control_group frm_control_group_editin" >
+						<div class="frm_control_group frm_control_group_editin">
+							<label for="" class="frm_label">图片标题</label>
+							<div class="frm_controls">
+								<span class="frm_input_box frm_input_200">
+									<input type="text" class="frm_input" ng-model="good.title" >
+								</span>
+							</div>
+						</div>
+						<div class="frm_control_group">
+							<label for="" class="frm_label">标题尺寸</label>
+							<div class="frm_controls ">
+								<li class="frm_input_box_200 my_slider_line slider" my-slider min="12" max="50" value="{{item.params.titlesize}}" name="titlesize"></li>
+								<span class="my_slider_notice">{{item.params.titlesize}} 像素</span>
+							</div>
+						</div>
 						<label for="" class="frm_label">点击动作</label>
 						<div class="frm_controls">
 					    	<label class="frm_radio_label" ng-click="good.type = 'url'"> 
@@ -240,6 +255,7 @@
 						</span><a href="javascript:;" ng-click="showLink(item.id,good.id)">设置链接</a>
 					</div> -->
 				</div>
+
 				<div class="edit_image_upload" ng-click="uploadImage(good,'goodimg')">
 					<img class="upload_image_img" ng-src="{{good.img}}" >
 					<span class="edit_image_notice">修改图片</span>

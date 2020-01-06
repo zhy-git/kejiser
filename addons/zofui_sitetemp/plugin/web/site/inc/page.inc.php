@@ -18,7 +18,7 @@
 		$where = array('uniacid'=>$_W['uniacid']);
 		$where['tempid'] = $_GPC['tid'];
 
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_page',$where,$_GPC['page'],10,' `id` DESC ',false,true,' id,name,tempid ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_page',$where,$_GPC['page'],10,' `id` DESC ',true,true,' id,name,tempid ');
 		$list = $info[0];
 		$pager = $info[1];
 		
