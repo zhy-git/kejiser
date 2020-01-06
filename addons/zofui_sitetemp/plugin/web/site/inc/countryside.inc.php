@@ -8,26 +8,33 @@
 	if(checksubmit('create')){
 		$_GPC = Util::trimWithArray($_GPC);
 		
-		$data['number'] = $_GPC['number'];
-		$data['uniacid'] = $_W['uniacid'];
-		$data['title'] = $_GPC['title'];
-		$data['content'] = $_GPC['content'];
-		$data['img'] = $_GPC['img'];
-		$data['sortid'] = $_GPC['sortid'];
+		// $data['number'] = $_GPC['number'];
+		// $data['uniacid'] = $_W['uniacid'];
+		// $data['title'] = $_GPC['title'];
+		// $data['content'] = $_GPC['content'];
+		// $data['img'] = $_GPC['img'];
+		// $data['sortid'] = $_GPC['sortid'];
 
-		if (empty($data['title']) || empty($data['sortid'])) {
-		    echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
-		    return flase;
-		}
-		if(!empty($_GPC['id'])){
-			$id = intval($_GPC['id']);
-			$res = pdo_update('zofui_sitetemp_product',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
-		}else{
-			$res = Util::inserData('zofui_sitetemp_product',$data);
-			$id = pdo_insertid();
-		}
-		Util::deleteCache('product',$id);
-		itoast('操作成功',self::pwUrl('site','product',array('op'=>'list','page'=>$_GPC['page'])),'success');
+		// if (empty($data['title']) || empty($data['sortid'])) {
+		//     echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
+		//     return flase;
+		// }
+		// if(!empty($_GPC['id'])){
+		// 	$id = intval($_GPC['id']);
+		// 	$res = pdo_update('zofui_sitetemp_product',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
+		// }else{
+		// 	$res = Util::inserData('zofui_sitetemp_product',$data);
+		// 	$id = pdo_insertid();
+		// }
+		// Util::deleteCache('product',$id);
+
+		$data['admincontent'] = $_GPC['admincontent'];
+		$id = intval($_GPC['id']);
+		$res = pdo_update('zofui_sitetemp_countryside',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
+
+
+
+		itoast('操作成功',self::pwUrl('site','countryside',array('op'=>'list','page'=>$_GPC['page'])),'success');
 	}
 	
 	
