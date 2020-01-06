@@ -25,16 +25,29 @@
 		$commonstr = tablename('zofui_sitetemp_reguser') ." WHERE ".$dataa[0].$str ;
 		$countStr = "SELECT COUNT(*) FROM ".$commonstr;
 		$selectStr =  "SELECT $select FROM ".$commonstr;
-		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true);
+		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true,true);
         $list = $info[0];
 		$pager = $info[1];
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
 			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
 		}
+		// 普通会员总数
+		$list['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
+		// 特派员总数
+		$list['count']['tepaiyuan_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 1));
+		// 申请特派员总数
+		$list['count']['apply_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 2));
+		// 总数
+		$list['count']['total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser'));
+
+
 		// var_dump('<pre>');
-		// var_dump($selectStr);
-		// var_dump($list);die();
+		// var_dump($list);
+		// var_dump($tepaiyuan_total);
+		// var_dump($apply_total);
+		// var_dump($total);
+		// die();
 		// var_dump('</pre>');
 	}elseif ($_GPC['op'] == 'edit') {
 		$updateistrue = pdo_update('zofui_sitetemp_reguser',array('istrue' => $_GPC['istrue']),array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']),'AND');
