@@ -13,13 +13,13 @@
 		}
 		$pager = $info[1];
 		// 普通会员总数
-		$list['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
+		$list1['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
 		// 特派员总数
-		$list['count']['tepaiyuan_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 1));
+		$list1['count']['tepaiyuan_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 1));
 		// 申请特派员总数
-		$list['count']['apply_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 2));
+		$list1['count']['apply_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 2));
 		// 总数
-		$list['count']['total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser'));
+		$list1['count']['total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser'));
 	}elseif($_GPC['op'] == 'search'){
         //openid 和 昵称查询
 	    $where = array('uniacid'=> $_W['uniacid']);
@@ -41,13 +41,13 @@
 			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
 		}
 		// 普通会员总数
-		$list['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
+		$list1['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
 		// 特派员总数
-		$list['count']['tepaiyuan_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 1));
+		$list1['count']['tepaiyuan_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 1));
 		// 申请特派员总数
-		$list['count']['apply_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 2));
+		$list1['count']['apply_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 2));
 		// 总数
-		$list['count']['total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser'));
+		$list1['count']['total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser'));
 
 
 		// var_dump('<pre>');
