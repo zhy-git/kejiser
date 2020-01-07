@@ -9,16 +9,22 @@
 
 
 		// var_dump('正在玩命开发中，敬请期待。。。');
-		echo "<script> alert('正在玩命开发中，敬请期待。。。');history.go(-1); </script>";
-		die();
+		
+		
 		$_GPC = Util::trimWithArray($_GPC);
 		
 		$data['number'] = $_GPC['number'];
 		$data['uniacid'] = $_W['uniacid'];
 		$data['title'] = $_GPC['title'];
+		$data['phone'] = $_GPC['phone'];
 		$data['content'] = $_GPC['content'];
 		$data['img'] = $_GPC['img'];
 		$data['sortid'] = $_GPC['sortid'];
+		$data['createtime'] = time();
+		$data['status'] = 0;
+        var_dump('<pre>');
+        var_dump($data);
+		die();
 
 		if (empty($data['title']) || empty($data['sortid'])) {
 		    echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
@@ -26,9 +32,9 @@
 		}
 		if(!empty($_GPC['id'])){
 			$id = intval($_GPC['id']);
-			$res = pdo_update('zofui_sitetemp_product',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
+			$res = pdo_update('zofui_sitetemp_userinfo',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
 		}else{
-			$res = Util::inserData('zofui_sitetemp_product',$data);
+			$res = Util::inserData('zofui_sitetemp_userinfo',$data);
 			$id = pdo_insertid();
 		}
 		Util::deleteCache('product',$id);
