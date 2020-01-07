@@ -378,8 +378,16 @@ if (!function_exists('murl')) {
 }
 
 
-function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = array('before' => 5, 'after' => 4, 'ajaxcallback' => '', 'callbackfuncname' => '')) {
+function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = array('before' => 5, 'after' => 4, 'ajaxcallback' => '', 'callbackfuncname' => ''), $istrue) {
+
 	global $_W;
+	if ($istrue == null) {
+        $http = http_build_query($_GET);
+	}else{
+		$istrue = '&istrue='.$istrue;
+		$http = 'c=site&a=entry&do=reguser&p=site&op=search&m=zofui_sitetemp&page=';
+	}
+
 	$pdata = array(
 		'tcount' => 0,
 		'tpage' => 0,
@@ -429,22 +437,33 @@ function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = ar
 		$pdata['laa'] = 'href="javascript:;" page="' . $pdata['lindex'] . '" '. ($callbackfunc ? 'ng-click="'.$callbackfunc.'(\'' . $url . '\', \'' . $pdata['lindex'] . '\', this);"' : '');
 	} else {
 		if ($url) {
-			$pdata['faa'] = 'href="?' . str_replace('*', $pdata['findex'], $url) . '"';
-			$pdata['paa'] = 'href="?' . str_replace('*', $pdata['pindex'], $url) . '"';
-			$pdata['naa'] = 'href="?' . str_replace('*', $pdata['nindex'], $url) . '"';
-			$pdata['laa'] = 'href="?' . str_replace('*', $pdata['lindex'], $url) . '"';
+			$pdata['faa'] = 'href="?' . str_replace('*', $pdata['findex'], $url) .'"';
+			$pdata['paa'] = 'href="?' . str_replace('*', $pdata['pindex'], $url) .'"';
+			$pdata['naa'] = 'href="?' . str_replace('*', $pdata['nindex'], $url) .'"';
+			$pdata['laa'] = 'href="?' . str_replace('*', $pdata['lindex'], $url) .'"';
 		} else {
-			$_GET['page'] = $pdata['findex'];
-			$pdata['faa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET) . '"';
-			$_GET['page'] = $pdata['pindex'];
-			$pdata['paa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET) . '"';
-			$_GET['page'] = $pdata['nindex'];
-			$pdata['naa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET) . '"';
-			$_GET['page'] = $pdata['lindex'];
-			$pdata['laa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET) . '"';
-		}
-	}
 
+            if (empty($istrue)) {
+            	$_GET['page'] = $pdata['findex'];
+				$pdata['faa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET).'"';
+				$_GET['page'] = $pdata['pindex'];
+				$pdata['paa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET).'"';
+				$_GET['page'] = $pdata['nindex'];
+				$pdata['naa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET).'"';
+				$_GET['page'] = $pdata['lindex'];
+				$pdata['laa'] = 'href="' . $_W['script_name'] . '?' . http_build_query($_GET).'"';
+            }else{
+            	$_GET['page'] = $pdata['findex'];
+				$pdata['faa'] = 'href="' . $_W['script_name'] . '?' . $http.$_GET['page'].$istrue.'"';
+				$_GET['page'] = $pdata['pindex'];
+				$pdata['paa'] = 'href="' . $_W['script_name'] . '?' . $http.$_GET['page'].$istrue.'"';
+				$_GET['page'] = $pdata['nindex'];
+				$pdata['naa'] = 'href="' . $_W['script_name'] . '?' . $http.$_GET['page'].$istrue.'"';
+				$_GET['page'] = $pdata['lindex'];
+				$pdata['laa'] = 'href="' . $_W['script_name'] . '?' . $http.$_GET['page'].$istrue.'"';
+		      }
+           }
+	}
 	$html = '<div><ul class="pagination pagination-centered">';
 	$html .= "<li><a {$pdata['faa']} class=\"pager-nav\">首页</a></li>";
 	empty($callbackfunc) && $html .= "<li><a {$pdata['paa']} class=\"pager-nav\">&laquo;上一页</a></li>";
@@ -472,7 +491,11 @@ function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = ar
 					$aa = 'href="?' . str_replace('*', $i, $url) . '"';
 				} else {
 					$_GET['page'] = $i;
-					$aa = 'href="?' . http_build_query($_GET) . '"';
+					if (empty($istrue)) {
+						$aa = 'href="?' . http_build_query($_GET).'"';
+					}else{
+					    $aa = 'href="?' . $http.$_GET['page'].$istrue . '"';
+					}
 				}
 			}
 			if (!empty($context['isajax'])) {

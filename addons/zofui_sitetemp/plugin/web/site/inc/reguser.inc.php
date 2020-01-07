@@ -33,7 +33,7 @@
 		$commonstr = tablename('zofui_sitetemp_reguser') ." WHERE ".$dataa[0].$str ;
 		$countStr = "SELECT COUNT(*) FROM ".$commonstr;
 		$selectStr =  "SELECT $select FROM ".$commonstr;
-		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true,true);
+		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true,true,$str,$cachename,$_GPC['istrue']);
         $list = $info[0];
 		$pager = $info[1];
 		foreach ($list as $key => $value) {
@@ -51,10 +51,7 @@
 
 
 		// var_dump('<pre>');
-		// var_dump($list);
-		// var_dump($tepaiyuan_total);
-		// var_dump($apply_total);
-		// var_dump($total);
+		// var_dump($pager);
 		// die();
 		// var_dump('</pre>');
 	}elseif ($_GPC['op'] == 'edit') {

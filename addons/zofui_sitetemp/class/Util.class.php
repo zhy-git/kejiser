@@ -482,7 +482,7 @@ class Util
 
 		$countStr = "SELECT COUNT(*) FROM ".tablename($tablename) ." WHERE $data[0] ";
 		$selectStr = "SELECT $select FROM ".tablename($tablename) ." WHERE $data[0] ";
-		$res = self::fetchFunctionInCommon($countStr,$selectStr,$data[1],$page,$num,$order,$iscache,$isNeedPager,$str,$cachename);
+		$res = self::fetchFunctionInCommon($countStr,$selectStr,$data[1],$page,$num,$order,$iscache,$isNeedPager,$str,$cachename,'');
 		return $res;
 	}
 	
@@ -494,7 +494,7 @@ class Util
 	*	$order -> 排序
 	*	$isNeadPager -> 是否需要分页
 	*/
-	static function fetchFunctionInCommon($countStr,$selectStr,$params,$page,$num,$order='`id` DESC',$iscache=false,$isNeedPager=false,$str='',$cachename='p'){
+	static function fetchFunctionInCommon($countStr,$selectStr,$params,$page,$num,$order='`id` DESC',$iscache=false,$isNeedPager=false,$str='',$cachename='p',$istrue){
 		$pindex = max(1, intval($page));
 		$psize = $num;
 
@@ -515,7 +515,7 @@ class Util
 		$total =  $isNeedPager?pdo_fetchcolumn($countStr.$str,$params):'';
 		$data = pdo_fetchall($selectStr.$str." ORDER BY $order " . " LIMIT " . ($pindex - 1) * $psize . ',' . $psize,$params);
 		
-		$pager = $isNeedPager?pagination($total, $pindex, $psize):'';
+		$pager = $isNeedPager?pagination($total, $pindex, $psize, $url,array(), $istrue):'';
 
 		if($iscache && !empty($data)){
 			
