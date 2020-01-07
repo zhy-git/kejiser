@@ -14,6 +14,7 @@
 		$_GPC = Util::trimWithArray($_GPC);
 		
 		$data['number'] = $_GPC['number'];
+		$data['openid'] = $_GPC['openid'];
 		$data['uniacid'] = $_W['uniacid'];
 		$data['title'] = $_GPC['title'];
 		$data['phone'] = $_GPC['phone'];
@@ -22,8 +23,8 @@
 		$data['sortid'] = $_GPC['sortid'];
 		$data['createtime'] = time();
 		$data['status'] = 0;
-  //       var_dump('<pre>');
-  //       var_dump($data);
+        var_dump('<pre>');
+        var_dump($data);
 		// die();
 
 		if (empty($data['title']) || empty($data['sortid'])) {
@@ -32,7 +33,7 @@
 		}
 		if(!empty($_GPC['id'])){
 			$id = intval($_GPC['id']);
-			$res = pdo_update('zofui_sitetemp_userinfo',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
+			$res = pdo_update('zofui_sitetemp_userinfo',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	die();
 		}else{
 			$res = Util::inserData('zofui_sitetemp_userinfo',$data);
 			$id = pdo_insertid();
