@@ -6,6 +6,11 @@
 
 	//添加，编辑
 	if(checksubmit('create')){
+
+
+		// var_dump('正在玩命开发中，敬请期待。。。');
+		echo "<script> alert('正在玩命开发中，敬请期待。。。');history.go(-1); </script>";
+		die();
 		$_GPC = Util::trimWithArray($_GPC);
 		
 		$data['number'] = $_GPC['number'];
