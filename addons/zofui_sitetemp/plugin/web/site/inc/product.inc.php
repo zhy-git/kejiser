@@ -19,23 +19,29 @@
 		$data['title'] = $_GPC['title'];
 		$data['phone'] = $_GPC['phone'];
 		$data['content'] = $_GPC['content'];
-		$data['img'] = $_GPC['img'];
-		$data['sortid'] = $_GPC['sortid'];
+		$data['img'] =  implode(',', $_GPC['img']);
+		$data['prosortid'] = $_GPC['sortid'];
 		$data['createtime'] = time();
-		$data['status'] = 0;
-        var_dump('<pre>');
-        var_dump($data);
-		// die();
+		// var_dump("<pre>");
+		// var_dump($data);die();
 
-		if (empty($data['title']) || empty($data['sortid'])) {
+		if (empty($data['title']) || empty($data['prosortid'])) {
 		    echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
+		    return flase;
+		}
+		if (empty($data['openid'])) {
+		    echo "<script> alert('用户不存在openid');history.go(-1); </script>";
 		    return flase;
 		}
 		if(!empty($_GPC['id'])){
 			$id = intval($_GPC['id']);
-			$res = pdo_update('zofui_sitetemp_userinfo',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	die();
+			$res = pdo_update('zofui_sitetemp_userinfo',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
 		}else{
-			$res = Util::inserData('zofui_sitetemp_userinfo',$data);
+			$res = pdo_insert('zofui_sitetemp_userinfo',$data);
+			if (empty($res)) {
+				 echo "<script> alert('添加失败');history.go(-1); </script>";
+				 return flase;
+			}
 			$id = pdo_insertid();
 		}
 		Util::deleteCache('product',$id);

@@ -26,7 +26,7 @@
 				<label for="" class="frm_label">特派员电话</label>
 				<div class="frm_controls msg">
 					<span class="frm_textarea_box textarea_60px">
-						<textarea  name="title" class="frm_textarea" rows="6" placeholder="">{$info['phone']}</textarea>
+						<textarea  name="phone" class="frm_textarea" rows="6" placeholder="">{$info['phone']}</textarea>
 					</span>
 				</div>
 			</div>
@@ -156,7 +156,7 @@
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<!-- <a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a> -->
-			    	<a  href="{php echo self::pwUrl('site','product',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
+			    	<a  href="{php echo self::pwUrl('site','product',array('op'=>'edit','openid'=>$item['openid'],'id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
 			    	<!-- <a href="{php echo self::pwUrl('site','product',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
 			    </td>
 	    	</tr>
