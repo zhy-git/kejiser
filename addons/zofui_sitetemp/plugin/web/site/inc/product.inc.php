@@ -22,9 +22,9 @@
 		$data['sortid'] = $_GPC['sortid'];
 		$data['createtime'] = time();
 		$data['status'] = 0;
-        var_dump('<pre>');
-        var_dump($data);
-		die();
+  //       var_dump('<pre>');
+  //       var_dump($data);
+		// die();
 
 		if (empty($data['title']) || empty($data['sortid'])) {
 		    echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
