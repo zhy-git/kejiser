@@ -89,7 +89,17 @@
 	  				array('op'=>'list','name'=>'下乡列表','url'=> self::pwUrl('site','countryside',array('op'=>'list')) ),
 	  			),
 	  			'toplist' => array('list'),
+	  		),
+	  		'video' => array(
+                 'name' => '视频管理',
+                 'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
+                 'list'=>array(
+                 	array('op'=>'add','name'=>'添加视频','url'=> self::pwUrl('site','video',array('op'=>'add')) ),
+	  				array('op'=>'list','name'=>'视频列表','url'=> self::pwUrl('site','video',array('op'=>'list')) ),
+	  			),
+	  			'toplist' => array('list'),
 	  		),	
+
 	  		// 'form' => array(
 	  		// 	'name'=>'前端查看',
 	  		// 	'icon' => 'https://res.wx.qq.com/mpres/htmledition/images/icon/menu/icon_menu_management.png',
