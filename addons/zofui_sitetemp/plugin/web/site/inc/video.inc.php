@@ -24,10 +24,14 @@
 			$res = pdo_update('zofui_sitetemp_video',$data,array('uniacid'=>$_W['uniacid'],'id'=>$id));	
 		}else{
 			$res = Util::inserData('zofui_sitetemp_video',$data);
+			if (empty($res)) {
+				echo "<script> alert('添加失败');history.go(-1); </script>";
+		    return flase;
+			}
 			$id = pdo_insertid();
 		}
-		Util::deleteCache('article',$id);
-		itoast('操作成功',self::pwUrl('site','article',array('op'=>'list','page'=>$_GPC['page'])),'success');
+		Util::deleteCache('video',$id);
+		itoast('操作成功',self::pwUrl('site','video',array('op'=>'list','page'=>$_GPC['page'])),'success');
 	}
 	
 	
