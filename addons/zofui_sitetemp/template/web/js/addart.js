@@ -586,9 +586,9 @@ myyapp.controller('ctr',['$scope',function($scope){
 		name : '官网系统页面',
 		key : 'other',
 		data : [
-			{title:'查看表单数据',url:'/zofui_sitetemp/pages/form/form'},
+			// {title:'查看表单数据',url:'/zofui_sitetemp/pages/form/form'},
 			{title:'文章列表',url:'/zofui_sitetemp/pages/artlist/artlist?tid='+tempid},
-			{title:'产品列表',url:'/zofui_sitetemp/pages/product/list?tid='+tempid},
+			{title:'视频列表',url:'/zofui_sitetemp/pages/video/list?tid='+tempid},
 		],
 	});
 
