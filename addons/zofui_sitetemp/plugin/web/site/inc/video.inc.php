@@ -15,9 +15,12 @@
 		$data['img'] = $_GPC['img'];
 		$data['time'] = $_GPC['time'];
 		$data['author'] = $_GPC['author'];
-		$data['sortid'] = $_GPC['sortid'];
 		$data['type'] = $_GPC['type'];
 		$data['url'] = $_GPC['url'];
+        
+  //       var_dump('<pre>');
+		// var_dump($data);
+		// die();
 
 		if(!empty($_GPC['id'])){
 			$id = intval($_GPC['id']);
@@ -57,7 +60,7 @@
 	
 	if($_GPC['op'] == 'delete'){
 		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_video');
-		if($res) itoast('删除成功','','success');
+		if($res) itoast('删除成功',self::pwUrl('site','video',array('op'=>'list','page'=>$_GPC['page'])),'success');
 		
 	}
 	
