@@ -11,7 +11,7 @@
 			$where['title@'] = $_GPC['for'];
 		}
 
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_article',$where,$_GPC['page'],10,' `number` DESC,`id` DESC ',false,false,' id,img,title,time,type,url ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_article',$where,$_GPC['page'],10,' `number` DESC,`id` DESC ',false,false,' id,img,title,time,type,url,author ');
 		$list = $info[0];
 		
 		if( !empty( $list ) ) {
