@@ -17,7 +17,7 @@
 		if( !empty( $list ) ) {
 			foreach ($list as &$v) {
 				if( empty( $v['type'] ) ){
-					$v['url'] = '/zofui_sitetemp/pages/videodetails/videodetails?videoid='.$v['id'];
+					$v['url'] = '/attachment/'.$v['url'];
 				}elseif( $v['type'] == 1 ){
 					$v['url'] = $v['url'];
 				}
