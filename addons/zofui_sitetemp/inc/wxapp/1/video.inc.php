@@ -19,7 +19,7 @@
 				if( empty( $v['type'] ) ){
 					$v['url'] = '/zofui_sitetemp/pages/videodetails/videodetails?videoid='.$v['id'];
 				}elseif( $v['type'] == 1 ){
-					$v['url'] = urlencode( $v['url'] );
+					$v['url'] = $v['url'];
 				}
 				
 				$v['img'] = tomedia( $v['img'] );
