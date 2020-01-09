@@ -17,9 +17,9 @@
 		if( !empty( $list ) ) {
 			foreach ($list as &$v) {
 				if( empty( $v['type'] ) ){
-					$v['url'] = '/zofui_sitetemp/pages/art/art?aid='.$v['id'];
+					$v['url'] = '/zofui_sitetemp/pages/videodetails/videodetails?videoid='.$v['id'];
 				}elseif( $v['type'] == 1 ){
-					$v['url'] = '/zofui_sitetemp/pages/webview/webview?url='.urlencode( $v['url'] );
+					$v['url'] = urlencode( $v['url'] );
 				}
 				
 				$v['img'] = tomedia( $v['img'] );
@@ -29,7 +29,7 @@
 		$data['list'] = $list;
 
 		// 分类
-		$data['artsort'] = model_artsort::getSort();
+		// $data['artsort'] = model_artsort::getSort();
 		
 		$data['set'] = array(
 			'artstyle' => intval( $this->module['config']['artstyle'] ),
