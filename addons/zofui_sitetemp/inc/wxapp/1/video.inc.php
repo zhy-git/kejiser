@@ -17,7 +17,7 @@
 		if( !empty( $list ) ) {
 			foreach ($list as &$v) {
 				if( empty( $v['type'] ) ){
-					$v['url'] = '/attachment/'.$v['url'];
+					$v['url'] = '/attachment/'.$v['author'];
 				}elseif( $v['type'] == 1 ){
 					$v['url'] = $v['url'];
 				}
