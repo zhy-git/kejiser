@@ -588,7 +588,7 @@ myyapp.controller('ctr',['$scope',function($scope){
 		data : [
 			// {title:'查看表单数据',url:'/zofui_sitetemp/pages/form/form'},
 			{title:'文章列表',url:'/zofui_sitetemp/pages/artlist/artlist?tid='+tempid},
-			{title:'视频列表',url:'/zofui_sitetemp/pages/video/list?tid='+tempid},
+			{title:'视频列表',url:'/zofui_sitetemp/pages/video/video'},
 		],
 	});
 
