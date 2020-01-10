@@ -395,7 +395,7 @@
 	     		<td class="table_cell price tl td_col_1" style="width:9%;">
                     {if $item['img'] == ''}
                     {else}
-	     		    <img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px">
+	     		    <img src="{php echo tomedia( $item['img'] )}" width="40px" height="50px">
                     {/if}
                 </td>
 	     		<td class="table_cell price tl td_col_1" style="width:9%;">
@@ -413,10 +413,10 @@
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_1">
 	    			{$item['createtime']}
-	     		</td>	    		     		
+	     		</td>	    	
+        
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<a  href="{php echo self::pwUrl('site','countryside',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
-
 			    	<!-- <a href="{php echo self::pwUrl('site','countryside',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
 			    </td>
 	    	</tr>

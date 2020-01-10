@@ -135,7 +135,10 @@
 	      			</div>
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
-	    			<img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px">
+	     			{if $item['img'] == ''}
+	     			{else}
+	    			<img src="{php echo tomedia( $item['img'] )}" width="40px" height="50px">
+	     			{/if}
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_2">
 	    			{$item['title']}
@@ -157,7 +160,7 @@
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<!-- <a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/product?aid='.$item['id']}">复制路径</a> -->
 			    	<a  href="{php echo self::pwUrl('site','product',array('op'=>'edit','openid'=>$item['openid'],'id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
-			    	<!-- <a href="{php echo self::pwUrl('site','product',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a> -->
+			    	<a href="{php echo self::pwUrl('site','product',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a>
 			    </td>
 	    	</tr>
 	    {/loop}
