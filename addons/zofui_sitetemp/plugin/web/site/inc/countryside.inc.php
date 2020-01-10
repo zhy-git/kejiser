@@ -60,8 +60,13 @@
 				$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
 				$list[$key]['img'] = strtok($value['img'],',');
 				//获取特派员的名字
-				$list[$key]['title'] = pdo_get('zofui_sitetemp_userinfo',array('id'=>$value['uid']),array('title'));
+				$list[$key]['title'] = pdo_get('zofui_sitetemp_userinfo',array('id'=>$value['uid']),array('title','prosortid'));
+				// 获取所属特派员的分类
+				$list[$key]['class_name'] = pdo_get('zofui_sitetemp_prosort',array('id'=>$list[$key]['title']['prosortid']),array('name'));
+
 			}
+			// var_dump('<pre>');
+			// var_dump($list);die();
 	}
 	
 	if($_GPC['op'] == 'edit'){

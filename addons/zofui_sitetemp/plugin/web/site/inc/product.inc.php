@@ -58,7 +58,7 @@
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
 		$list = $info[0];
 
 
