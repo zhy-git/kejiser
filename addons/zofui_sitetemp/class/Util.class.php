@@ -515,7 +515,7 @@ class Util
 		$total =  $isNeedPager?pdo_fetchcolumn($countStr.$str,$params):'';
 		$data = pdo_fetchall($selectStr.$str." ORDER BY $order " . " LIMIT " . ($pindex - 1) * $psize . ',' . $psize,$params);
 		
-		$pager = $isNeedPager?pagination($total, $pindex, $psize, $url,array(), $istrue):'';
+		$pager = $isNeedPager?pagination($total, $pindex, $psize, $url,$context = array('before' => 3, 'after' => 3), $istrue):'';
 
 		if($iscache && !empty($data)){
 			

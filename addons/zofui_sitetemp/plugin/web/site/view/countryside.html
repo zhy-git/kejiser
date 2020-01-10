@@ -370,12 +370,12 @@
      				<input type="checkbox" class="frm_checkbox" id="selectAll" /> 
      			</label>
      		</th>
+     		<th class="table_cell tl td_col_1">特派员头像</th>	
      		<th class="table_cell tl td_col_1">特派员名称</th>		
      		<th class="table_cell tl td_col_1">服务项目</th>
      		<th class="table_cell tl td_col_1">服务地址</th> 
-     		<th class="table_cell tl td_col_1">下乡时间</th> 
-     		<th class="table_cell tl td_col_1" style="width:5%;">发挥作用</th>		
-     		<th class="table_cell tr td_col_1"  style="width:5%;">操作</th>
+     		<th class="table_cell tl td_col_1" style="width:10%;">下乡时间</th> 	
+     		<th class="table_cell tr td_col_1" style="width:5%;">操作</th>
     	</tr> 
    </thead> 
    <tbody class="tbody" id="js_goods">
@@ -391,9 +391,14 @@
 	       				</label>
 	      			</div>
 	     		</td>
-	     		<td class="table_cell price tl td_col_1">
-	     			{$item['title']}
-	    			<!-- <img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px"> -->
+	     		<td class="table_cell price tl td_col_1" style="width:9%;">
+                    {if $item['img'] == ''}
+                    {else}
+	     		    <img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px">
+                    {/if}
+                </td>
+	     		<td class="table_cell price tl td_col_1" style="width:9%;">
+	     			{$item['title']['title']}
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_1">
 	    			{$item['name']}
@@ -403,10 +408,7 @@
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_1">
 	    			{$item['createtime']}
-	     		</td>	 
-	     		<td>
-	     			{$item['admincontent']}
-	     		</td>    		     		
+	     		</td>	    		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	<a  href="{php echo self::pwUrl('site','countryside',array('op'=>'edit','id'=>$item['id'],'page'=>$_GPC['page']))}" class="edit_listitem" >查看</a>
 

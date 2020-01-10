@@ -5,7 +5,7 @@
 
 
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
 		$list = $info[0];
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
@@ -33,7 +33,7 @@
 		$commonstr = tablename('zofui_sitetemp_reguser') ." WHERE ".$dataa[0].$str ;
 		$countStr = "SELECT COUNT(*) FROM ".$commonstr;
 		$selectStr =  "SELECT $select FROM ".$commonstr;
-		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],10,' `id` DESC ',true,true,$str,$cachename,$_GPC['istrue']);
+		$info = Util::fetchFunctionInCommon($countStr,$selectStr,$dataa[1],$_GPC['page'],15,' `id` DESC ',true,true,$str,$cachename,$_GPC['istrue']);
         $list = $info[0];
 		$pager = $info[1];
 		foreach ($list as $key => $value) {

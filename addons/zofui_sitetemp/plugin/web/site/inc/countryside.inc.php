@@ -49,25 +49,19 @@
 	if($_GPC['op'] == 'list'){	
         $id = intval($_GPC['id']);
         if (!empty($id)) {
-        	$info = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('openid'=>$_GPC['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$id),$_GPC['page'],10,' `id` DESC ');
+        	$info = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('openid'=>$_GPC['openid'],'uniacid'=>$_W['uniacid'],'uid'=>$id),$_GPC['page'],15,' `id` DESC ');
 
         }else{
-        	$info = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
+        	$info = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
 		}	
 			$list = $info[0];
 			$pager = $info[1];
-			$userinfo = pdo_get('zofui_sitetemp_userinfo',array('id'=>$list[0]['uid']),array('title'));
 			foreach ($list as $key => $value) {
-				$list[$key]['createtime'] = date('Y-m-d H:i:s',$value['createtime']);
+				$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
 				$list[$key]['img'] = strtok($value['img'],',');
 				//获取特派员的名字
-				$list[$key]['title'] = $userinfo['title'];
-			} 
-			// var_dump('<pre>');
-			// var_dump($list);die();
-		
-
-	
+				$list[$key]['title'] = pdo_get('zofui_sitetemp_userinfo',array('id'=>$value['uid']),array('title'));
+			}
 	}
 	
 	if($_GPC['op'] == 'edit'){
