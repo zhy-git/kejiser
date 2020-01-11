@@ -1,29 +1,18 @@
 <?php 
 	global $_W,$_GPC;
 	$_GPC['op'] = isset($_GPC['op'])?$_GPC['op']:'list';
-	
-	
-
 	//添加，编辑
 	if(checksubmit('create')){
-
-
-		// var_dump('正在玩命开发中，敬请期待。。。');
-		
-		
 		$_GPC = Util::trimWithArray($_GPC);
-		
 		$data['number'] = $_GPC['number'];
 		$data['openid'] = $_GPC['openid'];
 		$data['uniacid'] = $_W['uniacid'];
 		$data['title'] = $_GPC['title'];
 		$data['phone'] = $_GPC['phone'];
-		$data['content'] = $_GPC['content'];
+		$data['content'] = preg_replace("/<p.*?>|<\/p>/is","", $_GPC['content']);
 		$data['img'] =  implode(',', $_GPC['img']);
 		$data['prosortid'] = $_GPC['sortid'];
 		$data['createtime'] = time();
-		// var_dump("<pre>");
-		// var_dump($data);die();
 
 		if (empty($data['title']) || empty($data['prosortid'])) {
 		    echo "<script> alert('特派员名称、所属分类必填！');history.go(-1); </script>";
