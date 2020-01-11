@@ -142,8 +142,10 @@
                     无操作
 			    	<!-- <a  href="{php echo self::pwUrl('site','reguser',array('op'=>'edit','id'=>$item['id'],'istrue'=>'1'))}" class="edit_listitem" onclick="return confirm('设为特派员，确定要设置吗？');">设为特派员</a> -->
                     {elseif $item['istrue'] == 1 && !empty($item['userinfolist'][img][0]) || !empty($item['userinfolist']['title'])}
-
+                    
+                    <a  href="{php echo self::pwUrl('site','product',array('op'=>'list','openid'=>$item['userinfolist']['openid'],'id'=>$item['userinfolist']['id']))}" class="edit_listitem">查看特派员</a>
                     <a  href="{php echo self::pwUrl('site','countryside',array('op'=>'list','openid'=>$item['userinfolist']['openid'],'id'=>$item['userinfolist']['id']))}" class="edit_listitem">我的下乡</a>
+
                     {elseif $item['istrue'] == 1 && empty($item['userinfolist'][img][0]) && empty($item['userinfolist']['title'])}
                     <a  href="{php echo self::pwUrl('site','product',array('op'=>'add','openid'=>$item['openid']))}" class="edit_listitem" style="color:red;color:#fff;background:green;padding:7px;border-radius:5px;">填写特派员信息</a>
 

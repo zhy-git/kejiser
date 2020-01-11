@@ -58,8 +58,12 @@
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
-		$list = $info[0];
+	   if (empty($_GPC['openid'])) {
+	      $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
+		}else{
+		  $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('openid'=>$_GPC['openid'],'uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
+		}	
+	$list = $info[0];
 
 
 		foreach ($list as $key => $value) {
