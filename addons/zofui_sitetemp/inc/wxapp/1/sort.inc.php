@@ -125,6 +125,9 @@
 				   foreach ($list as $k =>$value){
 				   	       	   $datalist[$k]['c_name'] = $value['name'];
 				   	       	   $datalist[$k]['list'] = pdo_getall('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'prosortid'=>$value['id']),array('id','img','title'));
+				   	       	   foreach($datalist[$k]['list'] as &$val){
+				   	       	   	 $val['img'] = tomedia($val['img']);
+				   	       	   }
 				   	    
 				   }
 			
