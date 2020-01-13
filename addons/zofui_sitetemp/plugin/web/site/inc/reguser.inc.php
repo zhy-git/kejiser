@@ -2,7 +2,15 @@
 	global $_W,$_GPC;
 	$_GPC['op'] = isset($_GPC['op'])?$_GPC['op']:'list';
 	
-
+    //检测域名格式  
+    function CheckUrl($C_url){  
+        $str="/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/";  
+        if (!preg_match($str,$C_url)){  
+            return false;  
+        }else{  
+        return true;  
+        }  
+    }
 
 	if($_GPC['op'] == 'list'){	
 		$info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
@@ -10,6 +18,11 @@
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
 			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+			if (!CheckUrl($list[$key]['userinfolist']['img'])) {
+				$list[$key]['userinfolist']['img'] = 'https://www.jtr168.cn/attachment/'.$list[$key]['userinfolist']['img'][0];  //没有域名存在
+			}else{
+				$list[$key]['userinfolist']['img'] = $list[$key]['userinfolist']['img'];  //域名存在
+			}
 		}
 		$pager = $info[1];
 		// 普通会员总数
@@ -39,6 +52,11 @@
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
 			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+			if (!CheckUrl($list[$key]['userinfolist']['img'])) {
+				$list[$key]['userinfolist']['img'] = 'https://www.jtr168.cn/attachment/'.$list[$key]['userinfolist']['img'][0];  //没有域名存在
+			}else{
+				$list[$key]['userinfolist']['img'] = $list[$key]['userinfolist']['img'];  //域名存在
+			}
 		}
 		// 普通会员总数
 		$list1['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));

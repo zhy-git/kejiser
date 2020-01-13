@@ -55,10 +55,16 @@
    }elseif($_GPC['op'] == 'list'){
         //获取所有的特派员信息
    	    $where = array('uniacid'=>$_W['uniacid']);
-   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',false,false);
+   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',true,false);
    	    $list = $info[0];
    	    foreach ($list as $key => $value) {
-    		$list[$key]['img'] = strtok($value['img'],',');
+    		// $list[$key]['img'] = strtok($value['img'],',');
+    		$list[$key]['img'] = explode(',', tomedia( $info['img'] )); 
+    		if (!CheckUrl($list[$key]['img'][0])) {
+				$info['img'] = 'https://www.jtr168.cn/attachment/'.$list[$key]['img'][0];  //没有域名存在
+			}else{
+				$info['img'] = $list[$key]['img'][0];  //域名存在
+			}
     		$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
     	}
 
