@@ -21,7 +21,7 @@
 			if (!CheckUrl($list[$key]['userinfolist']['img'])) {
 				$list[$key]['userinfolist']['img'] = 'https://www.jtr168.cn/attachment/'.$list[$key]['userinfolist']['img'][0];  //没有域名存在
 			}else{
-				$list[$key]['userinfolist']['img'] = $list[$key]['userinfolist']['img'];  //域名存在
+				$list[$key]['userinfolist']['img'] = $list[$key]['userinfolist']['img'][0];  //域名存在
 			}
 		}
 		$pager = $info[1];
