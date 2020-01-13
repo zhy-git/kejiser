@@ -56,6 +56,10 @@
 		if($res) itoast('删除成功','','success');
 		
 	}
+	//获取所有分类的类目
+	$artinfo = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+    $artinfo = $artinfo[0];
+	$artinfo = Util::artsort($artinfo);
 	
 	
 	include $this->pTemplate('article');
