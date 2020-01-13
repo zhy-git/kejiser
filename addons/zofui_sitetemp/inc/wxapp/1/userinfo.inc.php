@@ -58,7 +58,7 @@
    	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',true,false);
    	    $list = $info[0];
    	    foreach ($list as $key => $value) {
-    		$list[$key]['img'] = strtok($value['img'],',');
+    		$list[$key]['img'] = tomedia(strtok($value['img'],','));
     		$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
     	}
 
