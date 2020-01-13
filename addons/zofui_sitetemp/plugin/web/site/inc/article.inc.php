@@ -40,7 +40,7 @@
 	$artsort = model_artsort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `number` DESC ');
+		$info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ');
 		$list = $info[0];
 		$pager = $info[1];
 	}
