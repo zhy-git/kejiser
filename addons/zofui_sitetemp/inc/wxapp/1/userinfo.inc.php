@@ -1,7 +1,15 @@
 <?php
 	defined('IN_IA') or exit('Access Denied');
 	global $_W,$_GPC;
-    
+    //检测域名格式  
+    function CheckUrl($C_url){  
+        $str="/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/";  
+        if (!preg_match($str,$C_url)){  
+            return false;  
+        }else{  
+        return true;  
+        }  
+    }
 
     if ($_GPC['op'] == 'add') {
     	//添加和编辑
@@ -63,8 +71,12 @@
    	   $info = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
 		if( !empty( $info ) ) {
 			$info['img'] = explode(',', tomedia( $info['img'] )); 
-			unset($info['img'][0]);
-			$info['img'] = $info['img'][1];
+			unset($info['img'][0]);		
+			if (!CheckUrl($info['img'][1])) {
+				$info['img'] = 'https://www.jtr168.cn/attachment/'.$info['img'][1];  //没有域名存在
+			}else{
+				$info['img'] = $info['img'][1];  //域名存在
+			}
 			$info['content'] = htmlspecialchars_decode( $info['content'] );
 		}else{
 			$this->result(1, '不存在');
