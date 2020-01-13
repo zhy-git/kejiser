@@ -9,7 +9,8 @@
 		$list = $info[0];
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
-			$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+			//$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
+			$list[$key]['userinfolist']['img'] = strtok($list[$key]['userinfolist']['img'],',');
 		}
 		$pager = $info[1];
 		// 普通会员总数
