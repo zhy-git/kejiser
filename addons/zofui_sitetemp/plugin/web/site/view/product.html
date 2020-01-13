@@ -89,8 +89,11 @@
 			<div class="frm_control_group textarea_item">
 				<label for="" class="frm_label">特派员详情</label>
 				<div class="frm_controls">
-					{php echo Util::tpl_ueditor('content', htmlspecialchars_decode($info['content']));}
-					<span class="frm_tips">提示：请不要设置视频、超链接、表情等特殊内容，因为小程序无法解析特殊内容。</span>
+					<span class="frm_textarea_box textarea_60px" style="width:526px;height:200px;">
+						<textarea  style="height:100%;" name="content" class="frm_textarea" rows="10" placeholder="">{$info['content']}</textarea>
+					</span>
+					<!--11php ec11ho Util::tpl_ueditor('content', htmlspecialchars_decode($info['content']));-->
+					<!--<span class="frm_tips">提示：请不要设置视频、超链接、表情等特殊内容，因为小程序无法解析特殊内容。</span>-->
 				</div>
 
 			</div>
