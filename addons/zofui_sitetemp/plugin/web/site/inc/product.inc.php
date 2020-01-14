@@ -1,6 +1,22 @@
 <?php 
 	global $_W,$_GPC;
 	$_GPC['op'] = isset($_GPC['op'])?$_GPC['op']:'list';
+
+//二维数组转化为字符串，中间用,隔开    
+    function toString($arr){    
+        foreach ($arr as $value){    
+            
+            $value = join(",",$value);   
+            
+            $temp[] = $value;    
+        }    
+        foreach($temp as $v){    
+            
+            $str.=$v.",";    
+        }    
+        $str = substr($str,0,-1);  //利用字符串截取函数消除最后一个逗号    
+        return $str; 
+    }   
 	//添加，编辑
 	if(checksubmit('create')){
 		$_GPC = Util::trimWithArray($_GPC);
@@ -47,7 +63,16 @@
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-	   if (empty($_GPC['openid'])) {
+	   if(!empty($_GPC['prosortid']) && empty($_GPC['openid'])){
+
+          $id = pdo_getall('zofui_sitetemp_prosort',array('proid' => $_GPC['prosortid']),array('id'));
+          if ($id) {
+          	$prosortid = toString($id);
+          }else{
+            $prosortid = $_GPC['prosortid'];
+          }
+          $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='and prosortid IN('.$prosortid.')');
+		}elseif (empty($_GPC['openid'])) {
 	      $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
 		}else{
 		  $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('openid'=>$_GPC['openid'],'uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');

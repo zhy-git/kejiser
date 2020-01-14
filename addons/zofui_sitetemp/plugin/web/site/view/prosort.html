@@ -82,7 +82,8 @@
 	    			{$item['number']}
 	     		</td>	     		     		
 			    <td class="table_cell oper last_child tr opclass" style="position: relative;">
-			    	<a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/list?sid='.$item['id']}">复制路径</a>
+			    	<a href="{php echo self::pwUrl('site','product',array('op'=>'list','prosortid'=>$item['id']))}">查看分类特派员</a>
+			    	<!-- <a href="javascript:;" class="copy_url" data-href="{php echo '/zofui_sitetemp/pages/product/list?sid='.$item['id']}">复制路径</a> -->
 			    	<a  href="javascript:;" class="edit_listitem" id="{$item['id']}">编辑</a>
 			    	<a href="{php echo self::pwUrl('site','prosort',array('op'=>'delete','id'=>$item['id']))}" onclick="return confirm('删除不能恢复，确定要删除吗？');">删除</a>
 			    </td>
