@@ -26,7 +26,7 @@
 		$data['title'] = $_GPC['title'];
 		$data['phone'] = $_GPC['phone'];
 		$data['content'] = preg_replace("/<p.*?>|<\/p>/is","", $_GPC['content']);
-		$data_img =  implode(',', $_GPC['img']);
+		$data['img'] =  implode(',', $_GPC['img']);
 		$data['prosortid'] = $_GPC['sortid'];
 		$data['createtime'] = time();
 
