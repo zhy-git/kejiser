@@ -82,8 +82,8 @@
 	}
 	
 	if($_GPC['op'] == 'delete'){
-		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_product');
-		if($res) itoast('删除成功',self::pwUrl('site','product',array('op'=>'list','page'=>$_GPC['page'])),'success');
+		$res = WebCommon::deleteSingleData($_GPC['id'],'zofui_sitetemp_countryside');
+		if($res) itoast('删除成功',self::pwUrl('site','countryside',array('op'=>'list','page'=>$_GPC['page'])),'success');
 		
 	}
 	
