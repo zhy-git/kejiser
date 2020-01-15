@@ -157,7 +157,11 @@
 	      			</div>
 	     		</td>
 	     		<td class="table_cell price tl td_col_1">
+	     			{if empty($item['img'])}
+	     			{else}
 	    			<img src="{php echo tomedia( $item['img'] )}" width="30px" height="30px">
+	     			{/if}
+
 	     		</td>	     		
 	     		<td class="table_cell price tl td_col_2">
 	    			{$item['title']}
