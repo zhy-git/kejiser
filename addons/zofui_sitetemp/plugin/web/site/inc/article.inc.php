@@ -2,7 +2,21 @@
 	global $_W,$_GPC;
 	$_GPC['op'] = isset($_GPC['op'])?$_GPC['op']:'list';
 	
-	
+	//二维数组转化为字符串，中间用,隔开    
+    function toString($arr){    
+        foreach ($arr as $value){    
+            
+            $value = join(",",$value);   
+            
+            $temp[] = $value;    
+        }    
+        foreach($temp as $v){    
+            
+            $str.=$v.",";    
+        }    
+        $str = substr($str,0,-1);  //利用字符串截取函数消除最后一个逗号    
+        return $str; 
+    } 
 
 	//添加，编辑
 	if(checksubmit('create')){
@@ -40,7 +54,18 @@
 	$artsort = model_artsort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
-		$info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ');
+        if (!empty($_GPC['artsortid'])) {
+	        $sortid = pdo_getall('zofui_sitetemp_artsort',array('artid' => $_GPC['artsortid']),array('id'));
+	        if ($sortid) {
+	          	$artsortid = toString($sortid);
+	          }else{
+	            $artsortid = $_GPC['artsortid'];
+	        }
+	        $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='and sortid IN('.$artsortid.')');
+        }else{
+          $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ');
+        }
+		
 		$list = $info[0];
 		$pager = $info[1];
 	}
