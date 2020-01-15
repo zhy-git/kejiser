@@ -393,9 +393,9 @@
 	      			</div>
 	     		</td>
 	     		<td class="table_cell price tl td_col_1" style="width:9%;">
-                    {if $item['img'] == ''}
+                    {if $item['title']['img'] == ''}
                     {else}
-	     		    <img src="{php echo tomedia( $item['img'] )}" width="40px" height="50px">
+	     		    <img src="{php echo tomedia( $item['title']['img'] )}" width="40px" height="50px">
                     {/if}
                 </td>
 	     		<td class="table_cell price tl td_col_1" style="width:9%;">

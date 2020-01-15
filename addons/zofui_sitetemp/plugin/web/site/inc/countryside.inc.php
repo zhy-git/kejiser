@@ -58,9 +58,10 @@
 			$pager = $info[1];
 			foreach ($list as $key => $value) {
 				$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
-				$list[$key]['img'] = strtok($value['img'],',');
+				// $list[$key]['img'] = strtok($value['img'],',');
 				//获取特派员的名字
-				$list[$key]['title'] = pdo_get('zofui_sitetemp_userinfo',array('id'=>$value['uid']),array('title','prosortid'));
+				$list[$key]['title'] = pdo_get('zofui_sitetemp_userinfo',array('id'=>$value['uid']),array('title','prosortid','img'));
+				$list[$key]['title']['img'] = strtok($list[$key]['title']['img'],',');
 				// 获取所属特派员的分类
 				$list[$key]['class_name'] = pdo_get('zofui_sitetemp_prosort',array('id'=>$list[$key]['title']['prosortid']),array('name'));
 
