@@ -52,7 +52,7 @@
          $hasuser = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
          if ($hasuser) {
              $this->result(0, '操作成功');
-         }eles{
+         }else{
              $this->result(1, '操作失败');
          }
 
