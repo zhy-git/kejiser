@@ -70,9 +70,9 @@
    }elseif($_GPC['op'] == 'userinfo'){
    	   $info = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
 		if( !empty( $info ) ) {
-			$info['img'] = explode(',', tomedia( $info['img'] )); 
+			$info['img'] = explode(',', $info['img']); 
 			unset($info['img'][0]);		
-			$info['img'] = $info['img'][1];
+			$info['img'] = tomedia($info['img'][1]);
 			// if (!CheckUrl($info['img'][1])) {
 			// 	$info['img'] = 'https://www.jtr168.cn/attachment/'.$info['img'][1];  //没有域名存在
 			// }else{
