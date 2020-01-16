@@ -50,6 +50,11 @@
     }else{
             $hasuser = pdo_get('zofui_sitetemp_reguser',array('openid' => $_W['openid'],'uniacid' => $_W['uniacid'] ));
             if ($hasuser) {
+                $user = [
+                    'nickname' => $_GPC['nickName'],
+                    'headimgurl' => $_GPC['avatarUrl'],
+                ];
+                $hasuser = pdo_update('zofui_sitetemp_reguser', $user,array('uniacid'=>$_W['uniacid'],'id'=>$$hasuser['id']));
                 $this->result(0, '服务器获取用户成功',$hasuser);
             }else{
                  if (empty($_W['openid']) || empty($_W['uniacid'])) {
