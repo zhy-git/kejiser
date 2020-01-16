@@ -42,7 +42,7 @@
     	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'uid' => $_GPC['id']));
     	foreach ($getcountryside as $key => $value) {
     		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
-    		$getcountryside[$key]['img'] = strtok($value['img'],',');
+    		$getcountryside[$key]['img'] = strtok(tomedia($value['img']),',');
     	}
     	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
@@ -54,7 +54,7 @@
     	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'openid'=>$_W['openid']));
     	foreach ($getcountryside as $key => $value) {
     		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
-    		$getcountryside[$key]['img'] = strtok($value['img'],',');
+    		$getcountryside[$key]['img'] = strtok(tomedia($value['img']),',');
     	}
     	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
