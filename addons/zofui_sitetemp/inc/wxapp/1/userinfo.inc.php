@@ -72,11 +72,12 @@
 		if( !empty( $info ) ) {
 			$info['img'] = explode(',', tomedia( $info['img'] )); 
 			unset($info['img'][0]);		
-			if (!CheckUrl($info['img'][1])) {
-				$info['img'] = 'https://www.jtr168.cn/attachment/'.$info['img'][1];  //没有域名存在
-			}else{
-				$info['img'] = $info['img'][1];  //域名存在
-			}
+			$info['img'] = $info['img'][1];
+			// if (!CheckUrl($info['img'][1])) {
+			// 	$info['img'] = 'https://www.jtr168.cn/attachment/'.$info['img'][1];  //没有域名存在
+			// }else{
+			// 	$info['img'] = $info['img'][1];  //域名存在
+			// }
 			$info['content'] = htmlspecialchars_decode( $info['content'] );
 		}else{
 			$this->result(1, '不存在');
