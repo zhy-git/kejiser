@@ -58,9 +58,10 @@
 	}elseif ($_GPC['op'] == 'edit') {
 		$updateistrue = pdo_update('zofui_sitetemp_reguser',array('istrue' => $_GPC['istrue']),array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']),'AND');
 		if ($updateistrue) {
-			$info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
-			$list = $info[0];
-			$pager = $info[1];
+			itoast('操作成功',self::pwUrl('site','reguser',array('op'=>'search','istrue'=>2,'page'=>$_GPC['page'])),'success');
+			// $info = Util::getAllDataInSingleTable('zofui_sitetemp_reguser',array('uniacid'=>$_W['uniacid']),$_GPC['page'],10,' `id` DESC ');
+			// $list = $info[0];
+			// $pager = $info[1];
 		}else{
 			 message('更新失败');
 		}
