@@ -59,10 +59,12 @@
 		$res = WebCommon::deleteDataInWeb($_GPC['checkall'],'zofui_sitetemp_product');
 		itoast('操作完成,成功删除'.$res[0].'项，失败'.$res[1].'项',self::pwUrl('site','product',array('op'=>'list','page'=>$_GPC['page'])),'success');
 	}
-	
+
+	// 获取到所有特派员的分类
 	$artsort = model_prosort::getSort();
 	
 	if($_GPC['op'] == 'list'){	
+
 	   if(!empty($_GPC['prosortid']) && empty($_GPC['openid'])){
 
           $id = pdo_getall('zofui_sitetemp_prosort',array('proid' => $_GPC['prosortid']),array('id'));
@@ -71,9 +73,11 @@
           }else{
             $prosortid = $_GPC['prosortid'];
           }
-          $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='and prosortid IN('.$prosortid.')');
+          $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='AND prosortid IN('.$prosortid.') AND title LIKE'.'"'.$_GPC['tpyname'].'%"');
+          // var_dump($info);
+          // die();
 		}elseif (empty($_GPC['openid'])) {
-	      $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
+	      $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='AND title LIKE'.'"'.$_GPC['tpyname'].'%"');
 		}else{
 		  $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',array('openid'=>$_GPC['openid'],'uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ');
 		}	
@@ -104,6 +108,5 @@
 		if($res) itoast('删除成功',self::pwUrl('site','product',array('op'=>'list','page'=>$_GPC['page'])),'success');
 		
 	}
-	
 	
 	include $this->pTemplate('product');
