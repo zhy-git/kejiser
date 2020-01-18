@@ -152,9 +152,9 @@
     		$this->result(1, '操作失败');
     	}
 
-    }
-
-    else{
+    }elseif($_GPC['op'] == 'delete'){
+        $this->result(1, '操作成功',$list);
+    }else{
         //图片上传
 	    load()->func('file');
 	    $saveimgurl = file_upload($_FILES['imgfile'], 'image', '');
