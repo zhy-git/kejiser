@@ -155,9 +155,9 @@
     }elseif($_GPC['op'] == 'delete'){
         $res = pdo_delete('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'id' => $_GPC['id']));
         if ($res) {
-            $this->result(1, '操作成功',$res);
+            $this->result(0, '操作成功',$res);
         }else{
-            $this->result(0, '操作失败',$res);
+            $this->result(1, '操作失败',$res);
         }
     }else{
         //图片上传
