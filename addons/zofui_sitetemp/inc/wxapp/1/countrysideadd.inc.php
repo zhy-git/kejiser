@@ -13,9 +13,13 @@
 		if (empty($getaddress) || date("Y-m-d",time()) > $getdate) { 
 			//还没签到
 		    $this->result(1, '操作成功','您还没签到，请先签到。'); 
-		}elseif ($getaddress['id'] == $getcountryside['aid']) {
-		    $this->result(1, '操作失败','明天再来吧。');
-		}elseif(date("Y-m-d",time()) == $getdate) {
+		}
+           //一天只能下乡一次
+  //       elseif ($getaddress['id'] == $getcountryside['aid']) {
+		//     $this->result(1, '操作失败','明天再来吧。');
+		// }
+        //改为一天可下乡无数次
+        elseif(date("Y-m-d",time()) == $getdate) {
 			//已签到
 			$serdate = [
 	            'name' => $_GPC['name'],
