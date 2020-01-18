@@ -67,7 +67,7 @@
     	if ($getcountryside) {
 	    		$this->result(0, '操作成功',$getcountryside);
 	    	}else{
-	    		$this->result(0, '无数据');
+	    		$this->result(1, '无数据');
 	    }
     }elseif($_GPC['op'] == 'details'){
        $info = pdo_get('zofui_sitetemp_countryside', array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
