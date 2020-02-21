@@ -93,8 +93,9 @@
      		<th class="table_cell tl td_col_1">会员类型</th>
             <th class="table_cell tl td_col_1">特派员头像</th>
             <th class="table_cell tl td_col_1">特派员名称</th>
-            <th class="table_cell tl td_col_1">电话</th>
-     		<th class="table_cell tl td_col_1">状态</th>	
+            <th class="table_cell tl td_col_1" style="width:11%;">电话</th>
+     		<th class="table_cell tl td_col_1" style="width:5%;">状态</th>	
+            <th class="table_cell tl td_col_1">创建时间</th>  
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead> 
@@ -136,7 +137,8 @@
 	    			{elseif $item['status'] == 1}<p style="color:red">异常</p>p>
 	    			{/if}
 
-	     		</td>	     		     		
+	     		</td>	
+                <td class="table_cell price tl td_col_1">{$item['createtime']}</td>     		     		
 			    <td class="table_cell oper last_child tr opclass td_col_1" style="position: relative;">
 			    	{if $item['istrue'] == 0}
                     无操作
@@ -237,11 +239,12 @@
             <th class="table_cell tl td_col_1">特派员名称</th>
             <th class="table_cell tl td_col_1">电话</th>
      		<th class="table_cell tl td_col_1">状态</th>	
+            <th class="table_cell tl td_col_1">创建时间</th>
      		<th class="table_cell tr td_col_1">操作</th>
     	</tr> 
    </thead>
        <tbody class="tbody" id="js_goods">
-    	  <tr ><td colspan = '9' ><div class="no_data" style="margin:20px 0px ">没有找到数据</div></td></tr> 
+    	  <tr ><td colspan = '10' ><div class="no_data" style="margin:20px 0px ">没有找到数据</div></td></tr> 
        </tbody>
     </table>
     {/if}

@@ -11,6 +11,7 @@
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
 			//$list[$key]['userinfolist']['img'] = explode(',', $list[$key]['userinfolist']['img']);
 			$list[$key]['userinfolist']['img'] = strtok($list[$key]['userinfolist']['img'],',');
+			$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
 		}
 		$pager = $info[1];
 		// 普通会员总数
@@ -40,6 +41,7 @@
 		foreach ($list as $key => $value) {
 			$list[$key]['userinfolist'] = pdo_get('zofui_sitetemp_userinfo',array('openid'=>$value['openid']));
 			$list[$key]['userinfolist']['img'] = strtok($list[$key]['userinfolist']['img'],',');
+			$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
 		}
 		// 普通会员总数
 		$list1['count']['putong_total'] = pdo_fetchcolumn("SELECT COUNT(*) FROM ".tablename('zofui_sitetemp_reguser')." WHERE istrue = :istrue", array(':istrue' => 0));
