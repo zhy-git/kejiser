@@ -30,7 +30,7 @@
     	
     }elseif($_GPC['op'] == 'list'){
     	$where = array('uniacid' => $_W['uniacid'],'cid' => $_GPC['id']);
-    	$commentlist = Util::getAllDataInSingleTable('zofui_sitetemp_comment',$where,'1','10000', '`id` DESC');
+    	$commentlist = Util::getAllDataInSingleTable('zofui_sitetemp_comment',$where,'1','10000', '`id` DESC',true);
     	$commentlist = $commentlist[0];
     	foreach ($commentlist as $key => $value) {
     		 $commentlist[$key]['createtime'] = date('Y-m-d',$value['createtime']);

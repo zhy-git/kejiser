@@ -78,7 +78,7 @@
 		
 	}elseif($_GPC['op'] == 'prosort'){
 
-        $proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid'],'proid'=>0),1,999,' `number` DESC ');
+        $proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid'],'proid'=>0),1,999,' `number` DESC ',true);
         $proinfo = $proinfo[0];
         
 	    foreach ($proinfo as $key => $value) {
@@ -92,7 +92,7 @@
 
 	}elseif ($_GPC['op'] == 'menus') {
 		//获取所有分类的类目
-		$proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+		$proinfo = Util::getAllDataInSingleTable('zofui_sitetemp_prosort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ',true);
 	    $proinfo = $proinfo[0];
 		$proinfo = Util::prosort($proinfo);
 		if ($proinfo) {
