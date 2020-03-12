@@ -128,7 +128,7 @@ document.onselectstart=new Function('event.returnValue=false;');
 				<br /> <p />
                    <!--   -->
 					</p><div class="containe">
-<input name="doplayers" type="button" id="doplayers1" class="btn btn-block btn-lg btn-success" value="视频地址粘贴>>">					
+<input name="doplayers" type="button" id="doplayers1" class="btn btn-block btn-lg btn-success" value="一键清空>>">					
 					<!--<form id="testform" method="post">-->
 						<!--
 						<div class="col-xs-6">
@@ -222,6 +222,10 @@ function addhtml52() {
         addflash()
     }
 }
+$('#doplayers1').click(function(){
+    var text = '';  
+    $('#url').val(text);  
+})
 </script>
 
           
