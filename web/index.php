@@ -1,5 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+   <div style="width: 100%;margin: 0 auto;"><h1 style="margin: 0 auto;text-align: center;">服务器正在升级中。。。请耐心等待。</h1></div>
+</body>
+</html>
 <?php
-
+die();
 define('IN_SYS', true);
 require '../framework/bootstrap.inc.php';
 require IA_ROOT . '/web/common/bootstrap.sys.inc.php';
