@@ -62,13 +62,15 @@
 	    }
 
     }elseif($_GPC['op'] == 'gerenlist'){
-    	$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'openid'=>$_W['openid']));
-    	foreach ($getcountryside as $key => $value) {
-    		$getcountryside[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
-    		$getcountryside[$key]['img'] = strtok(tomedia($value['img']),',');
+    	//$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'openid'=>$_W['openid']));
+        $getcountryside = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid' => $_W['uniacid'],'openid'=> $_W['openid']),$_GPC['page'],1000, ' `id` DESC ',true,false,'id,name,seraddress,img,createtime');
+        $list = $getcountryside[0];
+    	foreach ($list as $key => $value) {
+    		$list[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
+    		$list[$key]['img'] = strtok(tomedia($value['img']),',');
     	}
-    	if ($getcountryside) {
-	    		$this->result(0, '操作成功',$getcountryside);
+    	if ($list) {
+	    		$this->result(0, '操作成功',$list);
 	    	}else{
 	    		$this->result(1, '');
 	    }
