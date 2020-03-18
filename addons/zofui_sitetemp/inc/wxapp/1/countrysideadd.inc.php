@@ -73,11 +73,9 @@
 	    		$this->result(1, '');
 	    }
     }elseif($_GPC['op'] == 'details'){
-      // $info = pdo_get('zofui_sitetemp_countryside', array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
-       $info = Util::getSingelDataInSingleTable('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
-       $details = $info[0];
-   	   if ($details) {
-   	   	   $this->result(0, '操作成功',$details);
+       $info = pdo_get('zofui_sitetemp_countryside', array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+   	   if ($info) {
+   	   	   $this->result(0, '操作成功',$info);
    	   }else{
            $this->result(1, '操作失败');
    	   } 
