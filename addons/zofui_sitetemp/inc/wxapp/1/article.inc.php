@@ -39,7 +39,7 @@
 	
 	}elseif( $_GPC['op'] == 'article' ) {
 		
-		$info = pdo_get('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
+		$info = pdo_get('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']),array('content','title','time','readed'));
 		if( !empty( $info ) ) {
 			$info['content'] = htmlspecialchars_decode( $info['content'] );
 			$info['img'] = tomedia( $info['img'] );
