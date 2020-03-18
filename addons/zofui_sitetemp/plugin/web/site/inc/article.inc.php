@@ -63,7 +63,7 @@
 	        }
 	        $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = '*',$str='and sortid IN('.$artsortid.')');
         }else{
-          $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ');
+          $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ',true);
         }
 		
 		$list = $info[0];
@@ -82,7 +82,7 @@
 		
 	}
 	//获取所有分类的类目
-	$artinfo = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ');
+	$artinfo = Util::getAllDataInSingleTable('zofui_sitetemp_artsort',array('uniacid'=>$_W['uniacid']),1,999,' `number` DESC ',true);
     $artinfo = $artinfo[0];
 	$artinfo = Util::artsort($artinfo);
 	
