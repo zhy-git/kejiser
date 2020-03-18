@@ -61,11 +61,10 @@
 	          }else{
 	            $artsortid = $_GPC['artsortid'];
 	        }
-	        $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,$select = 'id,title,img,number,sortid,type',$str='and sortid IN('.$artsortid.')');
+	        $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `id` DESC ',true,true,'id,title,number,img,type,sortid',$str='and sortid IN('.$artsortid.')');
         }else{
-          $info = Util::getAllDataInSingleTable('zofui_sitetemp_article,sortid',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ',true,true,$select = 'id,title,img,number,sortid,type');
+          $info = Util::getAllDataInSingleTable('zofui_sitetemp_article',array('uniacid'=>$_W['uniacid']),$_GPC['page'],15,' `number` DESC ',true,true,'id,title,number,img,type,sortid');
         }
-		
 		$list = $info[0];
 		$pager = $info[1];
 	}
