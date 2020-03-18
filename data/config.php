@@ -32,7 +32,7 @@ $config['cookie']['path'] = '/';
 
 // --------------------------  CONFIG SETTING  --------------------------- //
 $config['setting']['charset'] = 'utf-8';
-$config['setting']['cache'] = 'mysql';
+$config['setting']['cache'] = 'redis';   // 默认是mysql，改为redis
 $config['setting']['timezone'] = 'Asia/Shanghai';
 $config['setting']['memory_limit'] = '256M';
 $config['setting']['filemode'] = 0644;
