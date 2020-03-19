@@ -4,6 +4,24 @@
 	
 class Util 
 {	
+	//计算中奖概率
+  static public function get_rand($proArr) {  
+   $result = '';  
+   //概率数组的总概率精度  
+   $proSum = array_sum($proArr);  
+   //概率数组循环  
+   foreach ($proArr as $key => $proCur) {  
+    $randNum = mt_rand(1, $proSum); //返回随机整数 从1到10
+    if ($randNum <= $proCur) {  // randNum(1到10的随机整数)   proCur=[10, 0, 0, 0, 0, 0]
+     $result = $key;  
+     break;  
+    } else { 
+     $proSum -= $proCur;  
+    }  
+   }  
+   unset ($proArr);  
+   return $result;  
+  } 
 
 	//获取特派员多级类目
     static public function prosort($data,$proid=0,$level=0){
