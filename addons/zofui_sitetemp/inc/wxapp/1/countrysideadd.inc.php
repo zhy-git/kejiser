@@ -63,7 +63,7 @@
 
     }elseif($_GPC['op'] == 'gerenlist'){
     	//$getcountryside = pdo_getall('zofui_sitetemp_countryside',array('uniacid'=>$_W['uniacid'],'openid'=>$_W['openid']));
-        $getcountryside = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid' => $_W['uniacid'],'openid'=> $_W['openid']),$_GPC['page'],1000, ' `id` DESC ',true,false,'id,name,seraddress,img,createtime');
+        $getcountryside = Util::getAllDataInSingleTable('zofui_sitetemp_countryside',array('uniacid' => $_W['uniacid'],'openid'=> $_W['openid']),$_GPC['page'],1000, ' `id` DESC ',false,false,'id,name,seraddress,img,createtime');
         $list = $getcountryside[0];
     	foreach ($list as $key => $value) {
     		$list[$key]['createtime'] = date( "Y-m-d",$value['createtime']);
