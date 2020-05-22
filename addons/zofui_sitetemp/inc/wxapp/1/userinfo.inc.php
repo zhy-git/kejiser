@@ -53,20 +53,44 @@
 		}
        
    }elseif($_GPC['op'] == 'list'){
-        //获取所有的特派员信息
-   	    $where = array('uniacid'=>$_W['uniacid']);
-   	    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',true,false);
-   	    $list = $info[0];
-   	    foreach ($list as $key => $value) {
-    		$list[$key]['img'] = tomedia(strtok($value['img'],','));
-    		$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
-    	}
+   	    //获取所有下乡数据
+   	$xiaxiangdate =  Util::getAllDataInSingleTable('zofui_sitetemp_countryside',$where,1,999,' `createtime` DESC ',true,false,$select = 'openid');
+   	//去重
+    $xiaxiangdate = array_unique($xiaxiangdate);
+    foreach ($xiaxiangdate as $key => $val) {
+    	   $where = array('uniacid'=>$_W['uniacid'],'openid'=>$val);
+    	   $info[] = Util::getSingelDataInSingleTable('zofui_sitetemp_userinfo',$where);
+    	   
+    }
+            $list = $info[0];
+	   	    foreach ($list as $key => $value) {
+	    		$list[$key]['img'] = tomedia(strtok($value['img'],','));
+	    		$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
+	    	}
 
-   	    if ($info) {
-   	   	   $this->result(0, '操作成功',$list);
-   	   }else{
-           $this->result(1, '操作失败');
-   	   } 
+	   	    if ($info) {
+	   	   	   $this->result(0, '操作成功',$list);
+	   	   }else{
+	           $this->result(1, '操作失败');
+	   	   } 
+
+
+       
+
+        //获取所有的特派员信息
+   	 //    $where = array('uniacid'=>$_W['uniacid']);
+   	 //    $info = Util::getAllDataInSingleTable('zofui_sitetemp_userinfo',$where,1,999,' `id` ASC ',true,false);
+   	 //    $list = $info[0];
+   	 //    foreach ($list as $key => $value) {
+    	// 	$list[$key]['img'] = tomedia(strtok($value['img'],','));
+    	// 	$list[$key]['createtime'] = date('Y-m-d',$value['createtime']);
+    	// }
+
+   	 //    if ($info) {
+   	 //   	   $this->result(0, '操作成功',$list);
+   	 //   }else{
+     //       $this->result(1, '操作失败');
+   	 //   } 
    }elseif($_GPC['op'] == 'userinfo'){
    	   $info = pdo_get('zofui_sitetemp_userinfo',array('uniacid'=>$_W['uniacid'],'id'=>$_GPC['id']));
 		if( !empty( $info ) ) {
