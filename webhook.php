@@ -1,5 +1,4 @@
-<script src="javascript/study.js"></script><?php
- 
+<?php
     $target = '/www/wwwroot/jtr168.cn'; // 生产环境web目录
     //密钥
     $secret = "123456";
