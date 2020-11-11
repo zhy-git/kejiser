@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex postcomment.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>

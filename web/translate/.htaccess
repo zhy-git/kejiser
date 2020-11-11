@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex m7_edit_item.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>

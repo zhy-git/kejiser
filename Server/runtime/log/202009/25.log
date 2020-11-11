@@ -1,0 +1,3 @@
+---------------------------------------------------------------
+[ 2020-09-25T05:39:22+08:00 ] 172.17.0.3 87.115.231.215 GET /Server/
+[ error ] [1045]SQLSTATE[HY000] [1045] Access denied for user 'h5app'@'localhost' (using password: YES)

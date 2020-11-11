@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex como_chatear.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>

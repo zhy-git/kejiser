@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex calendar_month.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>

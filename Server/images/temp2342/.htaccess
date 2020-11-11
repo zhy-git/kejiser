@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex yorum_ekle.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>

